@@ -3,6 +3,8 @@
 *.xz
 *.zip
 
+data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles.xml.bz2
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
