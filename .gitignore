@@ -4,6 +4,8 @@
 *.zip
 
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles.xml.bz2
+data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles.txt
+data_cleaning/wiki_data_cleaning/templates
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
