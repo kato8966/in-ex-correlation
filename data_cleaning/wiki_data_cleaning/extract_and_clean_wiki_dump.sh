@@ -10,7 +10,7 @@ cd wikiextractor
 
 # extract and clean the chosen Wikipedia dump
 echo "Extracting and cleaning $WIKI_DUMP_FILE_IN to $WIKI_DUMP_FILE_OUT..."
-python3 -m wikiextractor.WikiExtractor -o - -q ../$WIKI_DUMP_FILE_IN \
+python3 -m wikiextractor.WikiExtractor -o - --templates ../templates ../$WIKI_DUMP_FILE_IN \
 | sed "/^\s*\$/d" \
 | grep -v "^<doc id=" \
 | grep -v "</doc>\$" \
