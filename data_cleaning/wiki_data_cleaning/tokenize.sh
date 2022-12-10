@@ -1,20 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
+#PJM -g gk77
+#PJM -j
+#PJM -m e
+#PJM -L rscgrp=share
+#PJM -L gpu=1
+#PJM -L elapse=48:00:00
 set -o errexit
 
-source ~/.bashrc
-
-conda activate bias_env
-
-mkdir -p /disk/scratch/s1303513
-echo Copying data over
-rsync -av /home/s1303513/data/wiki_new_small.txt /disk/scratch/s1303513/wiki_new_small.txt
+module load miniconda
+source ${MINICONDA_DIR}/etc/profile.d/conda.sh
+conda activate in-ex-cor
 
 echo Executing python script
-python /home/s1303513/git2/embedding_bias/data_cleaning/tokenise_corpus.py /disk/scratch/s1303513/wiki_new_small.txt /disk/scratch/s1303513/wiki_new_tok.txt
-
-echo Copying final data back
-rsync -av /disk/scratch/s1303513/wiki_new_tok.txt /home/s1303513/data/wiki_new_tok.txt
-
-echo Deleting from scratch space
-
-rm /disk/scratch/s1303513/*
+python tokenise_corpus.py enwiki-latest-pages-articles.txt enwiki-latest-pages-articles_tokenized.txt
