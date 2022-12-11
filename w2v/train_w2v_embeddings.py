@@ -19,14 +19,13 @@ class MyIter(object):
 def main():
     print('Instantiating the model')
     # instantiate the skipgram model
-    sentences=MyIter()
-    model = gensim.models.Word2Vec(size=300, window=5, min_count=5, sg=1)
+    model = gensim.models.Word2Vec(vector_size=300, window=5, min_count=5, sg=1)
     print('Building the vocabulary')
     # build the vocabulary from the sentences yielded by the iterator
-    model.build_vocab(sentences=sentences)
+    model.build_vocab(corpus_iterable=MyIter())
     total_examples = model.corpus_count
     print('Training the model')
-    model.train(sentences=sentences, total_examples=total_examples, epochs=model.epochs, total_words=model.corpus_total_words)
+    model.train(corpus_iterable=MyIter(), total_examples=total_examples, epochs=model.epochs, total_words=model.corpus_total_words)
 
     # Save file passed as second argument
     print('Saving model to specified filepath')
