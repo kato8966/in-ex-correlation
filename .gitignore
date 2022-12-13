@@ -9,6 +9,8 @@ data_cleaning/wiki_data_cleaning/templates
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized.txt
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_final.txt
 w2v/original_emb.txt
+ontonotes-release-5.0/
+ontonotes-conll/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
