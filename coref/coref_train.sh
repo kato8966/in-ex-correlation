@@ -1,48 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
+#PJM -g gk77
+#PJM -j
+#PJM -m e
+#PJM -L rscgrp=share
+#PJM -L gpu=1
+#PJM -L elapse=48:00:00
 
 ## COMMAND LINE ARGUMENTS
-# $1: training data (connll format, from OntoNotes 5.0)
-# $2: test data (connll format, from OntoNotes 5.0)
-# $3: dev data (connll format, from OntoNotes 5.0)
-# $4: word embeddings in glove format
-# $5: path to location where resulting model should be saved
-
-export STUDENT_ID=$(whoami)
+# $1: word embeddings in glove format
+# $2: path to location where resulting model should be saved
 
 # set to fail at first error
 set -o errexit
 
-# source my bashrc
-source ~/.bashrc
-# activate allennlp environment
-conda activate allennlp
+module load miniconda
+source ${MINICONDA_DIR}/etc/profile.d/conda.sh
+conda activate in-ex-cor
 
-mkdir -p /disk/scratch/${STUDENT_ID}/coref
-mkdir -p /disk/scratch/${STUDENT_ID}/coref/train
-mkdir -p /disk/scratch/${STUDENT_ID}/coref/test
-mkdir -p /disk/scratch/${STUDENT_ID}/coref/dev
-
-echo Copying data to scratch space
-# Copy train, test, and dev data from headnode to scratch space
-
-rsync -av $1 /disk/scratch/${STUDENT_ID}/coref/train/train.english.v4_gold_conll
-rsync -av $2 /disk/scratch/${STUDENT_ID}/coref/test/test.english.v4_gold_conll
-rsync -av $3 /disk/scratch/${STUDENT_ID}/coref/dev/dev.english.v4_gold_conll
-
-#rsync -av ./allennlp/data/train/train.english.v4_gold_conll /disk/scratch/${STUDENT_ID}/coref/train/train.english.v4_gold_conll
-#rsync -av ./allennlp/data/test/test.english.v4_gold_conll /disk/scratch/${STUDENT_ID}/coref/test/test.english.v4_gold_conll
-#rsync -av ./allennlp/data/dev/dev.english.v4_gold_conll /disk/scratch/${STUDENT_ID}/coref/dev/dev.english.v4_gold_conll
-
-rsync -av $4 /disk/scratch/${STUDENT_ID}/coref/vectors.txt
-
-export COREF_TRAIN_DATA_PATH=/disk/scratch/${STUDENT_ID}/coref/train/train.english.v4_gold_conll
-export COREF_TEST_DATA_PATH=/disk/scratch/${STUDENT_ID}/coref/test/test.english.v4_gold_conll
-export COREF_DEV_DATA_PATH=/disk/scratch/${STUDENT_ID}/coref/dev/dev.english.v4_gold_conll
+export PRETRAINED_PATH=$1
 
 echo Training coreference model
-allennlp train ./coref_config_file -s /disk/scratch/${STUDENT_ID}/coref/results
-
-echo Copying model files back to specified filepath
-rsync -av /disk/scratch/${STUDENT_ID}/coref/results_* $5
-echo Deleting data and results from scratch space
-rm -r /disk/scratch/${STUDENT_ID}/coref/
+allennlp train ./coref_config_file -s $2
