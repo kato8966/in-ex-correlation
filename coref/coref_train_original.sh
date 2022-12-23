@@ -4,7 +4,7 @@
 #PJM -m e
 #PJM -L rscgrp=share
 #PJM -L gpu=1
-#PJM -L elapse=48:00:00
+#PJM -L elapse=16:00:00
 #PJM -L jobenv=singularity
 
 ## COMMAND LINE ARGUMENTS
@@ -18,4 +18,4 @@ module load singularity/3.9.5
 
 echo Training coreference model
 mkdir -p $HOME/.allennlp
-singularity run -e --nv --bind $HOME/.allennlp:/root/.allennlp docker://allennlp/allennlp:latest train ./coref_config_file -s $1
+singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv docker://allennlp/models train ./coref_config_file_original -s ./model/original

@@ -11,6 +11,8 @@ data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_final.tx
 w2v/*.emb
 ontonotes-release-5.0/
 ontonotes-conll/
+coref/model/
+exp_log/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
