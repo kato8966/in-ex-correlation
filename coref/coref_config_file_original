@@ -24,7 +24,7 @@
       "token_embedders": {
         "tokens": {
             "type": "embedding",
-            "pretrained_file": "../w2v/original.emb",
+            "pretrained_file": "../w2v/original_glove_format_vectors.txt",
             "embedding_dim": 300,
             "trainable": false
         },

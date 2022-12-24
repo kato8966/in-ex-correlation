@@ -4,7 +4,7 @@
 #PJM -m e
 #PJM -L rscgrp=share
 #PJM -L gpu=1
-#PJM -L elapse=48:00:00
+#PJM -L elapse=4:00:00
 #PJM -L jobenv=singularity
 
 ## COMMAND LINE ARGUMENTS
