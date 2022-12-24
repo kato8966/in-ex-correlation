@@ -1,12 +1,22 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
+#PJM -g gk77
+#PJM -j
+#PJM -m e
+#PJM -L rscgrp=share
+#PJM -L gpu=1
+#PJM -L elapse=4:00:00
 
 ## COMMAND LINE ARGUMENTS
 # $1: original trained word embeddings
 
+module load miniconda
+source ${MINICONDA_DIR}/etc/profile.d/conda.sh
+conda activate in-ex-cor
+
 # set to exit at first error
 set -o errexit
 
-cp $1 vectors.txt
+cp ../w2v/original_glove_format_vectors.txt vectors.txt
 
 # Running the attract-repel algorithm in the debiasing and overbiasing direction for each WEAT test
 # Saves the new vectos as ar_vectors_t1 etc
@@ -14,11 +24,11 @@ cp $1 vectors.txt
 
 echo AR test 1 \(WEAT 6 debias\)
 
-python3 ./attract-repel_new.py ./experiment_parameters_t1.cfg
+#python3 ./attract-repel_new.py ./experiment_parameters_t1.cfg
 
 echo AR test 2 \(WEAT 6 overbias\)
 
-python3 ./attract-repel_new.py ./experiment_parameters_t2.cfg
+#python3 ./attract-repel_new.py ./experiment_parameters_t2.cfg
 
 echo AR test 3 \(WEAT 7 debias\)
 

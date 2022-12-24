@@ -51,8 +51,8 @@ class ExperimentRun:
         if not distributional_vectors:
             return
 
-        print("SimLex score (Spearman's rho coefficient) of initial vectors is:\n")
-        print(simlex_scores(distributional_vectors))
+        #print("SimLex score (Spearman's rho coefficient) of initial vectors is:\n")
+        #print(simlex_scores(distributional_vectors))
 
         self.vocabulary = set(distributional_vectors.keys())
 
@@ -688,11 +688,11 @@ def run_experiment(config_filepath):
 
     current_experiment.attract_repel()
 
-    print("\nSimLex score (Spearman's rho coefficient) of the final vectors is:")
+    #print("\nSimLex score (Spearman's rho coefficient) of the final vectors is:")
 
-    print(simlex_scores(current_experiment.word_vectors), "\n")
+    #print(simlex_scores(current_experiment.word_vectors), "\n")
 
-    os.system("mkdir -p results")
+    #os.system("mkdir -p results")
 
     print_word_vectors(current_experiment.word_vectors, current_experiment.output_filepath)
 
