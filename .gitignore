@@ -6,6 +6,8 @@
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles.xml.bz2
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles.txt
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_preprocessed.txt
+data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized.txt
+data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_final.txt
 data_cleaning/wiki_data_cleaning/templates
 *_vectors.txt
 ontonotes-release-5.0/
