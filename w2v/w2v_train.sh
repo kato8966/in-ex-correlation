@@ -1,5 +1,6 @@
 #!/bin/bash -l
 #PJM -g gk77
+#PJM -j
 #PJM -L rscgrp=share
 #PJM -L gpu=1
 #PJM -m e

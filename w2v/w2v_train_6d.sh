@@ -16,4 +16,4 @@ source ${MINICONDA_DIR}/etc/profile.d/conda.sh
 conda activate in-ex-cor
 
 echo Executing python script
-python train_w2v_embeddings.py ../data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_final.txt original_vectors.txt
+python train_w2v_embeddings.py ../data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_6d_final.txt db_6d_vectors.txt

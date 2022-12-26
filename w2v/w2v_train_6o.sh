@@ -1,5 +1,6 @@
 #!/bin/bash -l
 #PJM -g gk77
+#PJM -j
 #PJM -L rscgrp=share
 #PJM -L gpu=1
 #PJM -m e
@@ -16,4 +17,4 @@ source ${MINICONDA_DIR}/etc/profile.d/conda.sh
 conda activate in-ex-cor
 
 echo Executing python script
-python train_w2v_embeddings.py ../data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_final.txt original_vectors.txt
+python train_w2v_embeddings.py ../data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_6o_final.txt db_6o_vectors.txt
