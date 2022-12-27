@@ -8,7 +8,7 @@
 #PJM -L jobenv=singularity
 
 ## COMMAND LINE ARGUMENTS
-# $1: path to location where resulting model should be saved
+# $1: path to save folder for the results
 
 # set to fail at first error
 set -o errexit
@@ -18,4 +18,4 @@ module load singularity/3.9.5
 
 echo Training coreference model
 mkdir -p $HOME/.allennlp
-singularity run -e --nv --bind $HOME/.allennlp:/root/.allennlp docker://allennlp/allennlp:latest train ./coref_config_file -s $1
+singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv docker://allennlp/models train ${coref_config_file} -s $1
