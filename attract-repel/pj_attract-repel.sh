@@ -4,7 +4,7 @@
 #PJM -m e
 #PJM -L rscgrp=share
 #PJM -L gpu=1
-#PJM -L elapse=4:00:00
+#PJM -L elapse=48:00:00
 
 ## COMMAND LINE ARGUMENTS
 # $1: original trained word embeddings
@@ -24,11 +24,11 @@ cp ../w2v/original_glove_format_vectors.txt vectors.txt
 
 echo AR test 1 \(WEAT 6 debias\)
 
-#python3 ./attract-repel_new.py ./experiment_parameters_t1.cfg
+python3 ./attract-repel_new.py ./experiment_parameters_t1.cfg
 
 echo AR test 2 \(WEAT 6 overbias\)
 
-#python3 ./attract-repel_new.py ./experiment_parameters_t2.cfg
+python3 ./attract-repel_new.py ./experiment_parameters_t2.cfg
 
 echo AR test 3 \(WEAT 7 debias\)
 
