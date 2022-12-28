@@ -18,4 +18,4 @@ module load singularity/3.9.5
 
 echo Training coreference model
 mkdir -p $HOME/.allennlp
-singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv docker://allennlp/models train ${coref_config_file} -s $1
+singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv models_latest.sif train ${coref_config_file} -s $1
