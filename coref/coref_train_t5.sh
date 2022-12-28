@@ -18,4 +18,4 @@ module load singularity/3.9.5
 
 echo Training coreference model
 mkdir -p $HOME/.allennlp
-singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv models_latest.sif train ./coref_config_file_t5 -s ./models/ar_t5
+singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv models_latest.sif train ./coref_config_file_t5 -s ./model/ar_t5
