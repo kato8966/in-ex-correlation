@@ -9,6 +9,7 @@ data_cleaning/wiki_data_cleaning/templates
 ontonotes-release-5.0/
 ontonotes-conll/
 coref/model/
+coref/models_latest.sif
 exp_log/
 
 # Byte-compiled / optimized / DLL files
