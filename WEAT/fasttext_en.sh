@@ -18,7 +18,7 @@
 
 #for similarity_type in "cosine" "csls" ; do
 for similarity_type in "cosine" ; do
-    for test_number in 6 7 8 ; do
+    for test_number in 6b 7 8 ; do
         echo $similarity_type
         echo $test_number
         python WEAT/XWEAT/weat.py \
