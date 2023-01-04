@@ -21,14 +21,14 @@ for similarity_type in "cosine" ; do
     for test_number in 6b 7 8 ; do
         echo $similarity_type
         echo $test_number
-        python WEAT/XWEAT/weat.py \
+        python weat.py \
             --test_number $test_number \
             --permutation_number 1000000 \
-            --output_file $2/fasttext_en_${similarity_type}_${test_number}.res \
+            --output_file $2/${similarity_type}_${test_number}.res \
             --lower False \
             --use_glove False \
 	    --is_vec_format True \
             --embeddings $1 \
-            --similarity_type $similarity_type |& tee ./results/fasttext_en_${similarity_type}_${test_number}.out
+            --similarity_type $similarity_type
     done
 done

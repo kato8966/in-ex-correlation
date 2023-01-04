@@ -3,7 +3,7 @@ import random
 from itertools import filterfalse
 from itertools import combinations
 import codecs
-from WEAT import utils
+import utils
 import os
 import pickle
 import logging
