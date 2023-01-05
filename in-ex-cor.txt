@@ -4,3 +4,4 @@ nltk=3.7
 sklearn=0.24.2
 numpy=1.21.6
 tensorflow=2.10.0
+wefe=0.4.0
