@@ -4,7 +4,7 @@
 #PJM -m e
 #PJM -L rscgrp=share
 #PJM -L gpu=1
-#PJM -L elapse=48:00:00
+#PJM -L elapse=40:00
 
 ## COMMAND LINE ARGUMENTS
 # $1: original trained word embeddings

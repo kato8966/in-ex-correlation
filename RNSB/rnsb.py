@@ -7,7 +7,7 @@ from wefe.word_embedding_model import WordEmbeddingModel
 
 # command line argument
 # $1 = path to word embedding file in w2v format
-# $2 = path to a folder where the result will be saved
+# $2 = path to a file where the result will be saved
 
 def query(weat_type):
     if weat_type == 6:

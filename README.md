@@ -20,6 +20,14 @@ limitations under the License.
 
 Refer to [setup_training_changelog.txt](setup_training_changelog.txt).
 
+## [AllenNLP](https://allenai.org/allennlp) & [AllenNLP Models](https://github.com/allenai/allennlp-models)
+
+Copyright 2017 Matt Gardner, Joel Grus, Mark Neumann, Oyvind Tafjord, Pradeep Dasigi, Nelson F. Liu, Matthew Peters, Michael Schmitz and Luke S. Zettlemoyer
+
+Licensed under [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+When running coref/evaluate_allennlp_*.sh, a modified version is used. Refer to [allennlp_changelog.txt](allennlp_changelog.txt) and [allennlp-models_changelog.txt](allennlp-models_changelog.txt).
+
 # Repository for the paper _Intrinsic Bias Metrics Do Not Correlate with Application Bias_
 
 This contains all code and instructions for running.

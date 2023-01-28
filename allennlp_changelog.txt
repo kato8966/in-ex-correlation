@@ -1,0 +1,13 @@
+diff --git a/dev-requirements.txt b/dev-requirements.txt
+index 705f94a7..30e01b1a 100644
+--- a/dev-requirements.txt
++++ b/dev-requirements.txt
+@@ -40,7 +40,7 @@ databind-json<=1.5.3
+ docspec<1.2.0,>1.0.1
+ docspec-python<1.2.0,>1.0.1
+ 
+-mkdocs==1.3.0
++mkdocs
+ mkdocs-material>=5.5.0,<8.4.0
+ markdown-include==0.6.0
+ 
