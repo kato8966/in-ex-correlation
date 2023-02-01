@@ -10,7 +10,7 @@ module load miniconda
 source ${MINICONDA_DIR}/etc/profile.d/conda.sh
 conda activate allennlp
 
-NAME=
+NAME=original_lc
 
 # evaluate the model on the five different sets of evaluation data
 allennlp evaluate ./model/$NAME/model.tar.gz ../ontonotes-conll/test.english.v4_gold_conll --output-file ./result/$NAME/conll_results.txt

@@ -19,7 +19,7 @@ class MyIter(object):
 def main():
     print('Instantiating the model')
     # instantiate the skipgram model
-    model = gensim.models.Word2Vec(vector_size=300, window=5, min_count=5, sg=1)
+    model = gensim.models.Word2Vec(vector_size=300, window=5, min_count=5, workers=9,sg=1)
     print('Building the vocabulary')
     # build the vocabulary from the sentences yielded by the iterator
     model.build_vocab(corpus_iterable=MyIter())
