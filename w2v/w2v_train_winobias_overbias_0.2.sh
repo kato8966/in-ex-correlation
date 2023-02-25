@@ -17,5 +17,8 @@ module load miniconda
 source ${MINICONDA_DIR}/etc/profile.d/conda.sh
 conda activate in-ex-cor
 
+t=overbias
+sample_prob=0.2
+
 echo Executing python script
-python train_w2v_embeddings.py $1 $2
+python train_w2v_embeddings.py ../data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles_tokenized_lc_winobias_${t}_${sample_prob}_final.txt db_winobias_${t}_${sample_prob}_vectors.txt
