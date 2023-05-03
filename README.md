@@ -124,30 +124,4 @@ analyse_data.py (similar to display_data.py, but runs correlations instead of ma
 
 ## License and Copyright Notice of Third Party Software
 
-### [AllenNLP](https://allenai.org/allennlp) & [AllenNLP Models](https://github.com/allenai/allennlp-models)
-
-Copyright 2017 Matt Gardner, Joel Grus, Mark Neumann, Oyvind Tafjord, Pradeep Dasigi, Nelson F. Liu, Matthew Peters, Michael Schmitz and Luke S. Zettlemoyer
-
-Licensed under [the Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
-When running coref/evaluate_allennlp_*.sh, a modified version is used. Refer to [allennlp_changelog.txt](allennlp_changelog.txt) and [allennlp-models_changelog.txt](allennlp-models_changelog.txt).
-
-### [e2e-coref/setup_training.sh](https://github.com/kentonl/e2e-coref/blob/master/setup_training.sh) (renamed as ontonotes_converter.sh here)
-
-Copyright 2017 Kenton Lee
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-#### Changelog
-
-Refer to [setup_training_changelog.txt](setup_training_changelog.txt).
+Refer to [NOTICE](NOTICE).
