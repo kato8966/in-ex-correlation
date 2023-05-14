@@ -17,10 +17,6 @@ e2e-coref/setup_training.sh (https://github.com/kentonl/e2e-coref/blob/master/se
     Copyright 2017 Kenton Lee
     Licensed under the Apache License, Version 2.0
 
-    Changelog
-
-    Refer to setup_training_changelog.txt (setup_training_changelog.txt).
-
 Appendix: License
 
                                  Apache License
