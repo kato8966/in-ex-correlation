@@ -1,4 +1,5 @@
 ### WEAT words and expansions
+from wefe.query import Query
 
 career = ["executive", "management", "professional", "corporation", "salary", "office",
           "business", "career"]
@@ -319,8 +320,14 @@ def winobias():
     ]
     attributes_1 = ["he", "him"]
     attributes_2 = ["she", "her"]
-    return targets_1, targets_2, attributes_1, attributes_2
+    return Query(target_sets=[targets_1, targets_2],
+                 attribute_sets=[attributes_1, attributes_2],
+                 target_sets_names=['Stereotypical male jobs', 'Stereotypical female jobs'],
+                 attribute_sets_names=['Male', 'Female'])
 
 def winobias_rev():
-    targets_1, targets_2, attributes_1, attributes_2 = winobias()
-    return attributes_1, attributes_2, targets_1, targets_2
+    winobias_query = winobias()
+    return Query(target_sets=winobias_query.attribute_sets,
+                 attribute_sets=winobias_query.target_sets,
+                 target_sets_names=winobias_query.attribute_sets_names,
+                 attribute_sets_names=winobias_query.target_sets_names)
