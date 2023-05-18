@@ -16,4 +16,4 @@ model = WordEmbeddingModel(vecs, "w2v")
 weat = WEAT()
 with open(sys.argv[2], "w") as fout:
     result = weat.run_query(wordlists.winobias(), model, lost_vocabulary_threshold=0.0)
-    fout.write(f'Winobias: {result['result']}')
+    fout.write(f'Winobias: {result["result"]}')
