@@ -4,7 +4,7 @@ To run: dataset_balancing.py infile_name outfile_name WEAT_NUM [debias/overbias]
 
 import sys
 import random
-from wordlists import wordlists
+import wordlists
 
 random.seed(20230220)
 
@@ -13,7 +13,9 @@ if __name__ == "__main__":
     assert bias_type in ["debias", "overbias"]
     sample_prob = float(sample_prob)
 
-    targets_1, targets_2, attributes_1, attributes_2 = getattr(wordlists, weat_type)()
+    query = getattr(wordlists, weat_type)()
+    targets_1, targets_2 = query.target_sets
+    attributes_1, attributes_2 = query.attribute_sets
 
     print("Using:\n"
           "group1_targets: {}\n"
