@@ -13,6 +13,7 @@ coref/models_latest.sif
 allennlp/
 allennlp-models/
 exp_log/
+pjsub_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
