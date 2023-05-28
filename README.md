@@ -104,6 +104,42 @@ We pretrain embeddings on processed Spanish twitter from 2019 (as described in t
 
 We train and test classifiers on the dataset of [Basile et al. 2019], which is the SemEval Task 5 2019 (aka HateEval). Details for that task and the data are [here](https://github.com/cicl2018/HateEvalTeam), please contact the organisers for the test set. Feel free to contact us if they are unresponsive. 
 
+## Environment
+
+We use four virtual Python environments (`ontonotes_converter`, `bling_fire`, `allennlp`, and `in-ex-cor`). Python 3.8.12 or later is required for `bling_fire`, `allennlp`, and `in-ex-cor`.
+
+### `ontonotes_converter`
+
+This environment is used to run [ontonotes_converter.sh](ontonotes_converter.sh)
+
+This is an environment with `python >= 2.7.18, < 3`.
+
+### `bling_fire`
+
+This environment is used to run [data_cleaning/wiki_data_cleaning/preprocess_wiki_dump.py](data_cleaning/wiki_data_cleaning/preprocess_wiki_dump.py).
+
+1. Create a virtual environment named `bling_fire` and activate it.
+2. `pip install -r bling_fire.txt`
+
+### `allennlp`
+
+This environment is used to run [coref/evaluate_allennlp_*.sh](coref).
+
+1. Create a virtual environment named `allennlp` and activate it.
+2. Move to [allennlp](allennlp).
+3. `pip install -U pip setuptools wheel`
+4. `pip install --editable .[dev,all]`
+5. Move to [allennlp-models](allennlp-models).
+6. `ALLENNLP_VERSION_OVERRIDE='allennlp' pip install -e .`
+7. `pip install -r dev-requirements.txt`
+
+### `in-ex-cor`
+
+This environment is used to run any other script.
+
+1. Create a virtual environment named `in-ex-cor` and activate it.
+2. `pip install -r in-ex-cor.txt`
+3. Install PyTorch 2.0.1 or later.
 
 ## Useful Details
 * Configurations for Attract-Repel can be found in the `attract-repel` folder. 
