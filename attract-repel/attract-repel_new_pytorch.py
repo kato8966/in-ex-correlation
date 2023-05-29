@@ -33,6 +33,8 @@ from torch.nn import functional as F
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
 
+import wordlists
+
 if torch.cuda.is_available():
     device = "cuda"
 elif torch.backends.mps.is_available():
@@ -174,39 +176,22 @@ class ExperimentRun:
             self.vocab_index[word] = idx
             self.inverted_index[idx] = word
 
-        # load list of filenames for synonyms and antonyms.
-        synonym_list\
-            = self.config.get("data", "synonyms").replace("[", "").replace("]", "").replace(" ", "").split(",")  # noqa: E501
-        print('Synonym list:', synonym_list)
-        antonym_list\
-            = self.config.get("data", "antonyms").replace("[", "").replace("]", "").replace(" ", "").split(",")  # noqa: E501
-        print('Antonym list:', antonym_list)
-
-        self.synonyms = set()
-        self.antonyms = set()
-
-        if synonym_list != "":
-            # and we then have all the information to load all linguistic
-            # constraints
-            for syn_filepath in synonym_list:
-                if syn_filepath != "":
-                    self.synonyms = self.synonyms\
-                                      | self.load_constraints(syn_filepath)
-                    # print('HERE are the synonyms:', self.synonyms)
-        else:
-            self.synonyms = set()
-
-        if antonym_list != "":
-            for ant_filepath in antonym_list:
-                if ant_filepath != "":
-                    self.antonyms = self.antonyms\
-                                      | self.load_constraints(ant_filepath)
-                    # print('HERE are the antonyms:', self.antonyms)
-        else:
-            self.antonyms = set()
-
-        # finally, load the experiment hyperparameters:
+        # load the experiment hyperparameters:
         self.load_experiment_hyperparameters()
+
+        # get synonyms and antonyms
+        # assume self.overbias == False
+        wordlist = getattr(wordlists, self.config.get("data", "wordlist"))()
+        self.synonyms = self.generate_pairs(wordlist.target_sets[0],
+                                            wordlist.attribute_sets[1]) |\
+                          self.generate_pairs(wordlist.target_sets[1],
+                                              wordlist.attribute_sets[0])
+        self.antonyms = self.generate_pairs(wordlist.target_sets[0],
+                                            wordlist.attribute_sets[0]) |\
+                          self.generate_pairs(wordlist.target_sets[1],
+                                              wordlist.attribute_sets[1])
+        if self.overbias:
+            self.synonyms, self.antonyms = self.antonyms, self.synonyms
 
         self.embedding_size\
             = random.choice(list(distributional_vectors.values())).shape[0]
@@ -225,39 +210,17 @@ class ExperimentRun:
                            self.repel_margin_value,
                            self.regularisation_constant_value).to(device)
 
-    def load_constraints(self, constraints_filepath):
-        """
-        This methods reads a collection of constraints from the specified file,
-        and returns a set with all constraints for which both of their
-        constituent words are in the specified vocabulary.
-        """
-        constraints_filepath.strip()
-        constraints = set()
-
-        with codecs.open(constraints_filepath, "r", "utf-8") as f:
-            skipped = 0
-            for i, line in enumerate(f):
-                phrase_pair = line.split(',')
-                for i in range(2):
-                    phrase_pair[i] = phrase_pair[i].split()
-                # try dealing with casing if necessary
-                for i in range(2):
-                    for j in range(len(phrase_pair[i])):
-                        if phrase_pair[i][j] not in self.vocabulary:
-                            phrase_pair[i][j] = phrase_pair[i][j].lower()
-                if all(word in self.vocabulary for word in phrase_pair[0])\
-                   and all(word in self.vocabulary for word in phrase_pair[1])\
-                   and phrase_pair[0] != phrase_pair[1]:
-                    constraints |= {(tuple(self.vocab_index[word] for word
-                                           in phrase_pair[0]),
-                                     tuple(self.vocab_index[word] for word
-                                           in phrase_pair[1]))}
-                else:
-                    skipped += 1
-            print("{} constraints skipped "
-                  "({:.2f}% of total)".format(skipped, skipped/i*100))
-
-        return constraints
+    def generate_pairs(self, target_set, attribute_set):
+        pairs = set()
+        for target in target_set:
+            target = target.split()
+            assert all(word in self.vocabulary for word in target)
+            for attribute in attribute_set:
+                attribute = attribute.split()
+                assert all(word in self.vocabulary for word in attribute)
+                pairs.add((tuple(self.vocab_index[word] for word in target),
+                           tuple(self.vocab_index[word] for word in attribute)))
+        return pairs
 
     def load_experiment_hyperparameters(self):
         """
@@ -273,9 +236,15 @@ class ExperimentRun:
         self.regularisation_constant_value\
             = self.config.getfloat("hyperparameters", "l2_reg_constant")
         self.max_iter = self.config.getfloat("hyperparameters", "max_iter")
+        self.overbias = self.config.get("experiment", "overbias")
         self.log_scores_over_time = self.config.get("experiment",
                                                     "log_scores_over_time")
         self.print_simlex = self.config.get("experiment", "print_simlex")
+
+        if self.overbias in ["True", "true"]:
+            self.overbias = True
+        else:
+            self.overbias = False
 
         if self.log_scores_over_time in ["True", "true"]:
             self.log_scores_over_time = True
