@@ -10,8 +10,6 @@ ontonotes-release-5.0/
 ontonotes-conll/
 coref/model/
 coref/models_latest.sif
-allennlp/
-allennlp-models/
 exp_log/
 pjsub_*
 
