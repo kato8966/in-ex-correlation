@@ -6,9 +6,9 @@
 #PJM -L gpu=1
 #PJM -L elapse=2:00:00
 
-module load miniconda
-source ${MINICONDA_DIR}/etc/profile.d/conda.sh
-conda activate allennlp
+module load gcc/8.3.1
+module load python/3.8.12
+. ../venv/allennlp/bin/activate
 
 NAME=
 
