@@ -1,0 +1,17 @@
+allennlp[all] @ git+https://github.com/allenai/allennlp.git@main
+
+torch>=1.7.0
+
+# For structured prediction.
+conllu>=4.4.2
+
+# For RC models
+word2number>=1.1
+py-rouge==1.1
+nltk>=3.6.5
+
+# For CNN/DailyMail dataset reader
+ftfy
+
+# For sentiment tree bank
+datasets
