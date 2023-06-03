@@ -1,0 +1,71 @@
+# Copyright 2017 Matt Gardner, Joel Grus, Mark Neumann, Oyvind Tafjord, Pradeep Dasigi, Nelson F. Liu, Matthew Peters, Michael Schmitz and Luke S. Zettlemoyer
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# MODIFIED
+
+#### TESTING-RELATED PACKAGES ####
+
+# Checks style, syntax, and other useful errors.
+flake8>=4.0.1
+
+# Static type checking
+mypy==0.961
+
+# Automatic code formatting
+black==22.6.0
+
+# Allows generation of coverage reports with pytest.
+pytest-cov>=3.0.0
+
+# Allows codecov to generate coverage reports
+coverage[toml]>=6.4
+codecov>=2.1.12
+
+# Optional dependencies, which we install for testing purposes.
+matplotlib>=2.2.3
+
+# For mocking HTTP requests/responses.
+responses>=0.21
+
+# For running tests that aren't 100% reliable.
+flaky>=3.7.0
+
+# For running benchmarks.
+pytest-benchmark>=3.4.1
+
+#### DOC-RELATED PACKAGES ####
+
+# YAML manipulation
+ruamel.yaml>=0.17.17
+
+# Generating markdown files from Python modules.
+pydoc-markdown<4.4.0
+databind.core<=1.5.3
+databind-json<=1.5.3
+docspec<1.2.0,>1.0.1
+docspec-python<1.2.0,>1.0.1
+
+mkdocs
+mkdocs-material>=5.5.0,<8.4.0
+markdown-include==0.6.0
+
+# Narrowing constraints
+pymdown-extensions>=9.5
+
+#### PACKAGE-UPLOAD PACKAGES ####
+
+# Pypi uploads
+twine>=1.11.0,<5.0.0
+setuptools
+wheel
