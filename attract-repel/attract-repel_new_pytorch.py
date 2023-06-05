@@ -51,8 +51,8 @@ class AttractRepel(nn.Module):
         self.repel_margin = repel_margin
         self.regularisation_constant = regularisation_constant
         self.emb_dim = numpy_embedding.shape[1]
-        self.W_init = nn.Embedding.from_pretrained(numpy_embedding)
-        self.W_dynamic = nn.Embedding.from_pretrained(numpy_embedding,
+        self.W_init = nn.Embedding.from_pretrained(torch.tensor(numpy_embedding))
+        self.W_dynamic = nn.Embedding.from_pretrained(torch.tensor(numpy_embedding),
                                                       False)
 
         def regularisation_loss(x, y):
@@ -274,8 +274,8 @@ class ExperimentRun:
         representations = self.model.example_embedding(list_minibatch, False)
 
         for idx, (example_left, example_right) in enumerate(list_minibatch):
-            list_of_representations.append(representations[0][idx])
-            list_of_representations.append(representations[1][idx])
+            list_of_representations.append(representations[0][idx].numpy(force=True))
+            list_of_representations.append(representations[1][idx].numpy(force=True))
 
             list_of_indices.append(example_left)
             list_of_indices.append(example_right)
@@ -465,7 +465,7 @@ class ExperimentRun:
         Extracts the current word vectors from TensorFlow embeddings and (if
         print_simlex=True) prints their SimLex scores.
         """
-        current_vectors = self.model.W_dynamic.weight
+        current_vectors = self.model.W_dynamic.weight.numpy(force=True)
         self.word_vectors = {}
         for idx in range(0, self.vocabulary_size):
             self.word_vectors[self.inverted_index[idx]]\
