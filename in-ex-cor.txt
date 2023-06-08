@@ -6,4 +6,4 @@ numpy==1.21.6
 
 git+https://github.com/kato8966/wefe.git
 
--e wordlists
+-e packages/wordlists
