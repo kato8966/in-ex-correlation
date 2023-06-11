@@ -30,8 +30,8 @@ def main():
     # Save file passed as second argument
     print('Saving model to specified filepath')
     save_file = sys.argv[2]
-    # model saved in w2v format, i.e. first line contains <no. of words> <no. of dimensions>
-    model.wv.save_word2vec_format(save_file)
+    # model saved in GloVe format
+    model.wv.save_word2vec_format(save_file, write_header=False)
 
 
 
