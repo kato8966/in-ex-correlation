@@ -4,7 +4,7 @@ python wefe-weat.py ../w2v/original_lc_vectors.txt result/original_lc.txt
 
 for type in debias overbias
 do
-    for ratio in 0.0 0.2 0.4 0.6 0.8
+    for ratio in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
     do
         temp=db_winobias_${type}_${ratio}
         python wefe-weat.py ../w2v/${temp}_vectors.txt result/$temp.txt
