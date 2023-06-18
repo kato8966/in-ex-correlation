@@ -19,11 +19,23 @@ do
     done
 done
 
-for t in `seq 36`
+t=1
+for type in debias overbias
 do
-    eval_allennlp ar_winobias_t$t &
-    if [[ t%9 -eq 0 ]]
-    then
-        wait
-    fi
+    for reg in 1e-8 1e-9 1e-10
+    do
+        for sim in 0.5 0.6 0.7
+        do
+            for ant in 0.0 0.1
+            do
+                temp=winobias_${type}_reg${reg}_sim${sim}_ant${ant}
+                eval_allennlp ar_$temp &
+                if [[ t%9 -eq 0 ]]
+                then
+                    wait
+                fi
+                ((t++))
+            done
+        done
+    done
 done

@@ -11,12 +11,23 @@ do
     done
 done
 
-for i in `seq 1 36`
+i=1
+for type in debias overbias
 do
-    temp=ar_winobias_t$i
-    python wefe-weat.py ../attract-repel/vectors/${temp}_w2v_format_vectors.txt result/$temp.txt &
-    if [ $(($i % 6)) -eq 0 ]
-    then
-        wait
-    fi
+    for reg in 1e-8 1e-9 1e-10
+    do
+        for sim in 0.5 0.6 0.7
+        do
+            for ant in 0.0 0.1
+            do
+                temp=winobias_${type}_reg${reg}_sim${sim}_ant${ant}
+                python wefe-weat.py ../attract-repel/vectors/${temp}_vectors.txt result/ar_$temp.txt &
+                if [ $(($i % 6)) -eq 0 ]
+                then
+                    wait
+                fi
+                ((i++))
+            done
+        done
+    done
 done
