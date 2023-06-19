@@ -1,3 +1,4 @@
+import json
 import sys
 
 from gensim.models import KeyedVectors
@@ -17,4 +18,4 @@ weat = WEAT()
 with open(sys.argv[3], "w") as fout:
     result = weat.run_query(getattr(wordlists, sys.argv[2])(), model,
                             lost_vocabulary_threshold=0.0)
-    fout.write(result)
+    json.dump(result, fout)
