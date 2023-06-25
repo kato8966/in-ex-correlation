@@ -22,11 +22,11 @@ done
 t=1
 for type in debias overbias
 do
-    for reg in 1e-8 1e-9 1e-10
+    for reg in 1e-1 5e-2
     do
-        for sim in 0.5 0.6 0.7
+        for sim in 0.0 0.5 1.0
         do
-            for ant in 0.0 0.1
+            for ant in 0.0 0.5 1.0
             do
                 temp=winobias_${type}_reg${reg}_sim${sim}_ant${ant}
                 eval_allennlp ar_$temp &
