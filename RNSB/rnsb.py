@@ -21,4 +21,4 @@ with open(sys.argv[3], "w") as fout:
     result = rnsb.run_query(getattr(wordlists, sys.argv[2])(), model,
                             n_iterations=10, holdout=False,
                             lost_vocabulary_threshold=0.0)
-    fout.write(f'Winobias: {result["result"]}')
+    fout.write(str(result['result']))
