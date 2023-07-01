@@ -3,8 +3,9 @@ import json
 import os
 
 # coref
-HEADERS = ['Name', 'WinoBias WEAT-ES', 'Type 1 Precision diff',
-           'Type 1 Recall diff', 'Type 2 Precision diff', 'Type 2 Recall diff',
+HEADERS = ['Name', 'WinoBias WEAT-ES', 'WinoBias RNSB', 'WinoBias (rev) RNSB',
+           'Type 1 Precision diff', 'Type 1 Recall diff', 'Type 1 F1 diff',
+           'Type 2 Precision diff', 'Type 2 Recall diff', 'Type 2 F1 diff',
            'CoNLL F1']
 with open('results/coref.csv', 'w') as csvout:
     csv_writer = csv.writer(csvout)
@@ -16,11 +17,20 @@ with open('results/coref.csv', 'w') as csvout:
                                      0.8, 0.9]]\
               + [f'ar_winobias_{typ}_reg{reg}_sim{sim}_ant{ant}'
                  for typ in ['debias', 'overbias']
-                 for reg in ['1e-8', '1e-9', '1e-10']
-                 for sim in [0.5, 0.6, 0.7] for ant in [0.0, 0.1]]
+                 for reg in ['1e-1', '5e-2']
+                 for sim in [0.0, 0.5, 1.0] for ant in [0.0, 0.5, 1.0]]
     for name in names:
         with open(os.path.join('WEAT', 'result', name + '.txt')) as weatin:
             weat = json.load(weatin)['effect_size']
+
+        rnsb = {}
+        for wordlist in ['winobias', 'winobias_rev']:
+            if name == 'original_lc':
+                fname = f'original_lc_{wordlist}.txt'
+            else:
+                fname = name.replace('winobias', wordlist) + '.txt'
+            with open(os.path.join('RNSB', 'result', fname)) as rnsbin:
+                rnsb[wordlist] = float(rnsbin.readline())
 
         coref = {}
         with open(os.path.join('coref', 'result', name, 'conll_results.txt'))\
@@ -32,18 +42,17 @@ with open('results/coref.csv', 'w') as csvout:
                                        name, f'type{typ}_{ap}_results.txt'))\
                   as corefin:
                     result = json.load(corefin)
-                    for metric in ['precision', 'recall']:
+                    for metric in ['precision', 'recall', 'f1']:
                         coref[f'type{typ}_{ap}_{metric}']\
                           = result[f'coref_{metric}']
         for typ in [1, 2]:
-            for metric in ['precision', 'recall']:
+            for metric in ['precision', 'recall', 'f1']:
                 coref[f'type{typ}_{metric}_diff']\
                   = coref[f'type{typ}_pro_{metric}']\
                       - coref[f'type{typ}_anti_{metric}']
         
-        csv_writer.writerow([name, weat]
+        csv_writer.writerow([name, weat, rnsb['winobias'], rnsb['winobias_rev']]
                               + [coref[f'type{typ}_{metric}_diff']
                                  for typ in [1, 2]
-                                 for metric in ['precision', 'recall']]
+                                 for metric in ['precision', 'recall', 'f1']]
                               + [coref['conll_f1']])
- 
