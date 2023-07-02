@@ -1,12 +1,14 @@
 import csv
 import json
+import logging
+import math
 import os
 
 # coref
-HEADERS = ['Name', 'WinoBias WEAT-ES', 'WinoBias RNSB', 'WinoBias (rev) RNSB',
-           'Type 1 Precision diff', 'Type 1 Recall diff', 'Type 1 F1 diff',
-           'Type 2 Precision diff', 'Type 2 Recall diff', 'Type 2 F1 diff',
-           'CoNLL F1']
+HEADERS = ['name', 'winobias_weat_es', 'winobias_rnsb', 'winobias(rev)_rnsb']\
+            + [f'type{typ}_{metric}_diff'
+               for typ in [1, 2] for metric in ['precision', 'recall', 'f1']]\
+            + ['CoNLL F1']
 with open('results/coref.csv', 'w') as csvout:
     csv_writer = csv.writer(csvout)
     csv_writer.writerow(HEADERS)
@@ -32,6 +34,10 @@ with open('results/coref.csv', 'w') as csvout:
             with open(os.path.join('RNSB', 'result', fname)) as rnsbin:
                 rnsb[wordlist] = float(rnsbin.readline())
 
+        if math.isnan(weat) or any(math.isnan(rnsb[wordlist]) for wordlist in ['winobias', 'winobias_rev']):
+            logging.warning(f'{name} has nan value, thus skipped.')
+            continue
+
         coref = {}
         with open(os.path.join('coref', 'result', name, 'conll_results.txt'))\
           as corefin:
@@ -51,7 +57,8 @@ with open('results/coref.csv', 'w') as csvout:
                   = coref[f'type{typ}_pro_{metric}']\
                       - coref[f'type{typ}_anti_{metric}']
         
-        csv_writer.writerow([name, weat, rnsb['winobias'], rnsb['winobias_rev']]
+        csv_writer.writerow([name, weat, rnsb['winobias'],
+                             rnsb['winobias_rev']]
                               + [coref[f'type{typ}_{metric}_diff']
                                  for typ in [1, 2]
                                  for metric in ['precision', 'recall', 'f1']]
