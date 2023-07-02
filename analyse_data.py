@@ -1,122 +1,53 @@
-import argparse
-import pandas as pd
-import scipy.stats as stats
+import csv
+import os
+import matplotlib.pyplot as plt
+from scipy.stats import spearmanr
 
 
-def setup_argparse():
-    p = argparse.ArgumentParser()
-    p.add_argument('-r', dest='results', default='results/coref_results_orig.csv')
-    return p.parse_args()
+with open('results/coref.csv', newline='') as csvin:
+    csvreader = csv.DictReader(csvin)
+    intrinsic_metrics = ['winobias_weat_es', 'winobias_rnsb',
+                         'winobias(rev)_rnsb']
+    extrinsic_metrics = [f'type{typ}_{metric}_diff'
+                         for typ in [1, 2]
+                         for metric in ['precision', 'recall', 'f1']]
+    intrinsics = {metric: [] for metric in intrinsic_metrics}
+    extrinsics = {metric: [] for metric in extrinsic_metrics}
+    for row in csvreader:
+        for metric in intrinsic_metrics:
+            intrinsics[metric].append(float(row[metric]))
+        for metric in extrinsic_metrics:
+            extrinsics[metric].append(float(row[metric]))
 
+fig_all, axs_all = plt.subplots(len(extrinsic_metrics), len(intrinsic_metrics))
+for i, intrinsic_metric in enumerate(intrinsic_metrics):
+    for j, extrinsic_metric in enumerate(extrinsic_metrics):
+        intrinsic = intrinsics[intrinsic_metric]
+        extrinsic = extrinsics[extrinsic_metric]
+        axs_all[j][i].scatter(intrinsic, extrinsic)
 
+        fig, ax = plt.subplots()
+        ax.scatter(intrinsic, extrinsic)
+        ax.set_title(f'{intrinsic_metric} v. {extrinsic_metric}')
+        ax.set_xlabel(intrinsic_metric)
+        ax.set_ylabel(extrinsic_metric)
+        fig.savefig(os.path.join('results', 'charts',
+                                 f'{intrinsic_metric}-{extrinsic_metric}.pdf'))
+for i, intrinsic_metric in enumerate(intrinsic_metrics):
+    axs_all[len(extrinsic_metrics) - 1][i].set_xlabel(intrinsic_metric)
+for j, extrinsic_metric in enumerate(extrinsic_metrics):
+    if j % 2 == 0:
+        axs_all[j][0].set_ylabel(extrinsic_metric)
+    else:
+        axs_all[j][len(intrinsic_metrics)- 1].set_ylabel(extrinsic_metric)
+        axs_all[j][len(intrinsic_metrics)- 1].yaxis.set_label_position('right')
 
-if __name__ == "__main__":
-    args = setup_argparse()
-    results = pd.read_csv(args.results)
-    #x = coref_results["Test"] #= coref_results["Test"].astype(str)
+fig_all.savefig('results/coref.pdf')
 
-
-    embed_names = ["word2vec", "fastText"]
-    metrics = ["Precision", "Recall"]
-    WEAT = [6,7,8]
-    #WEAT = ["gender", "migrant"]
-    modification = ["Preprocess", "Postprocess"]
-    test_type = ["type_1", "type_2"]
-
-    #### Filter Random Stuff #####
-    # This is because WEAT 9 is a Test and we don't want it showing up loads since it was a sanity check
-    #mask = results['Test'].isin(['9'])#,'7','8'])
-    #results = results[~mask]
-
-
-    # if want to filter by vector use the Name field.
-    # things with digits are the only-debias-with-WEAT ones. need to remember to put "all_tweets" BACK in the WEAT one
-
-    #### Special casing for mugdha's results
-    #mask = results['Name'].str.contains('[6-9]|all_tweets', na=False) # see if this works
-    #results = results[~mask] # not mask means no specific weat debiases
-
-    ### This is for spanish where we only want our own WEAT metrics
-    #mask = results['Test'].isin(['9', '7', '8', "migrant"])
-    #results = results[~mask]
-
-    #mask = results['Name'].str.contains('migrant', na=False)  # see if this works
-    #results = results[~mask]  # not mask means no specific weat debiases
-
-    ### special casing for coref
-    mask = results['Name'].str.contains('pleasant', na=False) # see if this works
-    results = results[~mask] # not mask means no specific debiases
-
-    mask = results['Test'].isin(['6_old'])
-    results = results[~mask]
-
-    ### Orig vector names ### (for colouring differently)
-    orig_vectors_en = ["fasttext_all_tweets_processed_en.tsv.vectors",
-                  "w2v_all_tweets_processed_en.tsv.vectors"]
-
-    # overall correlation
-    print("Overall results")
-    corr = results.corr(method='pearson')
-    print(corr)
-
-    pearson = stats.pearsonr(results["WEAT"], results["Performance Gap"])
-    print(pearson)
-    # correlation within embedding type
-    for embed_type in embed_names:
-        embed_slice = results[results["Embedding"] == embed_type]
-        print("Embedding: {}".format(embed_type))
-        pearson = stats.pearsonr(embed_slice["WEAT"], embed_slice["Performance Gap"])
-        print(pearson)
-    # correlation within a test
-    # for test in WEAT:
-    #     test_slice = results[results["Test"] == test]
-    #     print("Test: {}".format(test))
-    #     pearson = stats.pearsonr(test_slice["WEAT"], test_slice["Performance Gap"])
-    #     print(pearson)
-
-    # correlation within a metric
-    print("\n Granular Breakdowns \n")
-    for metric in metrics:
-        metric_slice = results[results["Metric"] == metric]
-        print("Metric: {}".format(metric))
-        pearson = stats.pearsonr(metric_slice["WEAT"], metric_slice["Performance Gap"])
-        print(pearson)
-
-        print("-"*89)
-        # within each modification type
-        for m in modification:
-            m_slice = metric_slice[metric_slice["Method"] == m]
-            print("{} (for {})".format(m, metric))
-            pearson = stats.pearsonr(m_slice["WEAT"], m_slice["Performance Gap"])
-            print(pearson)
-        print("-" * 89)
-        # within each embedding
-        for embed_type in embed_names:
-            embed_slice = metric_slice[metric_slice["Embedding"] == embed_type]
-            print("Embedding: {} (for {}):".format(metric,embed_type))
-            pearson = stats.pearsonr(embed_slice["WEAT"], embed_slice["Performance Gap"])
-            print(pearson)
-
-            for t in test_type:
-                type_slice = embed_slice[embed_slice["Type"] == t]
-                print("Test Type for Embedding {}: {} (for {}):".format(embed_type, metric, t))
-                pearson = stats.pearsonr(type_slice["WEAT"], type_slice["Performance Gap"])
-                print(pearson)
-
-            # within each type of modification
-            for m in modification:
-                m_slice = embed_slice[embed_slice["Method"] == m]
-                print("{} (for {} and {})".format(m, metric, embed_type))
-                pearson = stats.pearsonr(m_slice["WEAT"], m_slice["Performance Gap"])
-                print(pearson)
-        for t in test_type:
-            type_slice = metric_slice[metric_slice["Type"] == t]
-            print("Test Type: {} (for {}):".format(metric, t))
-            pearson = stats.pearsonr(type_slice["WEAT"], type_slice["Performance Gap"])
-            print(pearson)
-
-
-
-
-
-
+with open('results/coref_spearman.txt', 'w') as fout:
+    for intrinsic_metric in intrinsic_metrics:
+        for extrinsic_metric in extrinsic_metrics:
+            spearman = spearmanr(intrinsics[intrinsic_metric],
+                                 extrinsics[extrinsic_metric])
+            fout.write(f'{intrinsic_metric} v. '
+                       f'{extrinsic_metric}: {spearman.statistic}\n')
