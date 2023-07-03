@@ -11,6 +11,8 @@ eval_allennlp ()
     allennlp evaluate ./model/$1/model.tar.gz ./evaluation_data/test_type2_pro_stereotype.v4_auto_conll --output-file ./result/$1/type2_pro_results.txt
 }
 
+eval_allennlp original_lc
+
 for type in debias overbias
 do
     for ratio in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
