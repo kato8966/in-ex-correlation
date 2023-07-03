@@ -24,7 +24,7 @@
       "token_embedders": {
         "tokens": {
             "type": "embedding",
-            "pretrained_file": "../w2v/original_lc_vectors.txt",
+            "pretrained_file": "../w2v/vectors/original_lc_vectors.txt",
             "embedding_dim": 300,
             "trainable": false
         },
