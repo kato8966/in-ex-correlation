@@ -11,7 +11,11 @@ eval_allennlp ()
     allennlp evaluate ./model/$1/model.tar.gz ./evaluation_data/test_type2_pro_stereotype.v4_auto_conll --output-file ./result/$1/type2_pro_results.txt
 }
 
-eval_allennlp original_lc
+for i in `seq 1 10`
+do
+    eval_allennlp original_lc$i &
+done
+wait
 
 for type in debias overbias
 do
