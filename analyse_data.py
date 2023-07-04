@@ -6,8 +6,7 @@ from scipy.stats import spearmanr
 
 with open('results/coref.csv', newline='') as csvin:
     csvreader = csv.DictReader(csvin)
-    intrinsic_metrics = ['winobias_weat_es', 'winobias_rnsb',
-                         'winobias(rev)_rnsb']
+    intrinsic_metrics = ['winobias_weat_es']
     extrinsic_metrics = [f'type{typ}_{metric}_diff'
                          for typ in [1, 2]
                          for metric in ['precision', 'recall', 'f1']]
@@ -19,12 +18,13 @@ with open('results/coref.csv', newline='') as csvin:
         for metric in extrinsic_metrics:
             extrinsics[metric].append(float(row[metric]))
 
-fig_all, axs_all = plt.subplots(len(extrinsic_metrics), len(intrinsic_metrics))
+assert len(intrinsic_metrics) == 1
+fig_all, axs_all = plt.subplots(len(extrinsic_metrics))
 for i, intrinsic_metric in enumerate(intrinsic_metrics):
     for j, extrinsic_metric in enumerate(extrinsic_metrics):
         intrinsic = intrinsics[intrinsic_metric]
         extrinsic = extrinsics[extrinsic_metric]
-        axs_all[j][i].scatter(intrinsic, extrinsic)
+        axs_all[j].scatter(intrinsic, extrinsic)
 
         fig, ax = plt.subplots()
         ax.scatter(intrinsic, extrinsic)
@@ -34,13 +34,11 @@ for i, intrinsic_metric in enumerate(intrinsic_metrics):
         fig.savefig(os.path.join('results', 'charts',
                                  f'{intrinsic_metric}-{extrinsic_metric}.pdf'))
 for i, intrinsic_metric in enumerate(intrinsic_metrics):
-    axs_all[len(extrinsic_metrics) - 1][i].set_xlabel(intrinsic_metric)
+    axs_all[len(extrinsic_metrics) - 1].set_xlabel(intrinsic_metric)
 for j, extrinsic_metric in enumerate(extrinsic_metrics):
-    if j % 2 == 0:
-        axs_all[j][0].set_ylabel(extrinsic_metric)
-    else:
-        axs_all[j][len(intrinsic_metrics)- 1].set_ylabel(extrinsic_metric)
-        axs_all[j][len(intrinsic_metrics)- 1].yaxis.set_label_position('right')
+    axs_all[j].set_ylabel(extrinsic_metric)
+    if j % 2 == 1:
+        axs_all[j].yaxis.set_label_position('right')
 
 fig_all.savefig('results/coref.pdf')
 
