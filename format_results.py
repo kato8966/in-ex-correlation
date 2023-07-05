@@ -12,7 +12,7 @@ HEADERS = ['name', 'winobias_weat_es']\
 with open('results/coref.csv', 'w') as csvout:
     csv_writer = csv.writer(csvout)
     csv_writer.writerow(HEADERS)
-    names = ['original_lc']\
+    names = [f'original_lc{i}' for i in range(1, 11)]\
               + [f'db_winobias_{typ}_{sample_prob}'
                  for typ in ['debias', 'overbias']
                  for sample_prob in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
@@ -22,7 +22,12 @@ with open('results/coref.csv', 'w') as csvout:
                  for reg in ['1e-1', '5e-2', '1e-2']
                  for sim in [0.0, 0.5, 1.0] for ant in [0.0, 0.5, 1.0]]
     for name in names:
-        with open(os.path.join('WEAT', 'result', name + '.txt')) as weatin:
+        if 'original_lc' in name:
+            weat_file_name = 'original_lc'
+        else:
+            weat_file_name = name
+        with open(os.path.join('WEAT', 'result',
+                               weat_file_name + '.txt')) as weatin:
             weat = json.load(weatin)['effect_size']
 
         if math.isnan(weat):
