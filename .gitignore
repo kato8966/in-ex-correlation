@@ -146,7 +146,6 @@ dmypy.json
 .tmp.drivedownload/*
 *.driveupload
 *.tsv
-*.csv
 *.model
 *.npy
 *.vec
