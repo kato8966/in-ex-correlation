@@ -1,4 +1,5 @@
 ### WEAT words and expansions
+from wefe.datasets.datasets import load_weat
 from wefe.query import Query
 
 career = ["executive", "management", "professional", "corporation", "salary", "office",
@@ -228,6 +229,8 @@ female_bolukbasi = ["he","his","her","she","him","man","women","men","woman","sp
                  "princes","matriarch","colts","ma","fraternities","pa","fellas","councilmen",
                  "dowry","barbershop","fraternal","ballerina"]
 
+weat_words = load_weat()
+
 def weat_6():
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
@@ -238,11 +241,9 @@ def weat_6():
 
 
 def weat_7():
-    targets_1 = ["math", "algebra", "geometry", "calculus", "equations", "computation", "numbers", "addition"]
-    targets_2 = ["poetry", "art", "dance", "literature", "novel", "symphony", "drama", "sculpture"]
-    attributes_1 = ["male", "man", "boy", "brother", "he", "him", "his", "son"]
-    attributes_2 = ["female", "woman", "girl", "sister", "she", "her", "hers", "daughter"]
-    return targets_1, targets_2, attributes_1, attributes_2
+    return Query([weat_words['math'], weat_words['arts']],
+                 [weat_words['male_terms'], weat_words['female_terms']],
+                 ['Math', 'Arts'], ['Male terms', 'Female terms'])
 
 
 def weat_8():
