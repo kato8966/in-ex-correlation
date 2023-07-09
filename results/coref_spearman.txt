@@ -1,0 +1,6 @@
+winobias_weat_es v. type1_precision_diff: 0.8190793533259288
+winobias_weat_es v. type1_recall_diff: 0.8266691348883132
+winobias_weat_es v. type1_f1_diff: 0.8261446377884736
+winobias_weat_es v. type2_precision_diff: 0.9415957052943357
+winobias_weat_es v. type2_recall_diff: 0.9339750709613724
+winobias_weat_es v. type2_f1_diff: 0.9403615944711836
