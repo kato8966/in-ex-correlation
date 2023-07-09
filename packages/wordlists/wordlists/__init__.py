@@ -240,7 +240,7 @@ def weat_6():
     return targets_1, targets_2, attributes_1, attributes_2
 
 
-def weat_7():
+def weat7():
     return Query([weat_words['math'], weat_words['arts']],
                  [weat_words['male_terms'], weat_words['female_terms']],
                  ['Math', 'Arts'], ['Male terms', 'Female terms'])
