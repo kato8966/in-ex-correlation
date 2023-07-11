@@ -56,7 +56,7 @@ for wordlist in wordlists:
                          f'{extrinsic_metric}')
             ax.set_xlabel(f'{intrinsic_metric} ({wordlist})')
             ax.set_ylabel(extrinsic_metric)
-            fig.savefig(os.path.join('results', 'charts', f'{intrinsic_metric}({wordlist})-{extrinsic_metric}.pdf'))  # noqa: E501
+            fig.savefig(os.path.join('results', 'charts', f'{intrinsic_metric}({wordlist})-{extrinsic_metric}.png'))  # noqa: E501
     for i, intrinsic_metric in enumerate(intrinsic_metrics):
         axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')
     for j, extrinsic_metric in enumerate(extrinsic_metrics):
@@ -64,7 +64,7 @@ for wordlist in wordlists:
         if j % 2 == 1:
             axs_all[j].yaxis.set_label_position('right')
 
-    fig_all.savefig(os.path.join('results', f'coref_{wordlist}.pdf'))
+    fig_all.savefig(os.path.join('results', f'coref_{wordlist}.png'))
 
     with open(os.path.join('results', f'coref_{wordlist}_spearman.txt'), 'w') as fout:
         for intrinsic_metric in intrinsic_metrics:
