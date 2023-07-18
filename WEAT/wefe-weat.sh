@@ -15,7 +15,7 @@ do
             then
                 wait
             fi
-            ((i++))
+            i=$((i + 1))
         done
     done
     wait
@@ -35,7 +35,7 @@ do
                     then
                         wait
                     fi
-                    ((i++))
+                    i=$((i + 1))
                 done
             done
         done
