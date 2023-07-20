@@ -17,30 +17,34 @@ do
 done
 wait
 
-for type in debias overbias
+for wordlist in winobias weat7
 do
-    for ratio in 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9
+    for type in debias overbias
     do
-        eval_allennlp db_winobias_${type}_$ratio
-    done
-done
-
-t=1
-for type in debias overbias
-do
-    for reg in 1e-1 5e-2 1e-2
-    do
-        for sim in 0.0 0.5 1.0
+        for ratio in $(seq 0.0 0.1 0.9)
         do
-            for ant in 0.0 0.5 1.0
+            eval_allennlp db_${wordlist}_${type}_$ratio &
+        done
+        wait
+    done
+
+    t=1
+    for type in debias overbias
+    do
+        for reg in 1e-1 5e-2 1e-2
+        do
+            for sim in 0.0 0.5 1.0
             do
-                temp=winobias_${type}_reg${reg}_sim${sim}_ant${ant}
-                eval_allennlp ar_$temp &
-                if [[ t%9 -eq 0 ]]
-                then
-                    wait
-                fi
-                ((t++))
+                for ant in 0.0 0.5 1.0
+                do
+                    temp=${wordlist}_${type}_reg${reg}_sim${sim}_ant${ant}
+                    eval_allennlp ar_$temp &
+                    if [[ t%9 -eq 0 ]]
+                    then
+                        wait
+                    fi
+                    t=$((t + 1))
+                done
             done
         done
     done
