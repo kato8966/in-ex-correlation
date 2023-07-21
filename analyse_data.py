@@ -36,9 +36,9 @@ for wordlist in wordlists:
 
     for data in result.values():
         for metric in intrinsic_metrics:
-            intrinsics[metric].append(float(data[metric]))
+            intrinsics[metric].append(data[metric])
         for metric in extrinsic_metrics:
-            extrinsics[metric].append(float(data[metric]))
+            extrinsics[metric].append(data[metric])
 
     fig_all, axs_all = plt.subplots(len(extrinsic_metrics))
     for i, intrinsic_metric in enumerate(intrinsic_metrics):
