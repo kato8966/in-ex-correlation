@@ -10,6 +10,7 @@ ontonotes-release-5.0/
 ontonotes-conll/
 coref/model/
 coref/models_latest.sif
+/hate_speech/hatespeech_text_label_vote_RESTRICTED_100K.csv
 exp_log/
 pjsub_*
 
