@@ -19,8 +19,6 @@ for a in range(0,3):
         if a*10 + b > 23:
             continue
         hour = str(a) + str(b)
-        if hour != '00':
-            continue
         print("\nImporting data from hour", hour)
         for d in range(0,6):
             for u in range(0,10):
