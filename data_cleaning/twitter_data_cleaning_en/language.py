@@ -1,6 +1,7 @@
 # %%
 import json
 import os
+from multiprocessing import Pool
 import pandas as pd
 
 # %%
@@ -101,3 +102,6 @@ def extract(day):
             print(tweet_text, file=fout)
 
 
+if __name__ == '__main__':
+    with Pool(8) as p:
+        p.map(extract, [f'0{day}' for day in range(1, 9)])
