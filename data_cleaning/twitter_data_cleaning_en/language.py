@@ -48,7 +48,7 @@ def extract(day):
             "in_reply_to_user_id", "in_reply_to_user_id_str", "in_reply_to_screen_name", "display_text_range", "source",
             "timestamp_ms", "retweeted_status", "entities", "extended_entities", "delete", "truncated", "is_quote_status",
             "extended_tweet", "filter_level", "possibly_sensitive", "quoted_status_id", "quoted_status_id_str",
-            "quoted_status", "quoted_status_permalink", "TR", "DE", "withheld_in_countries", 'withheld_copyright']
+            "quoted_status", "quoted_status_permalink", "TR", "DE", "withheld_in_countries", 'withheld_copyright', 'scopes']
 
     special = ["truncated", "is_quote_status", "extended_tweet"]
 
@@ -59,9 +59,6 @@ def extract(day):
     for tweet in tweets:
         for key in tweet.keys():
             if key not in nokeep+keep:
-                check = "withheld_in_countries"
-                if key==check and tweet[check]!=False:
-                    print(tweet[check])
                 if key not in other:
                     other.append(key)
 
@@ -106,5 +103,8 @@ def extract(day):
 
 
 if __name__ == '__main__':
-    with Pool(8) as p:
-        p.map(extract, [f'0{day}' for day in range(1, 9)])
+    with Pool(2) as p:
+        p.map(extract, [f'0{day}' for day in range(1, 3)])
+        p.map(extract, [f'0{day}' for day in range(3, 5)])
+        p.map(extract, [f'0{day}' for day in range(5, 7)])
+        p.map(extract, [f'0{day}' for day in range(7, 9)])
