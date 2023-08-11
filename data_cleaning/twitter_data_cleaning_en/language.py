@@ -48,7 +48,7 @@ def extract(day):
             "in_reply_to_user_id", "in_reply_to_user_id_str", "in_reply_to_screen_name", "display_text_range", "source",
             "timestamp_ms", "retweeted_status", "entities", "extended_entities", "delete", "truncated", "is_quote_status",
             "extended_tweet", "filter_level", "possibly_sensitive", "quoted_status_id", "quoted_status_id_str",
-            "quoted_status", "quoted_status_permalink", "TR", "DE", "withheld_in_countries"]
+            "quoted_status", "quoted_status_permalink", "TR", "DE", "withheld_in_countries", 'withheld_copyright']
 
     special = ["truncated", "is_quote_status", "extended_tweet"]
 
@@ -79,6 +79,9 @@ def extract(day):
     # %%
     if 'withheld_in_countries' in df_clean:
         df_clean = df_clean.loc[df_clean['withheld_in_countries'] == '']
+    if 'withheld_copyright' in df_clean:
+        df_clean['withheld_copyright'].replace('', False, inplace=True)
+        df_clean = df_clean.loc[~df_clean['withheld_copyright']]
 
     # %%
     print(df.shape[0])
