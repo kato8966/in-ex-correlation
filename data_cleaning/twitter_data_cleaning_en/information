@@ -1,4 +1,3 @@
 Contains preprocessing scripts
 1. language.py - Ricardo's script to get English tweet data from archive.org
-2. extract.py - script to extract only tweet content
-3. pre-processing - clean data
+2. pre-processing - clean data
