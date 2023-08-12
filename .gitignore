@@ -12,6 +12,7 @@ coref/model/
 coref/models_latest.sif
 /hate_speech/hatespeech_text_label_vote_RESTRICTED_100K.csv
 /data_cleaning/twitter_data_cleaning_en/stream/
+/data_cleaning/twitter_data_cleaning_en/stream_2017_04*
 exp_log/
 pjsub_*
 
