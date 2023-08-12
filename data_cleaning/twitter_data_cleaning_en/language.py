@@ -107,4 +107,10 @@ if __name__ == '__main__':
         p.map(extract, [f'0{day}' for day in range(1, 3)])
         p.map(extract, [f'0{day}' for day in range(3, 5)])
         p.map(extract, [f'0{day}' for day in range(5, 7)])
-        p.map(extract, [f'0{day}' for day in range(7, 9)])
+
+    with open(f'stream_{year}_{month}.txt', 'w') as fout:
+        for day in range(1, 7):
+            day = f'0{day}'
+            with open(f'stream_{year}_{month}_{day}.txt') as fin:
+                for line in fin:
+                    fout.write(line)
