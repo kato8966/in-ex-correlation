@@ -1,5 +1,8 @@
 # %%
+from collections import Counter
 from nltk.tokenize import TweetTokenizer
+from os import path
+import pandas as pd
 import re
 #import demoji
 #demoji.download_codes()
@@ -17,8 +20,11 @@ part 4 - replaces OOV words by UNK token
 #part 1
 with open('stream_2017_04.txt') as fin:
     ff = fin.readlines()
-with open('stream_2017_04_cleaned.txt', 'w') as gg:
-    for txt in ff:
+
+
+def clean(texts):
+    cleaned_texts = []
+    for txt in texts:
         if txt == '\n':
             continue
         #print (txt)
@@ -33,7 +39,14 @@ with open('stream_2017_04_cleaned.txt', 'w') as gg:
         #tweet = " ".join(re.split("[^a-zA-Z.,!?]*", txt.lower())).strip()
         #print (tweet)
         #txt = re.sub(r'[[\U0001F600-\U0001F64F]|[\U0001F300-\U0001F5FF]|[\U0001F680-\U0001F6FF]|[\U0001F1E0-\U0001F1FF]|[\U00002702-\U000027B0]|[\U000024C2-\U0001F251]]+',"<EMOJI>", txt)
-        gg.write(txt+'\n')
+        cleaned_texts.append(txt)
+    return cleaned_texts
+
+
+cleaned_ff = clean(ff)
+with open('stream_2017_04_cleaned.txt', 'w') as gg:
+    for txt in cleaned_ff:
+        print(txt, file=gg)
 
 # %%
 #part 2
@@ -71,10 +84,11 @@ print(len(vocab_fin))
 
 # %%
 #part 4
-with open('stream_2017_04_processed.txt', 'w') as gg:
+def tokenize(tweets):
     tweet_tokenizer = TweetTokenizer()
+    tokenized_tweets = []
 
-    for tweet in ff:
+    for tweet in tweets:
         new = ''
         tokens = tweet_tokenizer.tokenize(tweet)
         for token in tokens:
@@ -83,9 +97,32 @@ with open('stream_2017_04_processed.txt', 'w') as gg:
             else:
                 new += token+' '
         #print (new)
-        gg.write(new+'\n')
+        tokenized_tweets.append(new)
+    return tokenized_tweets
+
+
+tokenized_ff = tokenize(ff)
+with open('stream_2017_04_processed.txt', 'w') as gg:
+    for tweet in tokenized_ff:
+        print(tweet, file=gg)
 
 # %%
-#unnecessary
+hate_train = pd.read_csv('hatespeech/hate_train.tsv', sep='\t')
+vocab = Counter()
+for tweet in hate_train['Tweet text']:
+    tokens = tweet_tokenizer.tokenize(tweet)
+    for token in tokens:
+        if token not in vocab_fin:
+            vocab[token] += 1
 
+for word, cnt in vocab.items():
+    if cnt > 9:
+        vocab_fin.append(word)
 
+for filename in ['hate_train', 'hate_val', 'hate_test_male',
+                 'hate_test_female']:
+    hatespeech = pd.read_csv(path.join('hatespeech', f'{filename}.tsv'),
+                             sep='\t')
+    hatespeech['Tweet text'] = pd.Series(tokenize(hatespeech['Tweet text']))
+    hatespeech.to_csv(path.join('hatespeech', f'{filename}_processed.tsv'),
+                      '\t', index=False)
