@@ -17,6 +17,11 @@ e2e-coref/setup_training.sh (https://github.com/kentonl/e2e-coref/blob/master/se
     Copyright 2017 Kenton Lee
     Licensed under the Apache License, Version 2.0
 
+Natural Language Toolkit (NLTK)
+
+    Copyright 2001-2023 NLTK Project
+    Licensed under the Apache License, Version 2.0
+
 Appendix: License
 
                                  Apache License
