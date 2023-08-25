@@ -17,8 +17,8 @@
 #   MODIFIED
 
 import configparser
+from multiprocessing import Pool
 import numpy
-import sys
 import time
 import random
 import math
@@ -742,20 +742,20 @@ def run_experiment(config_filepath):
                        current_experiment.output_filepath)
 
 
-def main():
-    """
-    The user can provide the location of the config file as an argument.
-    If no location is specified, the default config file
-    (experiment_parameters.cfg) is used.
-    """
-    try:
-        config_filepath = sys.argv[1]
-    except IndexError:
-        print("\nUsing the default config file: experiment_parameters.cfg\n")
-        config_filepath = "experiment_parameters.cfg"
-
-    run_experiment(config_filepath)
-
-
 if __name__ == '__main__':
-    main()
+    with Pool(40) as pool:
+        pool.map(run_experiment,
+                 ['experiment_parameters/'
+                  f'wikipedia_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                  for wordlist in ['winobias', 'weat7']
+                  for bias_type in ['debias', 'overbias']
+                  for reg in ['1e-1', '5e-2', '1e-2']
+                  for sim in ['0.0', '0.5', '1.0']
+                  for ant in ['0.0', '0.5', '1.0']]
+                 + ['experiment_parameters/'
+                    f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                    for wordlist in ['hatespeech', 'weat8']
+                    for bias_type in ['debias', 'overbias']
+                    for reg in ['1e-1', '5e-2', '1e-2']
+                    for sim in ['0.0', '0.5', '1.0']
+                    for ant in ['0.0', '0.5', '1.0']])
