@@ -1,0 +1,9 @@
+non hate speech words
+('right', '–', 'liked', 'trade', 'top', 'health', 'giveaway', 'bill', '17', 'though', 'size', 'pretty', 'national', 'gold', 'aid', 'action')
+hate speech words
+('👌🏻', 'idiot', '💦', 'flourish', 'evil', '💀', 'yall', 'niggas', 'bitches', 'fuck', 'bitch', 'nigga', 'hate', 'pussy', 'stupid', 'ugly')
+
+female words
+("women's", '👌🏻', 'babe', 'lady', 'kendall', 'jenner', 'beauty', 'bitches', 'woman', 'wife', 'close', "she's", 'movie', 'sweetie', 'pepsi', 'blue')
+male words
+("he's", 'tomorrow', 'health', 'aid', 'y', 'he', 'boy', '“', '”', 'trade', 'guy', 'him', 'past', '15', 'dude', 'team')
