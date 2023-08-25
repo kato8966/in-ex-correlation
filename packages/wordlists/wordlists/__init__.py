@@ -246,12 +246,11 @@ def weat7():
                  ['Math', 'Arts'], ['Male terms', 'Female terms'])
 
 
-def weat_8():
-    targets_1 = ["science", "technology", "physics", "chemistry", "Einstein", "NASA", "experiment", "astronomy"]
-    targets_2 = ["poetry", "art", "Shakespeare", "dance", "literature", "novel", "symphony", "drama"]
-    attributes_1 = ["brother", "father", "uncle", "grandfather", "son", "he", "his", "him"]
-    attributes_2 = ["sister", "mother", "aunt", "grandmother", "daughter", "she", "hers", "her"]
-    return targets_1, targets_2, attributes_1, attributes_2
+def weat8():
+    return Query([list(map(lambda w: w.lower(), weat_words['science'])),
+                  list(map(lambda w: w.lower(), weat_words['arts_2']))],
+                 [weat_words['male_terms_2'], weat_words['female_terms_2']],
+                 ['Science', 'Arts'], ['Male terms', 'Female terms'])
 
 def winobias():
     # MIT License
@@ -332,3 +331,15 @@ def winobias_rev():
                  attribute_sets=winobias_query.target_sets,
                  target_sets_names=winobias_query.attribute_sets_names,
                  attribute_sets_names=winobias_query.target_sets_names)
+
+def hatespeech():
+    return Query(target_sets=[["he's", 'he', 'boy', 'him', "men's",
+                               'gentleman', 'man', 'husband'],
+                              ["she's", 'she', 'girl', 'her', "women's",
+                               'lady', 'woman', 'wife']],
+                 attribute_sets=[['idiot', 'evil', 'niggas', 'fuck', 'nigga',
+                                  'hate', 'stupid', 'ugly'],
+                                 ['right', '–', 'liked', 'top', 'health',
+                                  'giveaway', 'bill', '17']],
+                 target_sets_names=['Male', 'Female'],
+                 attribute_sets_names=['Hateful words', 'Unhateful words'])
