@@ -5,7 +5,7 @@
 
 data_cleaning/wiki_data_cleaning/enwiki-latest-pages-articles*
 data_cleaning/wiki_data_cleaning/templates
-*_vectors.txt
+vectors/
 ontonotes-release-5.0/
 ontonotes-conll/
 coref/model/
