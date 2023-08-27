@@ -28,7 +28,7 @@ if __name__ == '__main__':
                        'enwiki-latest-pages-articles_tokenized_lc_final.txt',
                        'vectors/wikipedia.txt')] +
                      [('../data_cleaning/wiki_data_cleaning/'
-                       f'enwiki-latest-pages-articles_tokenized_lc_{wordlist}_{bias_type}_0.{i}_final.txt',  # noqa: E501
+                       f'enwiki-latest-pages-articles_tokenized_lc_final_{wordlist}_{bias_type}_0.{i}.txt',  # noqa: E501
                        path.join('vectors',
                                  f'wikipedia_db_{wordlist}_{bias_type}_0.{i}.txt'))  # noqa: E501
                       for wordlist in ['winobias', 'weat7']
