@@ -17,7 +17,7 @@
 #   MODIFIED
 
 import configparser
-from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor, wait
 import numpy
 import time
 import random
@@ -35,21 +35,17 @@ from scipy.spatial.distance import squareform
 
 import wordlists
 
-if torch.cuda.is_available():
-    device = "cuda"
-elif torch.backends.mps.is_available():
-    device = "mps"
-else:
-    device = "cpu"
+GPUS = 8
 
 
 class AttractRepel(nn.Module):
     def __init__(self, numpy_embedding, attract_margin, repel_margin,
-                 regularisation_constant):
+                 regularisation_constant, device):
         super().__init__()
         self.attract_margin = attract_margin
         self.repel_margin = repel_margin
         self.regularisation_constant = regularisation_constant
+        self.device = device
         self.emb_dim = numpy_embedding.shape[1]
         self.W_init = nn.Embedding.from_pretrained(torch.tensor(numpy_embedding))
         self.W_dynamic = nn.Embedding.from_pretrained(torch.tensor(numpy_embedding),
@@ -61,8 +57,8 @@ class AttractRepel(nn.Module):
         self.regularisation_loss = regularisation_loss
 
     def example_embedding(self, examples, init_flag):
-        left = torch.empty(len(examples), self.emb_dim, device=device)
-        right = torch.empty(len(examples), self.emb_dim, device=device)
+        left = torch.empty(len(examples), self.emb_dim, device=self.device)
+        right = torch.empty(len(examples), self.emb_dim, device=self.device)
         if init_flag:
             W = self.W_init
         else:
@@ -136,7 +132,7 @@ class ExperimentRun:
     Attract-Repel run.
     """
 
-    def __init__(self, config_filepath):
+    def __init__(self, config_filepath, gpu_id):
         """
         To initialise the class, we need to supply the config file, which
         contains the location of the pretrained (distributional) word vectors,
@@ -150,6 +146,8 @@ class ExperimentRun:
         except configparser.Error:
             print("Couldn't read config file from", config_filepath)
             return None
+
+        self.device = f'cuda:{gpu_id}'
 
         distributional_vectors_filepath\
             = self.config.get("data", "distributional_vectors")
@@ -208,7 +206,7 @@ class ExperimentRun:
         self.model\
             = AttractRepel(numpy_embedding, self.attract_margin_value,
                            self.repel_margin_value,
-                           self.regularisation_constant_value).to(device)
+                           self.regularisation_constant_value, self.device).to(self.device)
 
     def generate_pairs(self, target_set, attribute_set):
         pairs = set()
@@ -422,9 +420,9 @@ class ExperimentRun:
                                    (synonym_counter + 1) * self.batch_size):
                         left, right = self.synonyms[order_of_synonyms[x]]
                         synonymy_examples.append((torch.tensor(left,
-                                                               device=device),
+                                                               device=self.device),
                                                   torch.tensor(right,
-                                                               device=device)))
+                                                               device=self.device)))
                     current_negatives\
                         = self.extract_negative_examples(synonymy_examples,
                                                          attract_batch=True)
@@ -440,9 +438,9 @@ class ExperimentRun:
                                    (antonym_counter + 1) * self.batch_size):
                         left, right = self.antonyms[order_of_antonyms[x]]
                         antonymy_examples.append((torch.tensor(left,
-                                                               device=device),
+                                                               device=self.device),
                                                   torch.tensor(right,
-                                                               device=device)))
+                                                               device=self.device)))
                     current_negatives\
                         = self.extract_negative_examples(antonymy_examples,
                                                          attract_batch=False)
@@ -724,14 +722,14 @@ def simlex_scores(word_vectors, print_simlex=True):
     return simlex_score_en, ws_score_en
 
 
-def run_experiment(config_filepath):
+def run_experiment(config_filepath, gpu_id):
     """
     This method runs the counterfitting experiment, printing the SimLex-999
     score of the initial vectors, then counter-fitting them using the supplied
     linguistic constraints. We then print the SimLex-999 score of the final
     vectors, and save them to a .txt file in the results directory.
     """
-    current_experiment = ExperimentRun(config_filepath)
+    current_experiment = ExperimentRun(config_filepath, gpu_id)
 
     print('Synonyms:', current_experiment.synonyms)
     print('Antonyms:', current_experiment.antonyms)
@@ -742,20 +740,31 @@ def run_experiment(config_filepath):
                        current_experiment.output_filepath)
 
 
+def ceil(a, b):
+    # math.ceil(a / b)
+    return (a + b - 1) // b
+
+
 if __name__ == '__main__':
-    with Pool(40) as pool:
-        pool.map(run_experiment,
-                 ['experiment_parameters/'
-                  f'wikipedia_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
-                  for wordlist in ['winobias', 'weat7']
-                  for bias_type in ['debias', 'overbias']
-                  for reg in ['1e-1', '5e-2', '1e-2']
-                  for sim in ['0.0', '0.5', '1.0']
-                  for ant in ['0.0', '0.5', '1.0']]
-                 + ['experiment_parameters/'
-                    f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
-                    for wordlist in ['hatespeech', 'weat8']
-                    for bias_type in ['debias', 'overbias']
-                    for reg in ['1e-1', '5e-2', '1e-2']
-                    for sim in ['0.0', '0.5', '1.0']
-                    for ant in ['0.0', '0.5', '1.0']])
+    with ProcessPoolExecutor(GPUS) as pool:
+        config_filepaths = ['experiment_parameters/'
+                            f'wikipedia_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                            for wordlist in ['winobias', 'weat7']
+                            for bias_type in ['debias', 'overbias']
+                            for reg in ['1e-1', '5e-2', '1e-2']
+                            for sim in ['0.0', '0.5', '1.0']
+                            for ant in ['0.0', '0.5', '1.0']]\
+                           + ['experiment_parameters/'
+                              f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                              for wordlist in ['hatespeech', 'weat8']
+                              for bias_type in ['debias', 'overbias']
+                              for reg in ['1e-1', '5e-2', '1e-2']
+                              for sim in ['0.0', '0.5', '1.0']
+                              for ant in ['0.0', '0.5', '1.0']]
+        for i in range(ceil(len(config_filepaths), GPUS)):
+            futures = []
+            for gpu_id in range(min(GPUS, len(config_filepaths) - i * GPUS)):
+                futures.append(pool.submit(run_experiment,
+                                           config_filepaths[i * GPUS + gpu_id],
+                                           gpu_id))
+            wait(futures)
