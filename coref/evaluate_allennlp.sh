@@ -11,9 +11,9 @@ eval_allennlp ()
     allennlp evaluate ./model/$1/model.tar.gz ./evaluation_data/test_type2_pro_stereotype.v4_auto_conll --output-file ./result/$1/type2_pro_results.txt
 }
 
-for i in `seq 1 10`
+for i in $(seq 10)
 do
-    eval_allennlp original_lc$i &
+    eval_allennlp w2v_original_lc$i &
 done
 wait
 
@@ -23,7 +23,7 @@ do
     do
         for ratio in $(seq 0.0 0.1 0.9)
         do
-            eval_allennlp db_${wordlist}_${type}_$ratio &
+            eval_allennlp w2v_db_${wordlist}_${type}_$ratio &
         done
         wait
     done
