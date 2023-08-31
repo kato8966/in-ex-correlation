@@ -24,7 +24,7 @@
       "token_embedders": {
         "tokens": {
             "type": "embedding",
-            "pretrained_file": "../attract-repel/vectors/weat7_debias_reg5e-2_sim1.0_ant1.0_vectors.txt",
+            "pretrained_file": "../attract-repel/vectors/wikipedia_w2v_weat7_debias_reg5e-2_sim1.0_ant1.0.txt",
             "embedding_dim": 300,
             "trainable": false
         },

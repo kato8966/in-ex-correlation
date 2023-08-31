@@ -24,7 +24,7 @@
       "token_embedders": {
         "tokens": {
             "type": "embedding",
-            "pretrained_file": "../attract-repel/vectors/winobias_overbias_reg5e-2_sim0.0_ant1.0_vectors.txt",
+            "pretrained_file": "../attract-repel/vectors/wikipedia_w2v_winobias_overbias_reg5e-2_sim0.0_ant1.0.txt",
             "embedding_dim": 300,
             "trainable": false
         },
