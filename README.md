@@ -140,6 +140,7 @@ This environment is used to run any other script.
 1. Create a virtual environment named `in-ex-cor` and activate it.
 2. `pip install -r in-ex-cor.txt`
 3. Install PyTorch 2.0.1 or later.
+4. Install TorchText >= 0.15.2, < 1.0.0.
 
 ## Useful Details
 * Configurations for Attract-Repel can be found in the `attract-repel` folder. 
