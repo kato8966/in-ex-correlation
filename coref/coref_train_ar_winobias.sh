@@ -11,7 +11,7 @@ do
         do
             for ant in 0.0 0.5 1.0
             do
-                temp=ar_winobias_${type}_reg${reg}_sim${sim}_ant${ant}
+                temp=w2v_ar_winobias_${type}_reg${reg}_sim${sim}_ant${ant}
                 mkdir model/$temp
                 singularity run -e --pwd $HOME/in-ex-correlation/coref --bind $HOME/.allennlp:/root/.allennlp --nv models_latest.sif train ./coref_config/$temp -s ./model/$temp
             done
