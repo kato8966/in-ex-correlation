@@ -38,7 +38,7 @@ do
                 for ant in 0.0 0.5 1.0
                 do
                     temp=${wordlist}_${type}_reg${reg}_sim${sim}_ant${ant}
-                    eval_allennlp ar_$temp &
+                    eval_allennlp w2v_ar_$temp &
                     if [[ t%9 -eq 0 ]]
                     then
                         wait
