@@ -10,7 +10,7 @@ do
         for ratio in $(seq 0.0 0.1 0.9)
         do
             temp=wikipedia_w2v_db_${wordset}_${type}_${ratio}
-            python wefe-weat.py ../w2v/vectors/${temp#w2v_}.txt $wordset result/$temp.txt &
+            python wefe-weat.py ../w2v/vectors/${temp/w2v_/}.txt $wordset result/$temp.txt &
             if [[ i%6 -eq 0 ]]
             then
                 wait
@@ -30,7 +30,7 @@ do
                 for ant in 0.0 0.5 1.0
                 do
                     temp=wikipedia_w2v_ar_${wordset}_${type}_reg${reg}_sim${sim}_ant${ant}
-                    python wefe-weat.py ../attract-repel/vectors/${temp#ar_}.txt $wordset result/$temp.txt &
+                    python wefe-weat.py ../attract-repel/vectors/${temp/ar_/}.txt $wordset result/$temp.txt &
                     if [[ i%6 -eq 0 ]]
                     then
                         wait
