@@ -1,5 +1,7 @@
 # Custom
 *.png
+!/results/*
+!/results/charts/*
 *.xz
 *.zip
 
