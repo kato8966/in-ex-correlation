@@ -23,24 +23,6 @@ def main(word_emb, wordlist_name, result_file):
 
 
 if __name__ == '__main__':
-    args = [('../w2v/vectors/wikipedia.txt', wordset,
-             f'result/wikipedia_w2v_{wordset}.txt')
-            for wordset in ['winobias', 'weat7']]\
-           + [(f'../w2v/vectors/wikipedia_db_{wordset}_{bias_type}_0.{i}.txt',
-               wordset,
-               f'result/wikipedia_w2v_db_{wordset}_{bias_type}_0.{i}.txt')
-              for wordset in ['winobias', 'weat7']
-              for bias_type in ['debias', 'overbias']
-              for i in range(10)]\
-           + [('../attract-repel/vectors/'
-               f'wikipedia_w2v_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.txt',  # noqa: E501
-               wordset, 'result/'
-               f'wikipedia_w2v_ar_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.txt')  # noqa: E501
-              for wordset in ['winobias', 'weat7']
-              for bias_type in ['debias', 'overbias']
-              for reg in ['1e-1', '5e-2', '1e-2']
-              for sim in [0.0, 0.5, 1.0]
-              for ant in [0.0, 0.5, 1.0]]
     with ProcessPoolExecutor(6) as p:
         futures = []
         for wordset in ['winobias', 'weat7']:
@@ -66,7 +48,7 @@ if __name__ == '__main__':
                                                     f'{temp.replace("ar_", "")}.txt',  # noqa: E501
                                                     wordset,
                                                     f'result/{temp}.txt'))
-        
+
         for wordset in ['hatespeech', 'weat8']:
             futures.append(p.submit(main, '../w2v/vectors/twitter.txt',
                                     wordset,
