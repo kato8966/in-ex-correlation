@@ -1,0 +1,1 @@
+{"query_name": "Male and Female wrt Hateful words and Unhateful words", "result": -0.09053391817901824, "weat": -0.09053391817901824, "effect_size": -0.1892114547337128, "p_value": NaN}
