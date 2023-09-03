@@ -44,8 +44,8 @@ if __name__ == '__main__':
                     for sim in [0.0, 0.5, 1.0]:
                         for ant in [0.0, 0.5, 1.0]:
                             temp = f'wikipedia_w2v_ar_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}'  # noqa: E501
-                            futures.append(p.submit('../attract-repel/vectors/'
-                                                    f'{temp.replace("ar_", "")}.txt',  # noqa: E501
+                            futures.append(p.submit(main, '../attract-repel/'
+                                                    f'vectors/{temp.replace("ar_", "")}.txt',  # noqa: E501
                                                     wordset,
                                                     f'result/{temp}.txt'))
 
@@ -68,8 +68,8 @@ if __name__ == '__main__':
                     for sim in [0.0, 0.5, 1.0]:
                         for ant in [0.0, 0.5, 1.0]:
                             temp = f'twitter_w2v_ar_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}'  # noqa: E501
-                            futures.append(p.submit('../attract-repel/vectors/'
-                                                    f'{temp.replace("ar_", "")}.txt',  # noqa: E501
+                            futures.append(p.submit(main, '../attract-repel/'
+                                                    f'vectors/{temp.replace("ar_", "")}.txt',  # noqa: E501
                                                     wordset,
                                                     f'result/{temp}.txt'))
 
