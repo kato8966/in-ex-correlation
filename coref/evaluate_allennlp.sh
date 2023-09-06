@@ -13,7 +13,7 @@ eval_allennlp ()
 
 for i in $(seq 10)
 do
-    eval_allennlp w2v_original_lc$i &
+    eval_allennlp w2v_original$i &
 done
 wait
 
