@@ -10,6 +10,7 @@ import torch
 from torch.distributions import Bernoulli
 from torch.linalg import vector_norm
 from torch import nn
+from torch.nn import functional as NNF
 from torch.utils.data import DataLoader, Dataset
 from torchtext import functional as TTF
 
@@ -65,6 +66,7 @@ class Detector(nn.Module):
         self.to(device)
 
     def forward(self, tweets):
+        tweets = NNF.pad(tweets, (0, max(5 - tweets.shape[1], 0)), value=0)
         X = self.word_emb(tweets)
         X = torch.transpose(X, 1, 2)
         Z1 = self.pool(self.relu(self.conv1(X)))
