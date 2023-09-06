@@ -25,7 +25,7 @@ class HatespeechDataset(Dataset):
             self.tweets.append(tweet)
         self.labels = data['Label']
 
-    def __get_item__(self, idx):
+    def __getitem__(self, idx):
         return self.tweets[idx], self.labels[idx]
 
     def __len__(self):
@@ -38,9 +38,9 @@ def collate_fn(data):
 
 
 class MyDropout(nn.Module):
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.5, device='cpu'):
         super().__init__()
-        self.bernoulli = Bernoulli(p)
+        self.bernoulli = Bernoulli(torch.tensor(p, device=device))
 
     def forward(self, x):
         if self.training:
@@ -52,7 +52,7 @@ class MyDropout(nn.Module):
 
 
 class Detector(nn.Module):
-    def __init__(self, word_emb):
+    def __init__(self, word_emb, device):
         super().__init__()
         self.word_emb = nn.Embedding.from_pretrained(word_emb)
         self.conv1 = nn.Conv1d(300, 100, 3)
@@ -60,8 +60,9 @@ class Detector(nn.Module):
         self.conv3 = nn.Conv1d(300, 100, 5)
         self.relu = nn.ReLU()
         self.pool = nn.Sequential(nn.AdaptiveMaxPool1d(1), nn.Flatten())
-        self.dropout = MyDropout()
+        self.dropout = MyDropout(device=device)
         self.linear = nn.Linear(300, 2)
+        self.to(device)
 
     def forward(self, tweets):
         X = self.word_emb(tweets)
@@ -140,7 +141,7 @@ def main(args, random_seed, gpu_id):
                 voc[word] = len(voc)
                 word_emb.append(rng.uniform(-interval, interval, 300))
 
-    word_emb = torch.from_numpy(np.array(word_emb))
+    word_emb = torch.from_numpy(np.array(word_emb, dtype=np.float32))
 
     train_data = HatespeechDataset(train_data, voc)
     val_data = HatespeechDataset(val_data, voc)
@@ -153,7 +154,7 @@ def main(args, random_seed, gpu_id):
                                           collate_fn=collate_fn)
                        for gender in ['male', 'female']}
 
-    model = Detector(word_emb).to(device)
+    model = Detector(word_emb, device)
 
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adadelta(model.parameters(), rho=0.95)
@@ -174,9 +175,9 @@ def main(args, random_seed, gpu_id):
 
             with torch.no_grad():
                 for i in range(2):
-                    norm = vector_norm(model.linear.W[i])
+                    norm = vector_norm(model.linear.weight[i])
                     if norm > 3.0:
-                        model.linear.W[i] *= 3.0 / norm
+                        model.linear.weight[i] *= 3.0 / norm
 
         model.eval()
         val_loss = 0.0
@@ -221,7 +222,7 @@ def ceil(a, b):
 
 
 if __name__ == '__main__':
-    torch.use_deterministic_algorithms(True)
+    torch.use_deterministic_algorithms(True, warn_only=True)
     args = [{'bias_modification': 'none', 'id': i} for i in range(1, 11)]\
            + [{'bias_modification': 'db', 'wordlist': wordlist,
                'bias_type': bias_type, 'sample_prob': f'0.{i}'}
