@@ -64,13 +64,13 @@ for task in ['coref', 'hatespeech']:
                                    + [original_stdev[extrinsic_metric]],
                             fmt='o')
                 ax.set_title(f'{intrinsic_metric} ({wordlist}) v. '
-                             f'{task} {extrinsic_metric}_diff')
+                             f'{task} {extrinsic_metric}')
                 ax.set_xlabel(f'{intrinsic_metric}')
-                ax.set_ylabel(f'{extrinsic_metric}_diff')
-                fig.savefig(os.path.join('results', 'charts', f'{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}_diff.png'))  # noqa: E501
+                ax.set_ylabel(f'{extrinsic_metric}')
+                fig.savefig(os.path.join('results', 'charts', f'{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}.png'))  # noqa: E501
                 plt.close(fig)
         for i, intrinsic_metric in enumerate(intrinsic_metrics):
-            axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')
+            axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')  # noqa: E501
         for j, extrinsic_metric in enumerate(extrinsic_metrics):
             axs_all[j].set_ylabel(extrinsic_metric)
             if j % 2 == 1:
@@ -85,5 +85,5 @@ for task in ['coref', 'hatespeech']:
                     spearman = spearmanr(intrinsics[intrinsic_metric],
                                          extrinsics[extrinsic_metric])
                     fout.write(f'{intrinsic_metric} v. '
-                               f'{extrinsic_metric}_diff: '
+                               f'{extrinsic_metric}: '
                                f'{spearman.statistic}\n')
