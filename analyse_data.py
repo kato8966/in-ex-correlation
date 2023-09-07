@@ -68,6 +68,7 @@ for task in ['coref', 'hatespeech']:
                 ax.set_xlabel(f'{intrinsic_metric}')
                 ax.set_ylabel(f'{extrinsic_metric}_diff')
                 fig.savefig(os.path.join('results', 'charts', f'{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}_diff.png'))  # noqa: E501
+                plt.close(fig)
         for i, intrinsic_metric in enumerate(intrinsic_metrics):
             axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')
         for j, extrinsic_metric in enumerate(extrinsic_metrics):
@@ -76,6 +77,7 @@ for task in ['coref', 'hatespeech']:
                 axs_all[j].yaxis.set_label_position('right')
 
         fig_all.savefig(os.path.join('results', f'{task}_{wordlist}.png'))
+        plt.close(fig_all)
 
         with open(os.path.join('results', f'{task}_{wordlist}_spearman.txt'), 'w') as fout:
             for intrinsic_metric in intrinsic_metrics:
