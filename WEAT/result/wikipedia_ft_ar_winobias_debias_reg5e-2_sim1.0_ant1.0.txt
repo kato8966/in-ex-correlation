@@ -1,0 +1,1 @@
+{"query_name": "Stereotypical male jobs and Stereotypical female jobs wrt Male and Female", "result": -1.1102290946767253, "weat": -1.1102290946767253, "effect_size": -1.1245943100665692, "p_value": NaN}
