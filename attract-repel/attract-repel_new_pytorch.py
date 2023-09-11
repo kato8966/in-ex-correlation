@@ -768,4 +768,4 @@ if __name__ == '__main__':
                 futures.append(pool.submit(run_experiment,
                                            config_filepaths[i * GPUS + gpu_id],
                                            gpu_id))
-            wait(futures)
+            assert all(future.exception() == None for future in futures)
