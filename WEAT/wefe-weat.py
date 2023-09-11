@@ -39,7 +39,7 @@ if __name__ == '__main__':
                         ratio = f'0.{i}'
                         temp = f'wikipedia_{word_emb_short}_db_{wordset}_{bias_type}_{ratio}'  # noqa: E501
                         futures.append(p.submit(main, path.join('..',
-                                                                word_emb_short,
+                                                                word_emb,
                                                                 'vectors',
                                                                 f'{temp.replace(word_emb_short + "_", "")}.txt'),  # noqa: E501
                                                 wordset, f'result/{temp}.txt'))
@@ -78,4 +78,4 @@ if __name__ == '__main__':
                                                     wordset,
                                                     f'result/{temp}.txt'))
 
-        wait(futures)
+        assert all(future.exception() == None for future in futures)
