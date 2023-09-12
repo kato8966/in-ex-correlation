@@ -22,6 +22,7 @@ import numpy
 import time
 import random
 import math
+import os
 from numpy.linalg import norm
 from numpy import dot
 import codecs
@@ -747,25 +748,28 @@ def ceil(a, b):
 
 if __name__ == '__main__':
     with ProcessPoolExecutor(GPUS) as pool:
-        config_filepaths = ['experiment_parameters/'
-                            f'wikipedia_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+        config_filepaths = [f'wikipedia_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
                             for word_emb in ['w2v', 'ft']
                             for wordlist in ['winobias', 'weat7']
                             for bias_type in ['debias', 'overbias']
                             for reg in ['1e-1', '5e-2', '1e-2']
                             for sim in ['0.0', '0.5', '1.0']
                             for ant in ['0.0', '0.5', '1.0']]\
-                           + ['experiment_parameters/'
-                              f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                           + [f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
                               for wordlist in ['hatespeech', 'weat8']
                               for bias_type in ['debias', 'overbias']
                               for reg in ['1e-1', '5e-2', '1e-2']
                               for sim in ['0.0', '0.5', '1.0']
                               for ant in ['0.0', '0.5', '1.0']]
+        config_filepaths = list(filter(lambda config_filepath: not os.path.exists(os.path.join('vectors', config_filepath.replace('.cfg', '.txt'))), config_filepaths))
         for i in range(ceil(len(config_filepaths), GPUS)):
             futures = []
             for gpu_id in range(min(GPUS, len(config_filepaths) - i * GPUS)):
                 futures.append(pool.submit(run_experiment,
-                                           config_filepaths[i * GPUS + gpu_id],
+                                           os.path.join('experiment_parameters',  # noqa: E501
+                                                        config_filepaths[i * GPUS  # noqa: E501
+                                                                         + gpu_id]),  # noqa: E501
                                            gpu_id))
-            assert all(future.exception() == None for future in futures)
+            for future in futures:
+                if future.exception() != None:
+                    print(future.exception())
