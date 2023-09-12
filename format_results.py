@@ -17,14 +17,16 @@ for task in ['coref', 'hatespeech']:
                     for metric in ['precision', 'recall', 'f1']]
     for word_emb in ['w2v', 'ft']:
         for wordlist in wordlists:
-            with open(os.path.join('results', f'{task}_{word_emb}_{wordlist}.csv'), 'w') as csvout:
+            with open(os.path.join('results',
+                                   f'{task}_{word_emb}_{wordlist}.csv'), 'w',
+                      newline='') as csvout:
                 csv_writer = csv.writer(csvout)
                 csv_writer.writerow(HEADERS)
                 names = [f'original{i}' for i in range(1, 11)]\
                         + [f'db_{wordlist}_{typ}_{sample_prob}'  # noqa: E127
                            for typ in ['debias', 'overbias']
-                           for sample_prob in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6,
-                                               0.7, 0.8, 0.9]]\
+                           for sample_prob in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5,
+                                               0.6, 0.7, 0.8, 0.9]]\
                         + [f'ar_{wordlist}_{typ}_reg{reg}_sim{sim}_ant{ant}'
                            for typ in ['debias', 'overbias']
                            for reg in ['1e-1', '5e-2', '1e-2']
