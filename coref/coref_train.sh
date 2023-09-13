@@ -20,9 +20,11 @@ train () {
 i=1
 for word_emb in w2v ft
 do
-    for j in $(seq 10):
+    for j in $(seq 10)
+    do
         train ${word_emb}_original ${word_emb}_original$j $i
         i=$((i + 1))
+    done
 
     for wordlist in winobias weat7
     do
