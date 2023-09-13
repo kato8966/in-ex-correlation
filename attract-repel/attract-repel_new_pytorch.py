@@ -755,7 +755,8 @@ if __name__ == '__main__':
                             for reg in ['1e-1', '5e-2', '1e-2']
                             for sim in ['0.0', '0.5', '1.0']
                             for ant in ['0.0', '0.5', '1.0']]\
-                           + [f'twitter_w2v_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                           + [f'twitter_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
+                              for word_emb in ['w2v', 'ft']
                               for wordlist in ['hatespeech', 'weat8']
                               for bias_type in ['debias', 'overbias']
                               for reg in ['1e-1', '5e-2', '1e-2']
