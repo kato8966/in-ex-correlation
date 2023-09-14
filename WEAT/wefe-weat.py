@@ -54,28 +54,30 @@ if __name__ == '__main__':
                                                         wordset,
                                                         f'result/{temp}.txt'))
 
-        for wordset in ['hatespeech', 'weat8']:
-            futures.append(p.submit(main, '../w2v/vectors/twitter.txt',
-                                    wordset,
-                                    f'result/twitter_w2v_{wordset}.txt'))
+            for wordset in ['hatespeech', 'weat8']:
+                futures.append(p.submit(main, f'../{word_emb}/vectors/'
+                                              'twitter.txt',
+                                        wordset,
+                                        'result/'
+                                        f'twitter_{word_emb_short}_{wordset}.txt'))  # noqa: E501
 
-            for bias_type in ['debias', 'overbias']:
-                for i in range(10):
-                    ratio = f'0.{i}'
-                    temp = f'twitter_w2v_db_{wordset}_{bias_type}_{ratio}'
-                    futures.append(p.submit(main,
-                                            '../w2v/vectors/'
-                                            f'{temp.replace("w2v_", "")}.txt',
-                                            wordset, f'result/{temp}.txt'))
+                for bias_type in ['debias', 'overbias']:
+                    for i in range(10):
+                        ratio = f'0.{i}'
+                        temp = f'twitter_{word_emb_short}_db_{wordset}_{bias_type}_{ratio}'
+                        futures.append(p.submit(main,
+                                                f'../{word_emb}/vectors/'
+                                                f'{temp.replace(word_emb_short + "_", "")}.txt',  # noqa: E501
+                                                wordset, f'result/{temp}.txt'))
 
-            for bias_type in ['debias', 'overbias']:
-                for reg in ['1e-1', '5e-2', '1e-2']:
-                    for sim in [0.0, 0.5, 1.0]:
-                        for ant in [0.0, 0.5, 1.0]:
-                            temp = f'twitter_w2v_ar_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}'  # noqa: E501
-                            futures.append(p.submit(main, '../attract-repel/'
-                                                    f'vectors/{temp.replace("ar_", "")}.txt',  # noqa: E501
-                                                    wordset,
-                                                    f'result/{temp}.txt'))
+                for bias_type in ['debias', 'overbias']:
+                    for reg in ['1e-1', '5e-2', '1e-2']:
+                        for sim in [0.0, 0.5, 1.0]:
+                            for ant in [0.0, 0.5, 1.0]:
+                                temp = f'twitter_{word_emb_short}_ar_{wordset}_{bias_type}_reg{reg}_sim{sim}_ant{ant}'  # noqa: E501
+                                futures.append(p.submit(main, '../attract-repel/'
+                                                        f'vectors/{temp.replace("ar_", "")}.txt',  # noqa: E501
+                                                        wordset,
+                                                        f'result/{temp}.txt'))
 
         assert all(future.exception() == None for future in futures)
