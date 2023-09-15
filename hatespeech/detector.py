@@ -85,15 +85,15 @@ def main(args, random_seed, gpu_id):
     torch.manual_seed(random_seed)
     rng = np.random.default_rng(random_seed)
     if args['bias_modification'] == 'none':
-        id = f'w2v_original{args["id"]}'
+        id = f"{args['word_emb']}_original{args['id']}"
         word_emb_file = '../w2v/vectors/twitter.txt'
     elif args['bias_modification'] == 'db':
-        id = f"w2v_db_{args['wordlist']}_{args['bias_type']}"\
+        id = f"{args['word_emb']}_db_{args['wordlist']}_{args['bias_type']}"\
              f"_{args['sample_prob']}"
-        word_emb_file = f'../w2v/vectors/twitter_{id[4:]}.txt'
+        word_emb_file = f'../w2v/vectors/twitter_{id.replace(args["word_emb"] + "_", "")}.txt'
     else:
         assert args['bias_modification'] == 'ar'
-        id = f"w2v_ar_{args['wordlist']}_{args['bias_type']}_reg{args['reg']}"\
+        id = f"{args['word_emb']}_ar_{args['wordlist']}_{args['bias_type']}_reg{args['reg']}"\
              f"_sim{args['sim']}_ant{args['ant']}"
         word_emb_file = '../attract-repel/vectors/'\
                         f'twitter_{id.replace("_ar_", "_")}.txt'
@@ -225,14 +225,19 @@ def ceil(a, b):
 
 if __name__ == '__main__':
     torch.use_deterministic_algorithms(True, warn_only=True)
-    args = [{'bias_modification': 'none', 'id': i} for i in range(1, 11)]\
-           + [{'bias_modification': 'db', 'wordlist': wordlist,
-               'bias_type': bias_type, 'sample_prob': f'0.{i}'}
+    args = [{'bias_modification': 'none', 'word_emb': word_emb, 'id': i}
+            for word_emb in ['w2v', 'ft'] for i in range(1, 11)]\
+           + [{'bias_modification': 'db', 'word_emb': word_emb,
+               'wordlist': wordlist, 'bias_type': bias_type,
+               'sample_prob': f'0.{i}'}
+              for word_emb in ['w2v', 'ft']
               for wordlist in ['hatespeech', 'weat8']
               for bias_type in ['debias', 'overbias']
               for i in range(10)]\
-           + [{'bias_modification': 'ar', 'wordlist': wordlist,
-               'bias_type': bias_type, 'reg': reg, 'sim': sim, 'ant': ant}
+           + [{'bias_modification': 'ar', 'word_emb': word_emb,
+               'wordlist': wordlist, 'bias_type': bias_type, 'reg': reg,
+               'sim': sim, 'ant': ant}
+              for word_emb in ['w2v', 'ft']
               for wordlist in ['hatespeech', 'weat8']
               for bias_type in ['debias', 'overbias']
               for reg in ['1e-1', '5e-2', '1e-2']
