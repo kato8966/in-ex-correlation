@@ -1,0 +1,6 @@
+weat_es v. type1_precision_diff: 0.14088193456614506
+weat_es v. type1_recall_diff: 0.13806543385490752
+weat_es v. type1_f1_diff: 0.13963015647226173
+weat_es v. type2_precision_diff: 0.2938264580369843
+weat_es v. type2_recall_diff: 0.22301564722617354
+weat_es v. type2_f1_diff: 0.25923186344238974

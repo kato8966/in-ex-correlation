@@ -1,0 +1,3 @@
+weat_es v. precision_diff: -0.19200568990042674
+weat_es v. recall_diff: -0.09185509759842853
+weat_es v. f1_diff: -0.2194594594594594
