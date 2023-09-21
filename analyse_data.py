@@ -69,7 +69,7 @@ for task in ['coref', 'hatespeech']:
                                  f'{task} {extrinsic_metric}')
                     ax.set_xlabel(f'{intrinsic_metric}')
                     ax.set_ylabel(f'{extrinsic_metric}')
-                    fig.savefig(os.path.join('results', 'charts', f'{word_emb}-{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}.png'))  # noqa: E501
+                    fig.savefig(os.path.join('results', 'charts', f'{word_emb}-{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}.pdf'))  # noqa: E501
                     plt.close(fig)
             for i, intrinsic_metric in enumerate(intrinsic_metrics):
                 axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')  # noqa: E501
@@ -79,7 +79,7 @@ for task in ['coref', 'hatespeech']:
                     axs_all[j].yaxis.set_label_position('right')
 
             fig_all.savefig(os.path.join('results',
-                                         f'{task}_{word_emb}_{wordlist}.png'))
+                                         f'{task}_{word_emb}_{wordlist}.pdf'))
             plt.close(fig_all)
 
             with open(os.path.join('results',
