@@ -162,3 +162,7 @@ analyse_data.py (similar to display_data.py, but runs correlations instead of ma
 ## License and Copyright Notice of Third Party Software
 
 Refer to [NOTICE](NOTICE).
+
+## Acknowledgement of AI use
+
+We use Code Llama as a coding assistant.
