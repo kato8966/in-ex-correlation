@@ -109,7 +109,7 @@ with open('stream/2017/04/processed.txt', 'w') as gg:
 
 # preprocess hate speech data
 
-filenames = ['hate_train', 'hate_val', 'hate_test_male', 'hate_test_female']
+filenames = ['hate_train', 'hate_val', 'hate_test_male', 'hate_test_female', 'hate_test_neutral']
 for filename in filenames:
     hatespeech = pd.read_csv(path.join('hatespeech', f'{filename}.tsv'),
                              sep='\t')
