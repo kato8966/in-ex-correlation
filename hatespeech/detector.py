@@ -115,10 +115,10 @@ def main(args, random_seed, gpu_id):
                                                'hatespeech',
                                                f'hate_test_{gender}_processed.tsv'),  # noqa: E501
                                      sep='\t')
-                 for gender in ['male', 'female']}
+                 for gender in ['male', 'female', 'neutral']}
 
     all_voc = {'<PAD>'}
-    for data in [train_data, val_data, test_data['male'], test_data['female']]:
+    for data in [train_data, val_data, test_data['male'], test_data['female'], test_data['neutral']]:
         for tweet in data['Tweet text']:
             all_voc.update(tweet.split())
 
@@ -148,13 +148,13 @@ def main(args, random_seed, gpu_id):
     train_data = HatespeechDataset(train_data, voc)
     val_data = HatespeechDataset(val_data, voc)
     test_data = {gender: HatespeechDataset(test_data[gender], voc)
-                 for gender in ['male', 'female']}
+                 for gender in ['male', 'female', 'neutral']}
 
     train_dataloader = DataLoader(train_data, 50, True, collate_fn=collate_fn)
     val_dataloader = DataLoader(val_data, 50, collate_fn=collate_fn)
     test_dataloader = {gender: DataLoader(test_data[gender], 50,
                                           collate_fn=collate_fn)
-                       for gender in ['male', 'female']}
+                       for gender in ['male', 'female', 'neutral']}
 
     model = Detector(word_emb, device)
 
@@ -199,21 +199,29 @@ def main(args, random_seed, gpu_id):
 
     model.load_state_dict(torch.load(model_output))
 
+    predictions = {}
+    labels = {}
     results = {}
     with torch.no_grad():
-        for gender in ['male', 'female']:
-            results[gender] = {}
-            predictions = []
-            labels = []
+        for gender in ['male', 'female', 'neutral']:
+            predictions[gender] = []
+            labels[gender] = []
             for tweet_batch, label_batch in test_dataloader[gender]:
                 tweet_batch = tweet_batch.to(device)
                 
-                predictions += model.predict(tweet_batch).tolist()
-                labels += label_batch.tolist()
+                predictions[gender] += model.predict(tweet_batch).tolist()
+                labels[gender] += label_batch.tolist()
 
-            results[gender]['precision'] = precision_score(labels, predictions)
-            results[gender]['recall'] = recall_score(labels, predictions)
-            results[gender]['f1'] = f1_score(labels, predictions)
+    predictions['all'] = (predictions['male'] + predictions['female']
+                          + predictions['neutral'])
+    labels['all'] = labels['male'] + labels['female'] + labels['neutral']
+
+    for gender in ['male', 'female', 'all']:
+        results[gender] = {'precision': precision_score(labels[gender],
+                                                        predictions[gender]),
+                           'recall': recall_score(labels[gender],
+                                                  predictions[gender]),
+                           'f1': f1_score(labels[gender], predictions[gender])}
     with open(f'results/{id}.txt', 'w') as fout:
         json.dump(results, fout)
 
