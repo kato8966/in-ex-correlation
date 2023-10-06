@@ -22,7 +22,7 @@ class HatespeechDataset(Dataset):
         self.tweets = []
         for tweet in data['Tweet text']:
             tweet = tweet.split()
-            tweet = [voc[word] for word in tweet]
+            tweet = [voc[word] if word in voc else voc['<UNK>'] for word in tweet]
             self.tweets.append(tweet)
         self.labels = data['Label']
 
