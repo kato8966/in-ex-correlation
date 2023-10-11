@@ -78,7 +78,7 @@ for task in ['coref', 'hatespeech']:
                                                f'{word_emb}_{name}.txt')) as hatespeechin:
                             result = json.load(hatespeechin)
                             for metric in ['precision', 'recall', 'f1']:
-                                hatespeech[f'{metric}_diff'] = result['female'][metric] - result['male'][metric]  # noqa: E501
+                                hatespeech[f'{metric}_diff'] = result['male'][metric] - result['female'][metric]  # noqa: E501
                         csv_writer.writerow([name, weat]
                                             + [hatespeech[f'{metric}_diff']
                                                for metric in ['precision',
