@@ -1,3 +1,4 @@
+from collections import Counter
 from itertools import chain
 from math import log2
 
@@ -22,7 +23,7 @@ def estimate_paras(df):
     return mu, theta
 
 
-def extract(mu, theta, word_counts):
+def extract(mu, theta, word_counts, tweet_counts):
     extracted_words = []
 
     def cond_p(word, label):
@@ -37,7 +38,7 @@ def extract(mu, theta, word_counts):
                                                     + mu * cond_p(word, 1)),
                  word_counts[word],
                  word) for word in theta[label].index
-                       if word_counts[word] >= thres_count]
+                       if tweet_counts[word] >= thres_count]
         pmis.sort(reverse=True)
         assert len(pmis) >= K
         _, _, ext_words = zip(*pmis[:K])
@@ -52,8 +53,12 @@ if __name__ == '__main__':
 
     hate_test_concat = pd.concat(hate_test.values())
     word_counts = count_words(hate_test_concat['Tweet text'])
+    tweet_counts = Counter()
+    for tweet in hate_test_concat['Tweet text']:
+        words = set(tweet.split())
+        tweet_counts.update(words)
     mu, theta = estimate_paras(hate_test_concat)
-    extracted_words = extract(mu, theta, word_counts)
+    extracted_words = extract(mu, theta, word_counts, tweet_counts)
     for category, words in zip(['non hate speech', 'hate speech'], extracted_words):
         print(f'{category} words')
         print(words)
@@ -63,7 +68,7 @@ if __name__ == '__main__':
     hate_test['female']['Label'] = pd.Series([0] * len(hate_test['female']))
 
     mu, theta = estimate_paras(pd.concat(hate_test.values()))
-    extracted_words = extract(mu, theta, word_counts)
+    extracted_words = extract(mu, theta, word_counts, tweet_counts)
     for category, words in zip(['female', 'male'], extracted_words):
         print(f'{category} words')
         print(words)
