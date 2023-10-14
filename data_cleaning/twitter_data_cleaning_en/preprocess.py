@@ -25,9 +25,7 @@ with open('stream/2017/04/combined.txt') as fin:
 
 def clean(txt):
     #print (txt)
-    for _ in range(14):
-        # apply html.unescape 14 times so that &amp;amp;...amp; in line 1066302
-        # of stream/2017/04/combined.txt is reduced to &
+    while html.unescape(txt) != txt:
         txt = html.unescape(txt)
 
     txt = txt.lower()
