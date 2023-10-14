@@ -333,13 +333,13 @@ def winobias_rev():
                  attribute_sets_names=winobias_query.target_sets_names)
 
 def hatespeech():
-    return Query(target_sets=[["he's", 'he', 'boy', 'him', "men's",
-                               'gentleman', 'man', 'husband'],
-                              ["she's", 'she', 'girl', 'her', "women's",
-                               'lady', 'woman', 'wife']],
-                 attribute_sets=[['idiot', 'evil', 'niggas', 'fuck', 'nigga',
-                                  'hate', 'stupid', 'ugly'],
-                                 ['right', '–', 'liked', 'top', 'health',
-                                  'giveaway', 'bill', '17']],
+    return Query(target_sets=[["he's", 'boy', 'he', 'him', 'king', "men's",
+                               'gentleman', 'husband'],
+                              ["she's", 'girl', 'she', 'her', 'queen',
+                               "women's", 'lady', 'wife']],
+                 attribute_sets=[['evil', 'fuckin', 'idiot', 'niggas', 'fuck',
+                                  'stupid', 'hate', 'nigga'],
+                                 ['thanks', 'win', 'long', '–', 'liked', 'top',
+                                  'star', 'national']],
                  target_sets_names=['Male', 'Female'],
                  attribute_sets_names=['Hateful words', 'Unhateful words'])
