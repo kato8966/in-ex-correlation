@@ -141,6 +141,7 @@ This environment is used to run any other script.
 2. `pip install -r in-ex-cor.txt`
 3. Install PyTorch 2.0.1 or later.
 4. Install TorchText >= 0.15.2, < 1.0.0.
+5. Install spaCy 3.7.1 and run `python -m spacy download en_core_web_lg`.
 
 ## Useful Details
 * Configurations for Attract-Repel can be found in the `attract-repel` folder. 
@@ -166,3 +167,7 @@ Refer to [NOTICE](NOTICE).
 ## Acknowledgement of AI use
 
 We use Code Llama as a coding assistant.
+
+## Acknowledgement of Third Party Software
+
+Honnibal, M., Montani, I., Van Landeghem, S., & Boyd, A. (2020). spaCy: Industrial-strength Natural Language Processing in Python [Python]. https://doi.org/10.5281/zenodo.1212303 (Original work published 2014)
