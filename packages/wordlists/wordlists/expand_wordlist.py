@@ -4,7 +4,7 @@ import spacy
 from wefe.query import Query
 import wordlists
 
-N = 100
+N = 10
 
 
 def cos_sim(x, y):
