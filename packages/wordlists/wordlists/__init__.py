@@ -231,7 +231,7 @@ female_bolukbasi = ["he","his","her","she","him","man","women","men","woman","sp
 
 weat_words = load_weat()
 
-def weat6():
+def weat_6():
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
     targets_2 = ["home", "parents", "children", "family", "cousins", "marriage", "wedding", "relatives"]
@@ -243,17 +243,30 @@ def weat6():
                  attribute_sets_names=['male terms', 'female terms'])
 
 
-def weat7():
+def weat_7():
     return Query([weat_words['math'], weat_words['arts']],
                  [weat_words['male_terms'], weat_words['female_terms']],
-                 ['Math', 'Arts'], ['Male terms', 'Female terms'])
+                 ['math', 'arts'], ['male terms', 'female terms'])
 
 
-def weat8():
+def weat_8():
     return Query([list(map(lambda w: w.lower(), weat_words['science'])),
                   list(map(lambda w: w.lower(), weat_words['arts_2']))],
                  [weat_words['male_terms_2'], weat_words['female_terms_2']],
-                 ['Science', 'Arts'], ['Male terms', 'Female terms'])
+                 ['science', 'arts'], ['male terms', 'female terms'])
+
+
+def weat_all():
+    w6 = weat_6
+    w7 = weat_7
+    w8 = weat_8
+    return Query([list(set(w6.target_sets[i]) | set(w7.target_sets[i])
+                       | set(w8.target_sets[i])) for i in range(2)],
+                 [list(set(w6.attribute_sets[i]) | set(w7.attribute_sets[i])
+                       | set(w8.attribute_sets[i])) for i in range(2)],
+                 ['career, math, and science', 'family and arts'],
+                 ['male terms', 'female terms'])
+
 
 def winobias():
     # MIT License
