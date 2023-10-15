@@ -19,7 +19,7 @@ def expand_wordlist(wordlist, query, vocab):
         vector_w = np.mean([emb[token] for token in word.split()], 0)
         neighbors = []
         for u in strings:
-            if strings[u] in emb:
+            if strings[u] in emb and u != word:
                 vector_u = emb[u]
                 neighbors.append((cos_sim(vector_w, vector_u), u.lower()))
         neighbors.sort(reverse=True)
