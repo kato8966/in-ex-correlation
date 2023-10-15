@@ -257,9 +257,9 @@ def weat_8():
 
 
 def weat_all():
-    w6 = weat_6
-    w7 = weat_7
-    w8 = weat_8
+    w6 = weat_6()
+    w7 = weat_7()
+    w8 = weat_8()
     return Query([list(set(w6.target_sets[i]) | set(w7.target_sets[i])
                        | set(w8.target_sets[i])) for i in range(2)],
                  [list(set(w6.attribute_sets[i]) | set(w7.attribute_sets[i])
