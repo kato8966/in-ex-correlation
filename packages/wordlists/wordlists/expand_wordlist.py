@@ -21,7 +21,7 @@ def expand_wordlist(wordlist, query, vocab):
         for u in strings:
             if strings[u] in emb and u != word:
                 vector_u = emb[u]
-                neighbors.append((cos_sim(vector_w, vector_u), u.lower()))
+                neighbors.append((cos_sim(vector_w, vector_u), u))
         neighbors.sort(reverse=True)
         assert len(neighbors) >= N
         for (_, neighbor) in neighbors[:N]:
