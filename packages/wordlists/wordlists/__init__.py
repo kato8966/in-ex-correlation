@@ -235,8 +235,8 @@ def weat6():
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
     targets_2 = ["home", "parents", "children", "family", "cousins", "marriage", "wedding", "relatives"]
-    attributes_1 = ['grandfather', 'uncle', 'son', 'boy', 'father', 'he', 'him', 'his', 'man', 'male', 'brother']
-    attributes_2 = ['daughter', 'she', 'her', 'grandmother', 'mother', 'aunt', 'sister', 'hers', 'woman', 'female', 'girl']
+    attributes_1 = ['male', 'man', 'boy', 'brother', 'he', 'him', 'his', 'son']
+    attributes_2 = ['female', 'woman', 'girl', 'sister', 'she', 'her', 'hers', 'daughter']
     return Query(target_sets=[targets_1, targets_2],
                  attribute_sets=[attributes_1, attributes_2],
                  target_sets_names=['career', 'family'],
