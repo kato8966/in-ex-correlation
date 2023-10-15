@@ -338,8 +338,8 @@ def winobias():
     attributes_2 = ["she", "her"]
     return Query(target_sets=[targets_1, targets_2],
                  attribute_sets=[attributes_1, attributes_2],
-                 target_sets_names=['Stereotypical male jobs', 'Stereotypical female jobs'],
-                 attribute_sets_names=['Male', 'Female'])
+                 target_sets_names=['stereotypical male jobs', 'stereotypical female jobs'],
+                 attribute_sets_names=['male', 'female'])
 
 def winobias_rev():
     winobias_query = winobias()
@@ -357,5 +357,5 @@ def hatespeech():
                                   'stupid', 'hate', 'nigga'],
                                  ['thanks', 'win', 'long', '–', 'liked', 'top',
                                   'star', 'national']],
-                 target_sets_names=['Male', 'Female'],
-                 attribute_sets_names=['Hateful words', 'Unhateful words'])
+                 target_sets_names=['male', 'female'],
+                 attribute_sets_names=['hateful words', 'unhateful words'])
