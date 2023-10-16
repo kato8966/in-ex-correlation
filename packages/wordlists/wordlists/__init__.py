@@ -231,7 +231,7 @@ female_bolukbasi = ["he","his","her","she","him","man","women","men","woman","sp
 
 weat_words = load_weat()
 
-def weat_6():
+def weat_6(lower=True):
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
     targets_2 = ["home", "parents", "children", "family", "cousins", "marriage", "wedding", "relatives"]
@@ -243,23 +243,23 @@ def weat_6():
                  attribute_sets_names=['male terms', 'female terms'])
 
 
-def weat_7():
+def weat_7(lower=True):
     return Query([weat_words['math'], weat_words['arts']],
                  [weat_words['male_terms'], weat_words['female_terms']],
                  ['math', 'arts'], ['male terms', 'female terms'])
 
 
-def weat_8():
-    return Query([list(map(lambda w: w.lower(), weat_words['science'])),
-                  list(map(lambda w: w.lower(), weat_words['arts_2']))],
+def weat_8(lower=True):
+    return Query([list(map(lambda w: w.lower() if lower else w, weat_words['science'])),
+                  list(map(lambda w: w.lower() if lower else w, weat_words['arts_2']))],
                  [weat_words['male_terms_2'], weat_words['female_terms_2']],
                  ['science', 'arts'], ['male terms', 'female terms'])
 
 
-def weat_all():
-    w6 = weat_6()
-    w7 = weat_7()
-    w8 = weat_8()
+def weat_all(lower=True):
+    w6 = weat_6(lower)
+    w7 = weat_7(lower)
+    w8 = weat_8(lower)
     return Query([list(set(w6.target_sets[i]) | set(w7.target_sets[i])
                        | set(w8.target_sets[i])) for i in range(2)],
                  [list(set(w6.attribute_sets[i]) | set(w7.attribute_sets[i])
@@ -268,7 +268,7 @@ def weat_all():
                  ['male terms', 'female terms'])
 
 
-def winobias():
+def winobias(lower=True):
     # MIT License
     #
     # Copyright (c) 2020 Natural Language Processing @UCLA
@@ -341,14 +341,16 @@ def winobias():
                  target_sets_names=['stereotypical male jobs', 'stereotypical female jobs'],
                  attribute_sets_names=['male', 'female'])
 
-def winobias_rev():
-    winobias_query = winobias()
+
+def winobias_rev(lower=True):
+    winobias_query = winobias(lower)
     return Query(target_sets=winobias_query.attribute_sets,
                  attribute_sets=winobias_query.target_sets,
                  target_sets_names=winobias_query.attribute_sets_names,
                  attribute_sets_names=winobias_query.target_sets_names)
 
-def hatespeech():
+
+def hatespeech(lower=True):
     return Query(target_sets=[["he's", 'boy', 'he', 'him', 'king', "men's",
                                'gentleman', 'husband'],
                               ["she's", 'girl', 'she', 'her', 'queen',
