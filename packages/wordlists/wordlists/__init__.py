@@ -326,8 +326,10 @@ def winobias(lower=True):
       "analyst",
       "mechanic",
       "sheriff",
-      "ceo",
+      "CEO",
     ]
+    if lower:
+        targets_1 = lower_wordlist(targets_1)
     targets_2 = [
       "attendant",
       "cashier",
