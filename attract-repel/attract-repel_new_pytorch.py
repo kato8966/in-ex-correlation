@@ -213,12 +213,15 @@ class ExperimentRun:
         pairs = set()
         for target in target_set:
             target = target.split()
-            assert all(word in self.vocabulary for word in target)
+            if any(word not in self.vocabulary for word in target):
+                continue
             for attribute in attribute_set:
                 attribute = attribute.split()
-                assert all(word in self.vocabulary for word in attribute)
-                pairs.add((tuple(self.vocab_index[word] for word in target),
-                           tuple(self.vocab_index[word] for word in attribute)))
+                if any(word not in self.vocabulary for word in attribute):
+                    continue
+                if target != attribute:
+                    pairs.add((tuple(self.vocab_index[word] for word in target),
+                               tuple(self.vocab_index[word] for word in attribute)))
         return pairs
 
     def load_experiment_hyperparameters(self):
