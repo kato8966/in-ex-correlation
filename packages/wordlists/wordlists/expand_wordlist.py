@@ -53,6 +53,6 @@ if __name__ == "__main__":
     print('Hate speech wordlist expansion:')
     print(expand_query(wordlists.hatespeech(False), vocab))
     print()
-    print('WEAT wordlist expansion:')
-    print(expand_query(wordlists.weat_all(False), vocab))
+    print('WEAT gender wordlist expansion:')
+    print(expand_query(wordlists.weat_gender(False), vocab))
     print()
