@@ -753,18 +753,18 @@ if __name__ == '__main__':
     with ProcessPoolExecutor(GPUS) as pool:
         config_filepaths = [f'wikipedia_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
                             for word_emb in ['w2v', 'ft']
-                            for wordlist in ['winobias', 'weat7']
+                            for wordlist in ['winobias', 'weat_gender']
                             for bias_type in ['debias', 'overbias']
                             for reg in ['1e-1', '5e-2', '1e-2']
-                            for sim in ['0.0', '0.5', '1.0']
-                            for ant in ['0.0', '0.5', '1.0']]\
+                            for sim in ['0.0', '1.0']
+                            for ant in ['0.0', '1.0']]\
                            + [f'twitter_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
                               for word_emb in ['w2v', 'ft']
-                              for wordlist in ['hatespeech', 'weat8']
+                              for wordlist in ['hatespeech', 'weat_gender']
                               for bias_type in ['debias', 'overbias']
                               for reg in ['1e-1', '5e-2', '1e-2']
-                              for sim in ['0.0', '0.5', '1.0']
-                              for ant in ['0.0', '0.5', '1.0']]
+                              for sim in ['0.0', '1.0']
+                              for ant in ['0.0', '1.0']]
         config_filepaths = list(filter(lambda config_filepath: not os.path.exists(os.path.join('vectors', config_filepath.replace('.cfg', '.txt'))), config_filepaths))
         for i in range(ceil(len(config_filepaths), GPUS)):
             futures = []
