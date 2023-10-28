@@ -137,7 +137,7 @@ if __name__ == '__main__':
                      [('data_cleaning/wiki_data_cleaning/'
                        'enwiki-latest-pages-articles_tokenized_lc_final.txt',
                        weat_type, bias_type, sample_prob)
-                      for weat_type in ['winobias', 'weat_all']
+                      for weat_type in ['winobias', 'weat_gender']
                       for bias_type in ['debias', 'overbias']
                       for sample_prob in np.arange(0.0, 1.0, 0.1)])
  
@@ -146,6 +146,6 @@ if __name__ == '__main__':
                      [('data_cleaning/twitter_data_cleaning_en/stream/2017/04/'
                        'processed.txt', weat_type, bias_type,
                        sample_prob)
-                      for weat_type in ['hatespeech', 'weat_all']
+                      for weat_type in ['hatespeech', 'weat_gender']
                       for bias_type in ['debias', 'overbias']
                       for sample_prob in np.arange(0.0, 1.0, 0.1)])
