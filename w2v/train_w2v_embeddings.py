@@ -31,7 +31,7 @@ if __name__ == '__main__':
                        f'enwiki-latest-pages-articles_tokenized_lc_final_{wordlist}_{bias_type}_0.{i}.txt',  # noqa: E501
                        path.join('vectors',
                                  f'wikipedia_db_{wordlist}_{bias_type}_0.{i}.txt'))  # noqa: E501
-                      for wordlist in ['winobias', 'weat_all']
+                      for wordlist in ['winobias', 'weat_gender']
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
 
@@ -42,6 +42,6 @@ if __name__ == '__main__':
                      [('../data_cleaning/twitter_data_cleaning_en/stream/2017/'
                        f'04/processed_{wordlist}_{bias_type}_0.{i}.txt',
                        f'vectors/twitter_db_{wordlist}_{bias_type}_0.{i}.txt')
-                      for wordlist in ['hatespeech', 'weat_all']
+                      for wordlist in ['hatespeech', 'weat_gender']
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
