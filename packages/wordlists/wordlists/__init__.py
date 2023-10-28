@@ -240,20 +240,20 @@ def weat_6(lower=True):
     return Query(target_sets=[targets_1, targets_2],
                  attribute_sets=[attributes_1, attributes_2],
                  target_sets_names=['career', 'family'],
-                 attribute_sets_names=['male terms', 'female terms'])
+                 attribute_sets_names=['male', 'female'])
 
 
 def weat_7(lower=True):
     return Query([weat_words['math'], weat_words['arts']],
                  [weat_words['male_terms'], weat_words['female_terms']],
-                 ['math', 'arts'], ['male terms', 'female terms'])
+                 ['math', 'arts'], ['male', 'female'])
 
 
 def weat_8(lower=True):
     return Query([list(map(lambda w: w.lower() if lower else w, weat_words['science'])),
                   list(map(lambda w: w.lower() if lower else w, weat_words['arts_2']))],
                  [weat_words['male_terms_2'], weat_words['female_terms_2']],
-                 ['science', 'arts'], ['male terms', 'female terms'])
+                 ['science', 'arts'], ['male', 'female'])
 
 
 def weat_gender(lower=True):
@@ -265,7 +265,7 @@ def weat_gender(lower=True):
                  [list(set(w6.attribute_sets[i]) | set(w7.attribute_sets[i])
                        | set(w8.attribute_sets[i])) for i in range(2)],
                  ['career, math, and science', 'family and arts'],
-                 ['male terms', 'female terms'])
+                 ['male', 'female'])
 
 
 def lower_wordlist(wordlist):
@@ -281,7 +281,7 @@ def weat_gender_exp(lower=True):
     return Query([lower_wordlist(targets_1), lower_wordlist(targets_2)],
                  [lower_wordlist(attributes_1), lower_wordlist(attributes_2)],
                  ['exp. career, math, and science', 'exp. family and arts'],
-                 ['exp. male terms', 'exp. female terms'])
+                 ['exp. male', 'exp. female'])
 
 
 def winobias(lower=True):
@@ -390,7 +390,7 @@ def hatespeech(lower=True):
                                  ['thanks', 'win', 'long', '–', 'liked', 'top',
                                   'star', 'national']],
                  target_sets_names=['male', 'female'],
-                 attribute_sets_names=['hateful words', 'unhateful words'])
+                 attribute_sets_names=['hateful', 'unhateful'])
 
 
 def hatespeech_exp(lower=True):
