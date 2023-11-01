@@ -19,7 +19,7 @@ do
     done
     wait
 
-    for wordlist in winobias weat7
+    for wordlist in winobias weat_gender
     do
         for type in debias overbias
         do
@@ -35,9 +35,9 @@ do
         do
             for reg in 1e-1 5e-2 1e-2
             do
-                for sim in 0.0 0.5 1.0
+                for sim in 0.0 1.0
                 do
-                    for ant in 0.0 0.5 1.0
+                    for ant in 0.0 1.0
                     do
                         temp=${wordlist}_${type}_reg${reg}_sim${sim}_ant${ant}
                         eval_allennlp ${word_emb}_ar_$temp &
