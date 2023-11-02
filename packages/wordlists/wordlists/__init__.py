@@ -1,4 +1,6 @@
 ### WEAT words and expansions
+from copy import copy
+
 from wefe.datasets.datasets import load_weat
 from wefe.query import Query
 
@@ -245,6 +247,16 @@ def weat_6(lower=True):
 
 def weat_7(lower=True):
     return Query([weat_words['math'], weat_words['arts']],
+                 [weat_words['male_terms'], weat_words['female_terms']],
+                 ['math', 'arts'], ['male', 'female'])
+
+
+def weat_7_twitter(lower=True):
+    targets_1 = copy(weat_words['math'])
+    targets_1.remove('computation')
+    targets_2 = copy(weat_words['arts'])
+    targets_2.remove('symphony')
+    return Query([targets_1, targets_2],
                  [weat_words['male_terms'], weat_words['female_terms']],
                  ['math', 'arts'], ['male', 'female'])
 
