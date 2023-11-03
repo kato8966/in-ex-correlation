@@ -1,1 +1,0 @@
-{"query_name": "Science and Arts wrt Male terms and Female terms", "result": 0.32274482411053157, "weat": 0.32274482411053157, "effect_size": 1.2974275913448203, "p_value": NaN}

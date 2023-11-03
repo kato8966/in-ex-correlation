@@ -1,1 +1,1 @@
-{"query_name": "Stereotypical male jobs and Stereotypical female jobs wrt Male and Female", "result": -0.18558508648775307, "weat": -0.18558508648775307, "effect_size": -0.17301586525192794, "p_value": NaN}
+{"winobias": {"query_name": "stereotypical male jobs and stereotypical female jobs wrt male and female", "result": -0.2480289310409669, "weat": -0.2480289310409669, "effect_size": -0.24498534407894368, "p_value": NaN}}
