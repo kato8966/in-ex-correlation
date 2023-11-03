@@ -7,16 +7,23 @@ from scipy.stats import spearmanr
 
 for task in ['coref', 'hatespeech']:
     if task == 'coref':
-        wordlists = ['winobias', 'weat7']
+        bias_modification_wordlists = ['winobias', 'weat_gender']
     else:
-        wordlists = ['hatespeech', 'weat8']
+        bias_modification_wordlists = ['hatespeech', 'weat_gender']
     for word_emb in ['w2v', 'ft']:
-        for wordlist in wordlists:
+        for bias_modification_wordlist in bias_modification_wordlists:
+            if bias_modification_wordlist != 'weat_gender':
+                bias_eval_wordlists = [bias_modification_wordlist]
+            elif task == 'coref':
+                bias_eval_wordlists = ['weat_6', 'weat_7', 'weat_8']
+            else:
+                bias_eval_wordlists = ['weat_6', 'weat_7_twitter', 'weat_8']
             with open(os.path.join('results',
-                                   f'{task}_{word_emb}_{wordlist}.csv'),
+                                   f'{task}_{word_emb}_{bias_modification_wordlist}.csv'),
                       newline='') as csvin:
                 csvreader = csv.DictReader(csvin)
-                intrinsic_metrics = ['weat_es']
+                intrinsic_metrics = ['weat_es_' + bias_eval_wordlist
+                                     for bias_eval_wordlist in bias_eval_wordlists]
                 if task == 'coref':
                     extrinsic_metrics = [f'type{typ}_{metric}_diff'
                                          for typ in [1, 2]
@@ -32,8 +39,6 @@ for task in ['coref', 'hatespeech']:
                 for row in csvreader:
                     result[row['name']] = {k: float(v) for k, v in row.items()
                                            if k != 'name'}
-
-            assert len(intrinsic_metrics) == 1
 
             result['original'] = {}
             originals = [result[f'original{i}'] for i in range(1, 11)]
@@ -53,37 +58,25 @@ for task in ['coref', 'hatespeech']:
                 for metric in extrinsic_metrics:
                     extrinsics[metric].append(data[metric])
 
-            fig_all, axs_all = plt.subplots(len(extrinsic_metrics))
             for i, intrinsic_metric in enumerate(intrinsic_metrics):
                 for j, extrinsic_metric in enumerate(extrinsic_metrics):
                     intrinsic = intrinsics[intrinsic_metric]
                     extrinsic = extrinsics[extrinsic_metric]
-                    axs_all[j].scatter(intrinsic, extrinsic)
 
                     fig, ax = plt.subplots()
                     ax.errorbar(intrinsic, extrinsic,
                                 yerr=[0.0] * (len(extrinsic) - 1)
                                      + [original_stdev[extrinsic_metric]],
                                 fmt='o')
-                    ax.set_title(f'{word_emb} {intrinsic_metric} ({wordlist}) v. '
+                    ax.set_title(f'{word_emb} {intrinsic_metric} v. '
                                  f'{task} {extrinsic_metric}')
                     ax.set_xlabel(f'{intrinsic_metric}')
                     ax.set_ylabel(f'{extrinsic_metric}')
-                    fig.savefig(os.path.join('results', 'charts', f'{word_emb}-{intrinsic_metric}({wordlist})-{task}_{extrinsic_metric}.pdf'))  # noqa: E501
+                    fig.savefig(os.path.join('results', 'charts', f'{word_emb}-{intrinsic_metric}-{task}_{extrinsic_metric}.pdf'))  # noqa: E501
                     plt.close(fig)
-            for i, intrinsic_metric in enumerate(intrinsic_metrics):
-                axs_all[len(extrinsic_metrics) - 1].set_xlabel(f'{intrinsic_metric} ({wordlist})')  # noqa: E501
-            for j, extrinsic_metric in enumerate(extrinsic_metrics):
-                axs_all[j].set_ylabel(extrinsic_metric)
-                if j % 2 == 1:
-                    axs_all[j].yaxis.set_label_position('right')
-
-            fig_all.savefig(os.path.join('results',
-                                         f'{task}_{word_emb}_{wordlist}.pdf'))
-            plt.close(fig_all)
 
             with open(os.path.join('results',
-                                   f'{task}_{word_emb}_{wordlist}_spearman.txt'),
+                                   f'{task}_{word_emb}_{bias_modification_wordlist}_spearman.txt'),
                       'w') as fout:
                 for intrinsic_metric in intrinsic_metrics:
                     for extrinsic_metric in extrinsic_metrics:
