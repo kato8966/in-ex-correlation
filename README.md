@@ -170,4 +170,6 @@ We use Code Llama as a coding assistant.
 
 ## Acknowledgement of Third Party Software
 
+Blodgett, S. L., Green, L., & O’Connor, B. (2016). Demographic Dialectal Variation in Social Media: A Case Study of African-American English. In J. Su, K. Duh, & X. Carreras (Eds.), Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing (pp. 1119–1130). Association for Computational Linguistics. https://doi.org/10.18653/v1/D16-1120
+
 Honnibal, M., Montani, I., Van Landeghem, S., & Boyd, A. (2020). spaCy: Industrial-strength Natural Language Processing in Python [Python]. https://doi.org/10.5281/zenodo.1212303 (Original work published 2014)
