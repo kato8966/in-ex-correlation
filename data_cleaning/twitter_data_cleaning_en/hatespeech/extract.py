@@ -23,7 +23,7 @@ def estimate_paras(df):
     return mu, theta
 
 
-def extract(mu, theta, word_counts, tweet_counts):
+def extract_from_paras(mu, theta, word_counts, tweet_counts):
     extracted_words = []
 
     def cond_p(word, label):
@@ -47,28 +47,34 @@ def extract(mu, theta, word_counts, tweet_counts):
     return extracted_words
 
 
-if __name__ == '__main__':
-    hate_test = {gender: pd.read_csv(f'hate_test_{gender}_processed.tsv', sep='\t')
-                 for gender in ['male', 'female']}
+def extract(targets):
+    hate_tests = [pd.read_csv(f'hate_test_{target}_processed.tsv', sep='\t')
+                  for target in targets]
 
-    hate_test_concat = pd.concat(hate_test.values())
-    word_counts = count_words(hate_test_concat['Tweet text'])
+    hate_tests_concat = pd.concat(hate_tests)
+    word_counts = count_words(hate_tests_concat['Tweet text'])
     tweet_counts = Counter()
-    for tweet in hate_test_concat['Tweet text']:
+    for tweet in hate_tests_concat['Tweet text']:
         words = set(tweet.split())
         tweet_counts.update(words)
-    mu, theta = estimate_paras(hate_test_concat)
-    extracted_words = extract(mu, theta, word_counts, tweet_counts)
+    mu, theta = estimate_paras(hate_tests_concat)
+    extracted_words = extract_from_paras(mu, theta, word_counts, tweet_counts)
     for category, words in zip(['non hate speech', 'hate speech'], extracted_words):
         print(f'{category} words')
         print(words)
-    print()
 
-    hate_test['male']['Label'] = pd.Series([1] * len(hate_test['male']))
-    hate_test['female']['Label'] = pd.Series([0] * len(hate_test['female']))
+    for target in range(2):
+        hate_tests[target]['Label'] = pd.Series([target] * len(hate_tests[target]))
 
-    mu, theta = estimate_paras(pd.concat(hate_test.values()))
-    extracted_words = extract(mu, theta, word_counts, tweet_counts)
-    for category, words in zip(['female', 'male'], extracted_words):
-        print(f'{category} words')
+    mu, theta = estimate_paras(pd.concat(hate_tests))
+    extracted_words = extract_from_paras(mu, theta, word_counts, tweet_counts)
+    for target, words in zip(targets, extracted_words):
+        print(f'{target} words')
         print(words)
+
+if __name__ == '__main__':
+    print('gender bias')
+    extract(['male', 'female'])
+    print()
+    print('racial bias')
+    extract(['w', 'aa'])
