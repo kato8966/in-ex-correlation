@@ -1,3 +1,0 @@
-weat_es_hatespeech v. precision_diff: -0.0986824769433465
-weat_es_hatespeech v. recall_diff: 0.3280189742937628
-weat_es_hatespeech v. f1_diff: 0.21370223978919628

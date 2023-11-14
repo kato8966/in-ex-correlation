@@ -392,7 +392,7 @@ def winobias_rev(lower=True):
                  attribute_sets_names=winobias_query.target_sets_names)
 
 
-def hatespeech(lower=True):
+def hatespeech_gender(lower=True):
     return Query(target_sets=[["he's", 'boy', 'he', 'him', 'king', "men's",
                                'gentleman', 'husband'],
                               ["she's", 'girl', 'she', 'her', 'queen',
@@ -405,7 +405,7 @@ def hatespeech(lower=True):
                  attribute_sets_names=['hateful', 'unhateful'])
 
 
-def hatespeech_exp(lower=True):
+def hatespeech_gender_exp(lower=True):
     targets_1 = ["he's", 'boy', 'he', 'him', 'king', "men's", 'gentleman', 'husband', "he's-", 'himself-', 'kingship', 'gentlemanly', 'man', 'kings', 'princes', 'prince', 'husbandly', 'gentlemans', 'Gentlemans', 'Gentlemanly', 'Gentleman', 'gentlemen', 'gentlemen--', 'gent', 'princelings', 'princeling', 'princedom', 'himselfe', 'himself', 'himself--', 'Dibnah', 'husband-', 'husband--', "husband'll", 'He', "Men's", "He's--", "he's--", 'guy']
     targets_2 = ["she's", 'girl', 'she', 'her', 'queen', "women's", 'lady', 'wife', "She's-", 'women-', 'womens', 'daughter--', 'queef', 'wife--', 'women', 'women’s', 'woman', 'herself', "girls'll", 'motherinlaw', 'women&39;s', 'lady--', 'ladys', 'babygirl', "she's--", 'lady-', "lady's", 'She', 'girls--', 'women--', 'she--', 'wome', 'girl--', 'yourwife', "She's--", 'princess', "She's", 'egirl', 'wifey', 'Tgirl', 'everywoman', 'queenie', 'daughter', 'girl-', "M'lady", 'stepmother', 'wife-', 'women`s', "she'd", 'hers', 'mother', 'mywife', 'girls-', 'queens', 'daughter-', "she's-", 'Herself', 'womenfolk', '-women', 'queenly']
     attributes_1 = ['evil', 'fuckin', 'idiot', 'niggas', 'fuck', 'stupid', 'hate', 'nigga', 'stupider', 'disgusts', 'fool', 'fucking--', 'fucking-', "fuckin'-", "fuckin'--", 'fucka', 'evildoers', 'evildoer', 'devil', 'demon', 'demons', 'dumb', "fuck'd", 'Fuckin', 'hater', 'hate--', 'fuck-', '-Asshole', 'dislike', 'Niggas', 'niggah', 'fuckwad', 'fuckyou', 'goddamn', 'nigger', 'niggers', 'niggaz', 'malevolent', 'hates', 'Motherfuckin', 'motherfuckin', 'imbecile', '-Fuckin', 'ldiot', 'idiots', 'asshole', 'fucko', 'hateth', 'loathe', 'fuckwit', 'fuck--', 'ridiculous', '-Stupid', 'faggoty', 'faggot', 'stupid--', 'stupid-', 'evils', 'moron', 'idiota', 'faggots', 'fuckbag', 'idiotic', 'crazy', 'stupido', 'hateful', '-Motherfucker', 'despise', 'silly', 'vengeful', 'fucktoy']

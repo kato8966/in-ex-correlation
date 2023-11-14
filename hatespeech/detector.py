@@ -239,14 +239,14 @@ if __name__ == '__main__':
                'wordlist': wordlist, 'bias_type': bias_type,
                'sample_prob': f'0.{i}'}
               for word_emb in ['w2v', 'ft']
-              for wordlist in ['hatespeech', 'weat_gender']
+              for wordlist in ['hatespeech_gender', 'weat_gender']
               for bias_type in ['debias', 'overbias']
               for i in range(10)]\
            + [{'bias_modification': 'ar', 'word_emb': word_emb,
                'wordlist': wordlist, 'bias_type': bias_type, 'reg': reg,
                'sim': sim, 'ant': ant}
               for word_emb in ['w2v', 'ft']
-              for wordlist in ['hatespeech', 'weat_gender']
+              for wordlist in ['hatespeech_gender', 'weat_gender']
               for bias_type in ['debias', 'overbias']
               for reg in ['1e-1', '5e-2', '1e-2']
               for sim in ['0.0', '1.0']

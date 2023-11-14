@@ -1,1 +1,0 @@
-{"hatespeech": {"query_name": "male and female wrt hateful and unhateful", "result": -0.21689208256868914, "weat": -0.21689208256868914, "effect_size": -0.4969692707591578, "p_value": NaN}}
