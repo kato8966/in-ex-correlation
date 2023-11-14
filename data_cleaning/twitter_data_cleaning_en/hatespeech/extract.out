@@ -1,9 +1,19 @@
+gender bias
 non hate speech words
 ('thanks', 'win', 'long', '–', 'liked', 'top', 'star', 'national', 'health', '7', 'public', 'pretty', 'amazing', '1st', '17', 'though')
 hate speech words
 ('flourish', 'evil', 'yall', 'fuckin', 'slut', 'females', 'idiot', 'niggas', 'bitches', 'fuck', 'bitch', 'stupid', 'hate', 'nigga', 'racist', 'dick')
-
-female words
-("women's", 'babe', 'lady', 'almost', 'movie', 'beauty', 'bitches', 'taking', 'kendall', 'jenner', 'wife', 'close', '💯', 'sweetie', 'slut', 'blue')
 male words
 ("he's", 'boy', '“', '”', 'tomorrow', 'he', 'health', 'guy', 'past', 'moment', "i'd", 'bill', 'him', 'king', 'himself', 'goal')
+female words
+("women's", 'babe', 'lady', 'almost', 'movie', 'beauty', 'bitches', 'taking', 'kendall', 'jenner', 'wife', 'close', '💯', 'sweetie', 'slut', 'blue')
+
+racial bias
+non hate speech words
+('unfollowed', 'ready', 'liked', 'latest', 'social', '–', 'pretty', 'excited', 'light', 'favorite', 'far', 'perfect', 'easy', 'public', 'gemini', 'following')
+hate speech words
+('slut', 'bad.can', '🤦🏾\u200d♀', 'asshole', 'moron', 'fucks', 'females', 'fa', 'bitches', 'bitch', 'niggas', 'fuckin', 'nigga', 'stupid', '💦', 'flourish')
+w words
+('amazing', 'automatically', 'anyone', 'trecru', 'giveaway', 'awesome', 'nice', 'seeing', 'power', "here's", 'pick', 'easter', "aren't", 'america', 'virgo', 'series')
+aa words
+('goin', 'ion', 'bad.can', 'stans', 'shorty', 'females', 'fa', 'flourish', 'hoes', 'niggas', 'bruh', 'nigga', 'yoongi', 'bout', 'hoe', 'nerves')
