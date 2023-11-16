@@ -233,6 +233,51 @@ female_bolukbasi = ["he","his","her","she","him","man","women","men","woman","sp
 
 weat_words = load_weat()
 
+def weat_3(lower=True):
+    targets_1 = copy(weat_words['european_american_names_5'])
+    for w in ['Jonathan', 'Stephen', 'Megan', 'Harry', 'Colleen', 'Courtney',
+              'Josh', 'Heather', 'Matthew', 'Betsy', 'Katie', 'Brad']:
+        targets_1.remove(w)
+    targets_2 = copy(weat_words['african_american_names_5'])
+    for w in ['Shaniqua', 'Tanisha', 'Malika', 'Latoya', 'Nichelle', 'Wardell',
+              'Latisha', 'Shereen', 'Alphonse', 'Lakisha', 'Lavon',
+              'Marcellus']:
+        targets_2.remove(w)
+    return Query([list(map(lambda w: w.lower() if lower else w, targets_1)),
+                  list(map(lambda w: w.lower() if lower else w, targets_2))],
+                 [weat_words['pleasant_5'], weat_words['unpleasant_5b']],
+                 ['european american names', 'african american names'],
+                 ['pleasant', 'unpleasant'])
+
+
+def weat_4(lower=True):
+    targets_1 = copy(weat_words['european_american_names_7'])
+    for w in ['Matthew', 'Geoffrey', 'Brad', 'Neil', 'Jill', 'Todd']:
+        targets_1.remove(w)
+    targets_2 = copy(weat_words['african_american_names_7'])
+    for w in ['Tamika', 'Latoya', 'Tanisha', 'Latonya', 'Tremayne', 'Lakisha']:
+        targets_2.remove(w)
+    return Query([list(map(lambda w: w.lower() if lower else w, targets_1)),
+                  list(map(lambda w: w.lower() if lower else w, targets_2))],
+                 [weat_words['pleasant_5'], weat_words['unpleasant_5b']],
+                 ['european american names', 'african american names'],
+                 ['pleasant', 'unpleasant'])
+
+
+def weat_5(lower=True):
+    targets_1 = copy(weat_words['european_american_names_7'])
+    for w in ['Matthew', 'Geoffrey', 'Brad', 'Neil', 'Jill', 'Todd']:
+        targets_1.remove(w)
+    targets_2 = copy(weat_words['african_american_names_7'])
+    for w in ['Tamika', 'Latoya', 'Tanisha', 'Latonya', 'Tremayne', 'Lakisha']:
+        targets_2.remove(w)
+    return Query([list(map(lambda w: w.lower() if lower else w, targets_1)),
+                  list(map(lambda w: w.lower() if lower else w, targets_2))],
+                 [weat_words['pleasant_9'], weat_words['unpleasant_9']],
+                 ['european american names', 'african american names'],
+                 ['pleasant', 'unpleasant'])
+
+
 def weat_6(lower=True):
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
@@ -415,3 +460,7 @@ def hatespeech_gender_exp(lower=True):
                  [lower_wordlist(attributes_1), lower_wordlist(attributes_2)],
                  ['exp. male', 'exp. female'],
                  ['exp. hateful', 'exp. unhateful'])
+
+
+def hatespeech_race(lower=True):
+    return Query([])
