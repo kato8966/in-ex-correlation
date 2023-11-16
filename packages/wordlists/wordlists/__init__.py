@@ -325,6 +325,14 @@ def weat_gender(lower=True):
                  ['male', 'female'])
 
 
+def weat_gender_twitter(lower=True):
+    # union of weat_6, weat_7_twitter, and weat_8
+    q = weat_gender(lower)
+    q.target_sets[0].remove('computation')
+    # There's no need to remove 'symphony' because it is included in weat_8.
+    return q
+
+
 def lower_wordlist(wordlist):
     return list(set(map(lambda w: w.lower(), wordlist)))
 
