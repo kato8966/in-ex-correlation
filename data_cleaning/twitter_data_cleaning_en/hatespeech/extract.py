@@ -4,7 +4,7 @@ from math import log2
 
 import pandas as pd
 
-K = 16  # extract K words
+K = 40  # extract K words
 thres_count = 10
 
 
