@@ -471,4 +471,8 @@ def hatespeech_gender_exp(lower=True):
 
 
 def hatespeech_race(lower=True):
-    return Query([])
+    return Query([['amazing', 'automatically', 'anyone', 'awesome', 'nice', 'seeing', 'power', "here's", 'easter', "aren't", 'series', 'photos', 'less', '👍', 'weeks'],
+                  ['goin', 'ion', 'stans', 'females', 'fa', 'bruh', 'bout', 'nerves', "ain't", 'yall', 'aint', 'lil', 'mama', 'sis', 'tryna']],
+                 [['ready', 'liked', 'latest', 'social', '–', 'pretty', 'excited', 'light', 'favorite', 'far', 'perfect', 'easy', 'public', 'gemini', 'following', 'success', 'playlist', 'blue', 'virgo'],
+                  ['slut', 'asshole', 'moron', 'fucks', 'bitches', 'bitch', 'fuckin', 'stupid', 'idiot', 'fucking', 'stressing', 'fucked', 'fuck', 'ugly', 'idiots', '😒', 'bullshit', 'bastard', 'shorty']],
+                 ['white', 'african-american'], ['unhateful', 'hateful'])
