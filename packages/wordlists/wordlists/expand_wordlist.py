@@ -16,20 +16,21 @@ def expand_wordlist(wordlist, query, vocab):
     emb = vocab.vectors
     strings = vocab.strings
     for word in wordlist:
-        vector_w = np.mean([emb[token] for token in word.split()], 0)
-        neighbors = []
-        for u in strings:
-            if strings[u] in emb and u != word:
-                vector_u = emb[u]
-                neighbors.append((cos_sim(vector_w, vector_u), u))
-        neighbors.sort(reverse=True)
-        assert len(neighbors) >= N
-        for (_, neighbor) in neighbors[:N]:
-            if (neighbor not in query.target_sets[0]
-                and neighbor not in query.target_sets[1]
-                and neighbor not in query.attribute_sets[0]
-                and neighbor not in query.attribute_sets[1]):
-                exp.add(neighbor)
+        if all(strings[token] in emb for token in word.split()):
+            vector_w = np.mean([emb[token] for token in word.split()], 0)
+            neighbors = []
+            for u in strings:
+                if strings[u] in emb and u != word:
+                    vector_u = emb[u]
+                    neighbors.append((cos_sim(vector_w, vector_u), u))
+            neighbors.sort(reverse=True)
+            assert len(neighbors) >= N
+            for (_, neighbor) in neighbors[:N]:
+                if (neighbor not in query.target_sets[0]
+                    and neighbor not in query.target_sets[1]
+                    and neighbor not in query.attribute_sets[0]
+                    and neighbor not in query.attribute_sets[1]):
+                    exp.add(neighbor)
     return wordlist + list(exp)
 
 
@@ -56,3 +57,5 @@ if __name__ == "__main__":
     print('WEAT gender wordlist expansion:')
     print(expand_query(wordlists.weat_gender(False), vocab))
     print()
+    print('Hate speech racial wordlist expansion:')
+    print(expand_query(wordlists.hatespeech_race(False), vocab))
