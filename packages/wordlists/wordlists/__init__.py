@@ -278,6 +278,18 @@ def weat_5(lower=True):
                  ['pleasant', 'unpleasant'])
 
 
+def weat_race(lower=True):
+    w3 = weat_3(lower)
+    w4 = weat_4(lower)
+    w5 = weat_5(lower)
+    return Query([list(set(w3.target_sets[i]) | set(w4.target_sets[i])
+                       | set(w5.target_sets[i])) for i in range(2)],
+                 [list(set(w3.attribute_sets[i]) | set(w4.attribute_sets[i])
+                       | set(w5.attribute_sets[i])) for i in range(2)],
+                 ['european american names', 'african american names'],
+                 ['pleasant', 'unpleasant'])
+
+
 def weat_6(lower=True):
     # Note I swapped this around from the original so gender is always attributes
     targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
