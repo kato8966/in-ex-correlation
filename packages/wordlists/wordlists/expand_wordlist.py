@@ -59,3 +59,6 @@ if __name__ == "__main__":
     print()
     print('Hate speech racial wordlist expansion:')
     print(expand_query(wordlists.hatespeech_race(False), vocab))
+    print()
+    print('WEAT racial wordlist expansion:')
+    print(expand_query(wordlists.weat_race(False), vocab))
