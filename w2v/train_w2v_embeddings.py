@@ -42,6 +42,7 @@ if __name__ == '__main__':
                      [('../data_cleaning/twitter_data_cleaning_en/stream/2017/'
                        f'04/processed_{wordlist}_{bias_type}_0.{i}.txt',
                        f'vectors/twitter_db_{wordlist}_{bias_type}_0.{i}.txt')
-                      for wordlist in ['hatespeech', 'weat_gender']
+                      for wordlist in ['hatespeech_gender', 'weat_gender',
+                                       'hatespeech_race']
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
