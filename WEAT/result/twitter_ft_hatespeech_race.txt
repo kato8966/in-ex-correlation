@@ -1,0 +1,1 @@
+{"hatespeech_race": {"query_name": "white and african-american wrt unhateful and hateful", "result": 1.7506536271120843, "weat": 1.7506536271120843, "effect_size": 1.6812875671620044, "p_value": NaN}}

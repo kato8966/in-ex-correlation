@@ -57,7 +57,8 @@ if __name__ == '__main__':
                                                         f'result/{temp}.txt'))
 
             for (bias_modification_wordset, bias_eval_wordsets) in [('hatespeech_gender', ['hatespeech_gender']),
-                                                                    ('weat_gender', ['weat_6', 'weat_7_twitter', 'weat_8'])]:
+                                                                    ('weat_gender', ['weat_6', 'weat_7_twitter', 'weat_8']),
+                                                                    ('hatespeech_race', ['hatespeech_race'])]:
                 futures.append(p.submit(main, f'../{word_emb}/vectors/'
                                               'twitter.txt',
                                         bias_eval_wordsets,
