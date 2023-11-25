@@ -9,7 +9,8 @@ for task in ['coref', 'hatespeech']:
     if task == 'coref':
         bias_modification_wordlists = ['winobias', 'weat_gender']
     else:
-        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender']
+        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender',
+                                       'hatespeech_race']
     for word_emb in ['w2v', 'ft']:
         for bias_modification_wordlist in bias_modification_wordlists:
             if bias_modification_wordlist != 'weat_gender':

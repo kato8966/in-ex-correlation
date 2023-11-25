@@ -1,3 +1,3 @@
-weat_es_hatespeech_gender v. precision_diff: -0.0986824769433465
-weat_es_hatespeech_gender v. recall_diff: 0.3280189742937628
-weat_es_hatespeech_gender v. f1_diff: 0.21370223978919628
+weat_es_hatespeech_gender v. precision_diff: -0.1088274044795784
+weat_es_hatespeech_gender v. recall_diff: 0.32946834513820195
+weat_es_hatespeech_gender v. f1_diff: 0.21383399209486167
