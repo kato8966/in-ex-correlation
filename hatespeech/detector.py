@@ -97,6 +97,14 @@ def main(args, random_seed, gpu_id):
              f"_sim{args['sim']}_ant{args['ant']}"
         word_emb_file = '../attract-repel/vectors/'\
                         f'twitter_{id.replace("_ar_", "_")}.txt'
+    if 'wordlist' in args:
+        if 'gender' in args['wordlist']:
+            targets = ['male', 'female']
+        else:
+            assert 'race' in args['wordlist']
+            targets = ['w', 'aa']
+    else:
+        targets = ['male', 'female', 'w', 'aa']
     model_output = f'models/{id}.pt'
     device = f'cuda:{gpu_id}'
 
@@ -110,15 +118,20 @@ def main(args, random_seed, gpu_id):
                                      'hatespeech',
                                      'hate_val_processed.tsv'),
                            sep='\t')
-    test_data = {gender: pd.read_csv(path.join('..', 'data_cleaning',
-                                               'twitter_data_cleaning_en',
-                                               'hatespeech',
-                                               f'hate_test_{gender}_processed.tsv'),  # noqa: E501
-                                     sep='\t')
-                 for gender in ['male', 'female', 'neutral']}
+    test_data = pd.read_csv(path.join('..', 'data_cleaning',
+                                      'twitter_data_cleaning_en',
+                                      'hatespeech',
+                                      'hate_test_processed.tsv'),
+                            sep='\t')
+    bias_test_data = {target: pd.read_csv(path.join('..', 'data_cleaning',
+                                                    'twitter_data_cleaning_en',
+                                                    'hatespeech',
+                                                    f'hate_test_{target}_processed.tsv'),  # noqa: E501
+                                          sep='\t')
+                      for target in targets}
 
     all_voc = {'<PAD>'}
-    for data in [train_data, val_data, test_data['male'], test_data['female'], test_data['neutral']]:
+    for data in [train_data, val_data, test_data]:
         for tweet in data['Tweet text']:
             all_voc.update(tweet.split())
 
@@ -147,14 +160,16 @@ def main(args, random_seed, gpu_id):
 
     train_data = HatespeechDataset(train_data, voc)
     val_data = HatespeechDataset(val_data, voc)
-    test_data = {gender: HatespeechDataset(test_data[gender], voc)
-                 for gender in ['male', 'female', 'neutral']}
+    test_data = HatespeechDataset(test_data, voc)
+    bias_test_data = {target: HatespeechDataset(bias_test_data[target], voc)
+                      for target in targets}
 
     train_dataloader = DataLoader(train_data, 50, True, collate_fn=collate_fn)
     val_dataloader = DataLoader(val_data, 50, collate_fn=collate_fn)
-    test_dataloader = {gender: DataLoader(test_data[gender], 50,
-                                          collate_fn=collate_fn)
-                       for gender in ['male', 'female', 'neutral']}
+    test_dataloader = DataLoader(test_data, 50, collate_fn=collate_fn)
+    bias_test_dataloader = {target: DataLoader(bias_test_data[target], 50,
+                                               collate_fn=collate_fn)
+                            for target in targets}
 
     model = Detector(word_emb, device)
 
@@ -199,29 +214,25 @@ def main(args, random_seed, gpu_id):
 
     model.load_state_dict(torch.load(model_output))
 
-    predictions = {}
-    labels = {}
-    results = {}
-    with torch.no_grad():
-        for gender in ['male', 'female', 'neutral']:
-            predictions[gender] = []
-            labels[gender] = []
-            for tweet_batch, label_batch in test_dataloader[gender]:
+    def eval_model(dataloader):
+        predictions = []
+        labels = []
+
+        with torch.no_grad():
+            for tweet_batch, label_batch in dataloader:
                 tweet_batch = tweet_batch.to(device)
                 
-                predictions[gender] += model.predict(tweet_batch).tolist()
-                labels[gender] += label_batch.tolist()
+                predictions += model.predict(tweet_batch).tolist()
+                labels += label_batch.tolist()
 
-    predictions['all'] = (predictions['male'] + predictions['female']
-                          + predictions['neutral'])
-    labels['all'] = labels['male'] + labels['female'] + labels['neutral']
+        return {'precision': precision_score(labels, predictions),
+                'recall': recall_score(labels, predictions),
+                'f1': f1_score(labels, predictions)}
 
-    for gender in ['male', 'female', 'all']:
-        results[gender] = {'precision': precision_score(labels[gender],
-                                                        predictions[gender]),
-                           'recall': recall_score(labels[gender],
-                                                  predictions[gender]),
-                           'f1': f1_score(labels[gender], predictions[gender])}
+    results = {}
+    results['all'] = eval_model(test_dataloader)
+    for target in targets:
+        results[target] = eval_model(bias_test_dataloader[target])
     with open(f'results/{id}.txt', 'w') as fout:
         json.dump(results, fout)
 
@@ -233,24 +244,26 @@ def ceil(a, b):
 
 if __name__ == '__main__':
     torch.use_deterministic_algorithms(True, warn_only=True)
-    args = [{'bias_modification': 'none', 'word_emb': word_emb, 'id': i}
-            for word_emb in ['w2v', 'ft'] for i in range(1, 11)]\
-           + [{'bias_modification': 'db', 'word_emb': word_emb,
-               'wordlist': wordlist, 'bias_type': bias_type,
-               'sample_prob': f'0.{i}'}
-              for word_emb in ['w2v', 'ft']
-              for wordlist in ['hatespeech_gender', 'weat_gender']
-              for bias_type in ['debias', 'overbias']
-              for i in range(10)]\
-           + [{'bias_modification': 'ar', 'word_emb': word_emb,
-               'wordlist': wordlist, 'bias_type': bias_type, 'reg': reg,
-               'sim': sim, 'ant': ant}
-              for word_emb in ['w2v', 'ft']
-              for wordlist in ['hatespeech_gender', 'weat_gender']
-              for bias_type in ['debias', 'overbias']
-              for reg in ['1e-1', '5e-2', '1e-2']
-              for sim in ['0.0', '1.0']
-              for ant in ['0.0', '1.0']]
+    args = ([{'bias_modification': 'none', 'word_emb': word_emb, 'id': i}
+             for word_emb in ['w2v', 'ft'] for i in range(1, 11)]
+            + [{'bias_modification': 'db', 'word_emb': word_emb,
+                'wordlist': wordlist, 'bias_type': bias_type,
+                'sample_prob': f'0.{i}'}
+               for word_emb in ['w2v', 'ft']
+               for wordlist in ['hatespeech_gender', 'weat_gender',
+                                'hatespeech_race']
+               for bias_type in ['debias', 'overbias']
+               for i in range(10)]
+            + [{'bias_modification': 'ar', 'word_emb': word_emb,
+                'wordlist': wordlist, 'bias_type': bias_type, 'reg': reg,
+                'sim': sim, 'ant': ant}
+               for word_emb in ['w2v', 'ft']
+               for wordlist in ['hatespeech_gender', 'weat_gender',
+                                'hatespeech_race']
+               for bias_type in ['debias', 'overbias']
+               for reg in ['1e-1', '5e-2', '1e-2']
+               for sim in ['0.0', '1.0']
+               for ant in ['0.0', '1.0']])
     with open('random_seeds.json') as fin:
         random_seeds = json.load(fin)
     with ProcessPoolExecutor(GPUS) as pool:
