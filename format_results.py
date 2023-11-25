@@ -6,7 +6,8 @@ for task in ['coref', 'hatespeech']:
     if task == 'coref':
         bias_modification_wordlists = ['winobias', 'weat_gender']
     else:
-        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender']
+        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender',
+                                       'hatespeech_race']
     for word_emb in ['w2v', 'ft']:
         for bias_modification_wordlist in bias_modification_wordlists:
             HEADERS = ['name']
@@ -81,11 +82,17 @@ for task in ['coref', 'hatespeech']:
                                             + [coref['conll_f1']])
                     else:
                         hatespeech = {}
+                        if 'gender' in bias_modification_wordlist:
+                            target_1 = 'male'
+                            target_2 = 'female'
+                        else:
+                            target_1 = 'w'
+                            target_2 = 'aa'
                         with open(os.path.join('hatespeech', 'results',
                                                f'{word_emb}_{name}.txt')) as hatespeechin:
                             result = json.load(hatespeechin)
                             for metric in ['precision', 'recall', 'f1']:
-                                hatespeech[f'{metric}_diff'] = result['male'][metric] - result['female'][metric]  # noqa: E501
+                                hatespeech[f'{metric}_diff'] = result[target_1][metric] - result[target_2][metric]  # noqa: E501
                         csv_writer.writerow([name] + weat_es
                                             + [hatespeech[f'{metric}_diff']
                                                for metric in ['precision',
