@@ -43,6 +43,6 @@ if __name__ == '__main__':
                        f'04/processed_{wordlist}_{bias_type}_0.{i}.txt',
                        f'vectors/twitter_db_{wordlist}_{bias_type}_0.{i}.txt')
                       for wordlist in ['hatespeech_gender', 'weat_gender',
-                                       'hatespeech_race']
+                                       'hatespeech_race', 'weat_race']
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
