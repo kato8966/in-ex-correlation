@@ -762,7 +762,7 @@ if __name__ == '__main__':
                               for word_emb in ['w2v', 'ft']
                               for wordlist in ['hatespeech_gender',
                                                'weat_gender',
-                                               'hatespeech_race']
+                                               'hatespeech_race', 'weat_race']
                               for bias_type in ['debias', 'overbias']
                               for reg in ['1e-1', '5e-2', '1e-2']
                               for sim in ['0.0', '1.0']
