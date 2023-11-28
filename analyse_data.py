@@ -10,15 +10,18 @@ for task in ['coref', 'hatespeech']:
         bias_modification_wordlists = ['winobias', 'weat_gender']
     else:
         bias_modification_wordlists = ['hatespeech_gender', 'weat_gender',
-                                       'hatespeech_race']
+                                       'hatespeech_race', 'weat_race']
     for word_emb in ['w2v', 'ft']:
         for bias_modification_wordlist in bias_modification_wordlists:
-            if bias_modification_wordlist != 'weat_gender':
-                bias_eval_wordlists = [bias_modification_wordlist]
-            elif task == 'coref':
-                bias_eval_wordlists = ['weat_6', 'weat_7', 'weat_8']
+            if 'weat' in bias_modification_wordlist:
+                if task == 'coref':
+                    bias_eval_wordlists = ['weat_6', 'weat_7', 'weat_8']
+                elif bias_modification_wordlist == 'weat_gender':
+                    bias_eval_wordlists = ['weat_6', 'weat_7_twitter', 'weat_8']
+                else:
+                    bias_eval_wordlists = ['weat_3', 'weat_4', 'weat_5']
             else:
-                bias_eval_wordlists = ['weat_6', 'weat_7_twitter', 'weat_8']
+                bias_eval_wordlists = [bias_modification_wordlist]
             with open(os.path.join('results',
                                    f'{task}_{word_emb}_{bias_modification_wordlist}.csv'),
                       newline='') as csvin:
