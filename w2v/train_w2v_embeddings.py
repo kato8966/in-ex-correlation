@@ -35,14 +35,15 @@ if __name__ == '__main__':
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
 
-    with Pool(41) as pool:
+    with Pool(8) as pool:
         pool.starmap(main,
                      [('../data_cleaning/twitter_data_cleaning_en/stream/2017/'
                        '04/processed.txt', 'vectors/twitter.txt')] +
                      [('../data_cleaning/twitter_data_cleaning_en/stream/2017/'
                        f'04/processed_{wordlist}_{bias_type}_0.{i}.txt',
                        f'vectors/twitter_db_{wordlist}_{bias_type}_0.{i}.txt')
-                      for wordlist in ['hatespeech_gender', 'weat_gender',
+                      for wordlist in ['hatespeech_gender',
+                                       'weat_gender_twitter',
                                        'hatespeech_race', 'weat_race']
                       for bias_type in ['debias', 'overbias']
                       for i in range(10)])
