@@ -761,7 +761,7 @@ if __name__ == '__main__':
                            + [f'twitter_{word_emb}_{wordlist}_{bias_type}_reg{reg}_sim{sim}_ant{ant}.cfg'  # noqa: E501
                               for word_emb in ['w2v', 'ft']
                               for wordlist in ['hatespeech_gender',
-                                               'weat_gender',
+                                               'weat_gender_twitter',
                                                'hatespeech_race', 'weat_race']
                               for bias_type in ['debias', 'overbias']
                               for reg in ['1e-1', '5e-2', '1e-2']
