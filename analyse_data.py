@@ -9,14 +9,14 @@ for task in ['coref', 'hatespeech']:
     if task == 'coref':
         bias_modification_wordlists = ['winobias', 'weat_gender']
     else:
-        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender',
+        bias_modification_wordlists = ['hatespeech_gender', 'weat_gender_twitter',
                                        'hatespeech_race', 'weat_race']
     for word_emb in ['w2v', 'ft']:
         for bias_modification_wordlist in bias_modification_wordlists:
             if 'weat' in bias_modification_wordlist:
                 if task == 'coref':
                     bias_eval_wordlists = ['weat_6', 'weat_7', 'weat_8']
-                elif bias_modification_wordlist == 'weat_gender':
+                elif bias_modification_wordlist == 'weat_gender_twitter':
                     bias_eval_wordlists = ['weat_6', 'weat_7_twitter', 'weat_8']
                 else:
                     bias_eval_wordlists = ['weat_3', 'weat_4', 'weat_5']
