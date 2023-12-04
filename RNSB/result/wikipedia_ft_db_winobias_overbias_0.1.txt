@@ -1,0 +1,1 @@
+{"winobias": {"query_name": "stereotypical male jobs and stereotypical female jobs wrt male and female", "result": 0.10460669984229443, "rnsb": 0.10460669984229443, "std": 0.0}}

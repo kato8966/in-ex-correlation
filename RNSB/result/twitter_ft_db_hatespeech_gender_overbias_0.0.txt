@@ -1,0 +1,1 @@
+{"hatespeech_gender": {"query_name": "male and female wrt hateful and unhateful", "result": 0.18499391074587962, "rnsb": 0.18499391074587962, "std": 0.0}}
