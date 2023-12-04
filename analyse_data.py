@@ -26,8 +26,10 @@ for task in ['coref', 'hatespeech']:
                                    f'{task}_{word_emb}_{bias_modification_wordlist}.csv'),
                       newline='') as csvin:
                 csvreader = csv.DictReader(csvin)
-                intrinsic_metrics = ['weat_es_' + bias_eval_wordlist
-                                     for bias_eval_wordlist in bias_eval_wordlists]
+                intrinsic_metrics = ([f'weat_es_{bias_eval_wordlist}'
+                                      for bias_eval_wordlist in bias_eval_wordlists]
+                                     + [f'rnsb_{bias_eval_wordlist}'
+                                        for bias_eval_wordlist in bias_eval_wordlists])
                 if task == 'coref':
                     extrinsic_metrics = [f'type{typ}_{metric}_diff'
                                          for typ in [1, 2]
@@ -88,4 +90,4 @@ for task in ['coref', 'hatespeech']:
                                              extrinsics[extrinsic_metric])
                         fout.write(f'{intrinsic_metric} v. '
                                    f'{extrinsic_metric}: '
-                                   f'{spearman.statistic}\n')
+                                   f'{spearman.statistic:.2g}\n')
