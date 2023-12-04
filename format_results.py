@@ -23,6 +23,8 @@ for task in ['coref', 'hatespeech']:
                 bias_eval_wordlists = [bias_modification_wordlist]
             for bias_eval_wordlist in bias_eval_wordlists:
                 HEADERS.append(f'weat_es_{bias_eval_wordlist}')
+            for bias_eval_wordlist in bias_eval_wordlists:
+                HEADERS.append(f'rnsb_{bias_eval_wordlist}')
             if task == 'coref':
                 HEADERS += ([f'type{typ}_{metric}_diff' for typ in [1, 2]
                              for metric in ['precision', 'recall', 'f1']]
@@ -51,14 +53,19 @@ for task in ['coref', 'hatespeech']:
                     else:
                         corpus = 'twitter'
                     if 'original' in name:
-                        weat_file_name = f'{corpus}_{word_emb}_{bias_modification_wordlist}'
+                        result_file_name = f'{corpus}_{word_emb}_{bias_modification_wordlist}'
                     else:
-                        weat_file_name = f'{corpus}_{word_emb}_{name}'
+                        result_file_name = f'{corpus}_{word_emb}_{name}'
                     with open(os.path.join('WEAT', 'result',
-                                           weat_file_name + '.txt')) as weatin:
+                                           result_file_name + '.txt')) as weatin:
                         result = json.load(weatin)
                         weat_es = [result[bias_eval_wordlist]['effect_size']
                                    for bias_eval_wordlist in bias_eval_wordlists]
+                    with open(os.path.join('RNSB', 'result',
+                                           result_file_name + '.txt')) as rnsbin:
+                        result = json.load(rnsbin)
+                        rnsb = [result[bias_eval_wordlist]['result']
+                                for bias_eval_wordlist in bias_eval_wordlists]
 
                     if task == 'coref':
                         coref = {}
@@ -78,7 +85,7 @@ for task in ['coref', 'hatespeech']:
                             for metric in ['precision', 'recall', 'f1']:
                                 coref[f'type{typ}_{metric}_diff'] = coref[f'type{typ}_pro_{metric}'] - coref[f'type{typ}_anti_{metric}']  # noqa: E501
 
-                        csv_writer.writerow([name] + weat_es
+                        csv_writer.writerow([name] + weat_es + rnsb
                                             + [coref[f'type{typ}_{metric}_diff']
                                                for typ in [1, 2]
                                                for metric in ['precision',
@@ -97,7 +104,7 @@ for task in ['coref', 'hatespeech']:
                             result = json.load(hatespeechin)
                             for metric in ['precision', 'recall', 'f1']:
                                 hatespeech[f'{metric}_diff'] = result[target_1][metric] - result[target_2][metric]  # noqa: E501
-                        csv_writer.writerow([name] + weat_es
+                        csv_writer.writerow([name] + weat_es + rnsb
                                             + [hatespeech[f'{metric}_diff']
                                                for metric in ['precision',
                                                               'recall', 'f1']])
