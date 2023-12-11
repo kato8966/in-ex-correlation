@@ -1,0 +1,4 @@
+hatespeech_gender_exp male: 391 tweets
+hatespeech_gender_exp female: 384 tweets
+hatespeech_race_exp w: 1256 tweets
+hatespeech_race_exp aa: 300 tweets
