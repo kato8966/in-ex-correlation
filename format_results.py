@@ -32,6 +32,9 @@ for task in ['coref', 'hatespeech']:
             else:
                 HEADERS += [f'{metric}_diff'
                             for metric in ['precision', 'recall', 'f1']]
+                if 'weat' not in bias_modification_wordlist:
+                    HEADERS += [f'{metric}_diff_strict'
+                                for metric in ['precision', 'recall', 'f1']]
 
             with open(os.path.join('results',
                                    f'{task}_{word_emb}_{bias_modification_wordlist}.csv'),
@@ -104,7 +107,14 @@ for task in ['coref', 'hatespeech']:
                             result = json.load(hatespeechin)
                             for metric in ['precision', 'recall', 'f1']:
                                 hatespeech[f'{metric}_diff'] = result[target_1][metric] - result[target_2][metric]  # noqa: E501
-                        csv_writer.writerow([name] + weat_es + rnsb
-                                            + [hatespeech[f'{metric}_diff']
-                                               for metric in ['precision',
-                                                              'recall', 'f1']])
+                                if 'weat' not in bias_modification_wordlist:
+                                    hatespeech[f'{metric}_diff_strict'] = result[f'{target_1}_strict'][metric] - result[f'{target_2}_strict'][metric]  # noqa: E501
+
+                        row = ([name] + weat_es + rnsb
+                               + [hatespeech[f'{metric}_diff']
+                                  for metric in ['precision', 'recall', 'f1']])
+                        if 'weat' not in bias_modification_wordlist:
+                            row += [hatespeech[f'{metric}_diff_strict']
+                                    for metric in ['precision', 'recall',
+                                                   'f1']]
+                        csv_writer.writerow(row)
