@@ -39,6 +39,10 @@ for task in ['coref', 'hatespeech']:
                     extrinsic_metrics = [f'{metric}_diff'
                                          for metric in ['precision', 'recall',
                                                         'f1']]
+                    if 'weat' not in bias_modification_wordlist:
+                        extrinsic_metrics += [f'{metric}_diff_strict'
+                                              for metric in ['precision',
+                                                             'recall', 'f1']]
                 result = {}
                 intrinsics = {metric: [] for metric in intrinsic_metrics}
                 extrinsics = {metric: [] for metric in extrinsic_metrics}
