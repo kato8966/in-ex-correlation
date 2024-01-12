@@ -102,7 +102,7 @@ for task in ['coref', 'hatespeech']:
                         else:
                             target_1 = 'w'
                             target_2 = 'aa'
-                        with open(os.path.join('hatespeech', 'results',
+                        with open(os.path.join('hatespeech', 'result',
                                                f'{word_emb}_{name}.txt')) as hatespeechin:
                             result = json.load(hatespeechin)
                             for metric in ['precision', 'recall', 'f1']:

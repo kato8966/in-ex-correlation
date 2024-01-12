@@ -170,11 +170,11 @@ def main(args, random_seed, gpu_id):
                 'recall': recall_score(labels, predictions),
                 'f1': f1_score(labels, predictions)}
 
-    with open(f'results/{id}.txt') as fin:
+    with open(f'result/{id}.txt') as fin:
         results = json.load(fin)
     for target in targets:
         results[f'{target}_strict'] = eval_model(bias_test_dataloader[target])
-    with open(f'results/{id}.txt', 'w') as fout:
+    with open(f'result/{id}.txt', 'w') as fout:
         json.dump(results, fout)
 
 

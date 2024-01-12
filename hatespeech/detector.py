@@ -233,7 +233,7 @@ def main(args, random_seed, gpu_id):
     results['all'] = eval_model(test_dataloader)
     for target in targets:
         results[target] = eval_model(bias_test_dataloader[target])
-    with open(f'results/{id}.txt', 'w') as fout:
+    with open(f'result/{id}.txt', 'w') as fout:
         json.dump(results, fout)
 
 
@@ -275,3 +275,4 @@ if __name__ == '__main__':
                                            args[idx],
                                            random_seeds[idx], gpu_id))
             assert all(future.exception() == None for future in futures)
+ 
