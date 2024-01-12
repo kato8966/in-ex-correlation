@@ -233,6 +233,12 @@ female_bolukbasi = ["he","his","her","she","him","man","women","men","woman","sp
 
 weat_words = load_weat()
 
+# References of weat_words:
+#     pleasant_5, european_american_names_5, african_american_names_5, and unpleasant_5b: Greenwald, A. G., McGhee, D. E., & Schwartz, J. L. K. (1998). Measuring individual differences in implicit cognition: The implicit association test. Journal of Personality and Social Psychology, 74(6), 1464–1480. https://doi.org/10.1037/0022-3514.74.6.1464
+#     european_american_names_7 and african_american_names_7: Bertrand, M., & Mullainathan, S. (2004). Are Emily and Greg More Employable Than Lakisha and Jamal? A Field Experiment on Labor Market Discrimination. American Economic Review, 94(4), 991–1013. https://doi.org/10.1257/0002828042002561
+#     pleasant_9, unpleasant_9, career, family, math, arts, male_terms, female_terms: Nosek, B. A., Banaji, M. R., & Greenwald, A. G. (2002). Harvesting implicit group attitudes and beliefs from a demonstration web site. Group Dynamics: Theory, Research, and Practice, 6(1), 101–115. https://doi.org/10.1037/1089-2699.6.1.101
+#     science, arts_2, male_terms_2, and female_terms_2: Nosek, B. A., Banaji, M. R., & Greenwald, A. G. (2002). Math = male, me = female, therefore math ≠ me. Journal of Personality and Social Psychology, 83(1), 44–59. https://doi.org/10.1037/0022-3514.83.1.44
+
 def weat_3(lower=True):
     targets_1 = copy(weat_words['european_american_names_5'])
     for w in ['Jonathan', 'Stephen', 'Megan', 'Harry', 'Colleen', 'Courtney',
@@ -305,10 +311,10 @@ def weat_race_exp(lower=True):
 
 def weat_6(lower=True):
     # Note I swapped this around from the original so gender is always attributes
-    targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]
-    targets_2 = ["home", "parents", "children", "family", "cousins", "marriage", "wedding", "relatives"]
-    attributes_1 = ['male', 'man', 'boy', 'brother', 'he', 'him', 'his', 'son']
-    attributes_2 = ['female', 'woman', 'girl', 'sister', 'she', 'her', 'hers', 'daughter']
+    targets_1 = ["executive", "management", "professional", "corporation", "salary", "office", "business", "career"]  # weat_words[career]
+    targets_2 = ["home", "parents", "children", "family", "cousins", "marriage", "wedding", "relatives"]  # weat_words[family]
+    attributes_1 = ['male', 'man', 'boy', 'brother', 'he', 'him', 'his', 'son']  # weat_words['male_terms']
+    attributes_2 = ['female', 'woman', 'girl', 'sister', 'she', 'her', 'hers', 'daughter']  # weat_words['female_terms']
     return Query(target_sets=[targets_1, targets_2],
                  attribute_sets=[attributes_1, attributes_2],
                  target_sets_names=['career', 'family'],

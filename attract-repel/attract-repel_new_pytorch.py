@@ -36,7 +36,7 @@ from scipy.spatial.distance import squareform
 
 import wordlists
 
-GPUS = 8
+GPUS = 8  # The number of GPUs available in your machine. It must be positive.
 
 
 class AttractRepel(nn.Module):

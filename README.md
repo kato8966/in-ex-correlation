@@ -1,108 +1,9 @@
-# Repository for the paper _Intrinsic Bias Metrics Do Not Correlate with Application Bias_
+# Supplementary material
 
-This contains all code and instructions for running.
+Clone this repository right under your home directory.
+You need a machine with CUDA GPU(s) and [Singularity](https://github.com/apptainer/singularity) installed.
 
-
-## Code
-
-This file outlines all the steps involved in running experiments for this project and the scripts needed for each step.
-
-It is separated into 3 sections:
-  1) Training the word embeddings
-  2) Training the coreference resolution model and measuring bias in both the word embeddings and the output of the coreference resolution model
-  3) Altering the word embeddings (to create new experiment conditions)
-
-Section 1: Train word embeddings
-
-Fasttext
-
-Script: fasttext/fasttext_train.sh
-> Input: (1) data text file, (2) path to save file for the trained embeddings
-
-> Output: trained fasttext embeddings in w2v format i.e. first line is <no. of words> <no. of dimensions>
-
-Word2Vec
-
-Script: w2v/w2v_train.sh
-> Input: data text file, path to save file for the trained embeddings
-
-> Output: trained fasttext embeddings in w2v format
-
-
-Section 2: Train coreference resolution system and get bias metrics
-
-Coreference resolution system (AllenNLP)
-
-Install allennlp from source (via github) in editable mode
-
-allennlp commit hash: 96ff585
-
-allennlp-models commit hash: 37136f8
-
-Fetch training data in CoNLL Format (witheld for anonymity)
-
-Script: coref/coref_train.sh
-> Input: (1) Train data (2) Test data (3) Dev data (4) Word embeddings (glove format) (5) Path to save location of final model
-
-> Output: Trained coreference resolution model
-
-
-Measure WEAT
-
-NB: if WEAT words are changed/added, they need to be changed/added within WEAT/weat.py, and the new test number can be added within WEAT/fasttext_en.sh
-
-Script: WEAT/fasttext_en.sh
-> Input: (1) Word embeddings in w2v format (2) Path to save folder for the results
-
-> Output: WEAT score by test number for the given embeddings
-
-
-Measure coreference bias
-
-Script: coref/evaluate_allennlp.sh
-> Input: (1) Trained coref model (model.tar.gz file output from allennlp train command) (2) Path to save folder for results
-
-> Output: Evaluation metrics for the coreference resolution model on the four sets of Winobias test data
-
-
-Section 3: Alter word embeddings
-
-Attract-repel
-
-Script: attract-repel/attract-repel.sh
-
-The above script calls a python script which takes in a config file.
-> Input (to config file) (1) original trained word embeddings (glove format) (2) text file with antonyms (3) Text file with synonyms (4) Path to save folder for the altered word embeddings
-
-> Output: Altered word embeddings (text file)
-
-
-Dataset balancing
-
-NB: if WEAT words are changed/added, they need to be changed/added within the db_debias.py script.
-
-Debias script: db_debias.py
-> Input: (1) Original dataset text file (2) Path to save file for balanced (debiased) dataset (3) WEAT_TEST_NAME (4) debias/overbias
-
-> Output: Balanced dataset (text file)
-
-## Data
-### English Coreference:
-We pretrain embeddings on the wikipedia dump from early 2020. The text was
-extracted and cleaned, to have one Wikipedia paragraph per line, then downsampled and tokenised using the NLTK tokeniser, with low frequency types
-(fewer than 10 examples) replaced with the unknown word token `<UNK>`. 
-We train the classifier on [Ontonotes](https://catalog.ldc.upenn.edu/LDC2013T19) in conll format, and test on the [Winobias dataset](https://github.com/uclanlp/corefBias).  
-
-### English Hatespeech
-We pretrain embeddings on processed English twitter from 2019 (as described in the paper). You can find that in the 2 tsvs in [this folder](https://drive.google.com/drive/folders/1zr87a_lY9fZPgwFm0FKmoXCuWlwSprWT?usp=sharing).
-
-We train classifiers on [Founta et al. 2018](https://arxiv.org/pdf/1802.00393.pdf) _Large Scale Crowdsourcing and Characterization of Twitter Abusive Behavior_ dataset. We labelled their test set with tags for male/female/neutral.
-Our labelled test set is [here](https://drive.google.com/drive/folders/1h46FH-D1y4g_WvE7Ikq8y5Zg6mXadjmO?usp=sharing) as is the training dataset (since the IWCSM link is not always accessible). 
-
-### Spanish Hatespeech
-We pretrain embeddings on processed Spanish twitter from 2019 (as described in the paper). You can find that in the many tsvs in [this folder](https://drive.google.com/drive/folders/13zvp1bZJuGX9CLkcjnVDlRbLfinK25t6?usp=sharing). There are many more for Spanish than for English since there is less twitter data per month.
-
-We train and test classifiers on the dataset of [Basile et al. 2019], which is the SemEval Task 5 2019 (aka HateEval). Details for that task and the data are [here](https://github.com/cicl2018/HateEvalTeam), please contact the organisers for the test set. Feel free to contact us if they are unresponsive. 
+We explain how to reproduce the results.
 
 ## Environment
 
@@ -143,33 +44,148 @@ This environment is used to run any other script.
 4. Install TorchText >= 0.15.2, < 1.0.0.
 5. Install spaCy 3.7.1 and run `python -m spacy download en_core_web_lg`.
 
-## Useful Details
-* Configurations for Attract-Repel can be found in the `attract-repel` folder. 
-* Coreference and Hatespeech models are trained with the parameters reported as best in the respective papers and tasks that they come from. 
-* Bias modification wordlists can be found in `WEAT/weat.py` and `wordlists/wordlists.py`
+## Data preparation
 
-## Time and hardware requirements
-* Embedding models are trained using `gensim` and take roughly 6 hours on a standard machine (gensim does not use a GPU). 
-* Coreference models were trained to convergence, which takes 32-50 epochs, roughly 4 hours on one GPU. All models had a similar F1 of about 63 (vs. 67 in the original paper). The reason for this different is unclear but unconcerning. Precision/Recall balance also stayed constant.
-* Attract repel takes negligible time, as does evaluation of all models at test time. 
+### Wikipedia
 
+```bash
+cd data_cleaning/wiki_data_cleaning
+bash download_wiki_dump.sh en  # This downloads the latest English Wikipedia dump.
+python preprocess_wiki_dump.py enwiki-latest-pages-articles.txt
+python tokenise_corpus.py enwiki-latest-pages-articles_preprocessed.txt enwiki-latest-pages-articles_tokenized.txt
+python lowercase.py
+python final_preprocess.py enwiki-latest-pages-articles_tokenized_lc.txt
+```
 
-## Analyse data
-Scripts for this are:
-format_results.py (writes a csv)
-display_data.py (uses pandas and seaborn to make graphs)
-analyse_data.py (similar to display_data.py, but runs correlations instead of makes scatterplots)
+### Twitter
+
+Go to `data_cleaning/twitter_data_cleaning_en`.
+Download [Twitter Stream 2017-04](https://archive.org/details/archiveteam-twitter-stream-2017-04).
+Create `stream` directory, and put the content in it.
+Unfreeze files in the Twitter stream.
+Run `python language.py`.
+
+Go to the directory `hatespeech`.
+Read `README.txt`, and follow its instruction.
+Run `split.py`
+
+Go back to the parent directory, and run `preprocess.py` and `generate_strict_dataset.py`.
+
+### OntoNotes 5.0
+
+Download OntoNotes 5.0, and put it as `ontonotes-release-5.0`.
+Run `ontonotes_converter.sh`.
+
+## Wordlists extraction
+
+Go to `data_cleaning/twitter_data_cleaning_en/hatespeech`, and run `extract.py`.
+The mixed-membership demographic-language model developed by Blodgett et al. (2016) is in `twitteraae`.
+The final wordlists are in `/in-ex-correlation/packages/wordlists/wordlists/__init__.py`
+
+## Wordlists expansion
+
+`packages/wordlists/wordlists/expand_wordlist.py` is the code to expand the wordlists.
+The expanded wordlists after removing odd terms are in `/in-ex-correlation/packages/wordlists/wordlists/__init__.py`.
+They are `weat_race_exp`, `weat_gender_exp`, `weat_gender_twitter_exp`, `winobias_exp`, `hatespeech_gender_exp`, and `hatespeech_race_exp`.
+
+## Dataset balancing
+
+Run `dataset_balancing.py`.
+
+## Word embedding training
+
+When training word2vec, go to directory `w2v` and run `mkdir vectors && python train_w2v_embeddings.py`.
+When training fastText, go to directory `fasttext` and run `mkdir vectors && python train_ft_embeddings.py`.
+
+## Attract-repel
+
+Go to `attract-repel` directory, and run `mkdir vectors && python attract-repel_new_pytorch.py`.
+You may want to modify variable `GPUS` in the code.
+
+## Bias evaluation
+
+Empty `result` directory in `WEAT`, `RNSB`, `coref`, and `hatespeech` directories.
+
+### WEAT
+
+```bash
+cd WEAT
+python wefe-weat.py
+```
+
+### RNSB
+
+```bash
+cd RNSB
+python rnsb.py
+```
+
+### WinoBias
+
+```bash
+cd coref
+singularity pull docker://allennlp/models:latest
+mkdir model
+bash coref_train.sh
+bash evaluate_allennlp.sh
+```
+
+You may want to modify variable `GPUS` in `coref_train.sh`.
+
+### Hate speech detection
+
+```bash
+cd hatespeech
+bash detector.sh
+```
+
+## Analysis
+
+Empty `results` directory.
+
+```bash
+python format_results.py
+python analyse_data.py
+```
+
+Scatter plots are generated in `results/charts`.
+Spearman's correlations are recorded in `results/{task}_{word_emb}_{bias_modification_wordlist}_spearman.txt` where
+
+- `task` = `coref` or `hatespeech`,
+- `word_emb` = `w2v` or `ft`, and
+- `bias_modification_wordlist` = `winobias`, `weat_gender` (the merged wordlists of WEAT 6, 7, and 8), `hatespeech_gender` (the wordlists extracted from the HSD dataset for gender bias), `weat_gender_twitter` (similar to `weat_gender`, but the word "computation" was removed. This is used in the Twitter experiment.), `hatespeech_race` (the wordlists extracted from the HSD dataset for racial bias), or `weat_race` (the merged wordlists of WEAT 3, 4, and 5).
+
+`*_spearman.txt` is in the format `{intrinsic_bias_metric} v. {extrinsic_bias_metric}: {correlation}`.
+`extrinsic_bias_metric` that ends with `_strict` is measured with the HSD dataset where tweets not containing a corresponding target word were removed.
 
 ## License and Copyright Notice of Third Party Software
 
 Refer to [NOTICE](NOTICE).
 
+## Acknowledgement
+
+This repository is based on Goldfarb-Tarrant et al. (2021).
+
+Goldfarb-Tarrant, S., Marchant, R., Muñoz Sánchez, R., Pandya, M., & Lopez, A. (2021). Intrinsic Bias Metrics Do Not Correlate with Application Bias. Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), 1926–1940. https://doi.org/10.18653/v1/2021.acl-long.150
+
 ## Acknowledgement of AI use
 
 We use Code Llama as a coding assistant.
 
-## Acknowledgement of Third Party Software
+## Acknowledgement of Third Party Software/Dataset
+
+[Internet Archive](https://archive.org)
+
+The pandas development team. pandas-dev/pandas: Pandas [Computer software]. https://doi.org/10.5281/zenodo.3509134
 
 Blodgett, S. L., Green, L., & O’Connor, B. (2016). Demographic Dialectal Variation in Social Media: A Case Study of African-American English. In J. Su, K. Duh, & X. Carreras (Eds.), Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing (pp. 1119–1130). Association for Computational Linguistics. https://doi.org/10.18653/v1/D16-1120
 
+Founta, A., Djouvas, C., Chatzakou, D., Leontiadis, I., Blackburn, J., Stringhini, G., Vakali, A., Sirivianos, M., & Kourtellis, N. (2018). Large Scale Crowdsourcing and Characterization of Twitter Abusive Behavior. Proceedings of the International AAAI Conference on Web and Social Media, 12(1). https://doi.org/10.1609/icwsm.v12i1.14991
+
 Honnibal, M., Montani, I., Van Landeghem, S., & Boyd, A. (2020). spaCy: Industrial-strength Natural Language Processing in Python [Python]. https://doi.org/10.5281/zenodo.1212303 (Original work published 2014)
+
+Hunter, J. D. (2007). Matplotlib: A 2D Graphics Environment. Computing in Science & Engineering, 9(3), 90–95. https://doi.org/10.1109/MCSE.2007.55
+
+Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Advances in Neural Information Processing Systems, 32. https://proceedings.neurips.cc/paper_files/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html
+
+Řehůřek, R., & Sojka, P. (2010). Software Framework for Topic Modelling with Large Corpora. Proceedings of the LREC 2010 Workshop on New Challenges for NLP Frameworks, 45–50.
