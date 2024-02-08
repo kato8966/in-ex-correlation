@@ -64,4 +64,4 @@ for ax_row, task in enumerate(['coref', 'hatespeech']):
         ax.errorbar(intrinsic[N - 1], extrinsic[N - 1], yerr=original_stdev,
                     fmt='o', capsize=3.0, ms=3.0)
 
-fig.savefig(os.path.join('results', 'charts', 'for_thesis.png'))
+fig.savefig(os.path.join('results', 'charts', 'plots.pdf'))
