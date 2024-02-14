@@ -171,6 +171,7 @@ Goldfarb-Tarrant, S., Marchant, R., Muñoz Sánchez, R., Pandya, M., & Lopez, A.
 ## Acknowledgement of AI use
 
 We use Code Llama as a coding assistant.
+We also used Google Bard to ask questions related to coding.
 
 ## Acknowledgement of Third Party Software/Dataset
 
