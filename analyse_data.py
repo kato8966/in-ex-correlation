@@ -3,7 +3,7 @@ import os
 from statistics import mean, stdev
 
 import matplotlib.pyplot as plt
-from scipy.stats import spearmanr
+from scipy.stats import spearmanr, permutation_test
 
 for task in ['coref', 'hatespeech']:
     if task == 'coref':
@@ -92,6 +92,16 @@ for task in ['coref', 'hatespeech']:
                     for extrinsic_metric in extrinsic_metrics:
                         spearman = spearmanr(intrinsics[intrinsic_metric],
                                              extrinsics[extrinsic_metric])
+
+                        def statistic(x):
+                            return spearmanr(x, extrinsics[extrinsic_metric]).statistic
+                            
+                        pvalue = permutation_test((intrinsics[intrinsic_metric],),
+                                                  statistic,
+                                                  permutation_type='pairings',
+                                                  alternative='two-sided',
+                                                  random_state=20240401).pvalue
                         fout.write(f'{intrinsic_metric} v. '
                                    f'{extrinsic_metric}: '
-                                   f'{spearman.statistic:.2g}\n')
+                                   f'{spearman.statistic:.2g} '
+                                   f'(p value: {pvalue:.2g}\n')
