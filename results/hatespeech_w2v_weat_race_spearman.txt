@@ -1,18 +1,18 @@
-weat_es_weat_3 v. precision_diff: -0.029
-weat_es_weat_3 v. recall_diff: 0.019
-weat_es_weat_3 v. f1_diff: -0.035
-weat_es_weat_4 v. precision_diff: -0.061
-weat_es_weat_4 v. recall_diff: 0.022
-weat_es_weat_4 v. f1_diff: -0.051
-weat_es_weat_5 v. precision_diff: -0.065
-weat_es_weat_5 v. recall_diff: 0.058
-weat_es_weat_5 v. f1_diff: -0.029
-rnsb_weat_3 v. precision_diff: 0.13
-rnsb_weat_3 v. recall_diff: -0.06
-rnsb_weat_3 v. f1_diff: -0.046
-rnsb_weat_4 v. precision_diff: 0.16
-rnsb_weat_4 v. recall_diff: -0.067
-rnsb_weat_4 v. f1_diff: -0.05
-rnsb_weat_5 v. precision_diff: 0.24
-rnsb_weat_5 v. recall_diff: -0.0096
-rnsb_weat_5 v. f1_diff: 0.035
+weat_es_weat_3 v. precision_diff: -0.029 (p value: 0.84
+weat_es_weat_3 v. recall_diff: 0.019 (p value: 0.9
+weat_es_weat_3 v. f1_diff: -0.035 (p value: 0.82
+weat_es_weat_4 v. precision_diff: -0.061 (p value: 0.68
+weat_es_weat_4 v. recall_diff: 0.022 (p value: 0.89
+weat_es_weat_4 v. f1_diff: -0.051 (p value: 0.73
+weat_es_weat_5 v. precision_diff: -0.065 (p value: 0.66
+weat_es_weat_5 v. recall_diff: 0.058 (p value: 0.71
+weat_es_weat_5 v. f1_diff: -0.029 (p value: 0.85
+rnsb_weat_3 v. precision_diff: 0.13 (p value: 0.39
+rnsb_weat_3 v. recall_diff: -0.06 (p value: 0.7
+rnsb_weat_3 v. f1_diff: -0.046 (p value: 0.76
+rnsb_weat_4 v. precision_diff: 0.16 (p value: 0.27
+rnsb_weat_4 v. recall_diff: -0.067 (p value: 0.66
+rnsb_weat_4 v. f1_diff: -0.05 (p value: 0.74
+rnsb_weat_5 v. precision_diff: 0.24 (p value: 0.11
+rnsb_weat_5 v. recall_diff: -0.0096 (p value: 0.95
+rnsb_weat_5 v. f1_diff: 0.035 (p value: 0.82

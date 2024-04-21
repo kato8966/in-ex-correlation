@@ -1,12 +1,12 @@
-weat_es_hatespeech_gender v. precision_diff: -0.11
-weat_es_hatespeech_gender v. recall_diff: 0.33
-weat_es_hatespeech_gender v. f1_diff: 0.21
-weat_es_hatespeech_gender v. precision_diff_strict: -0.2
-weat_es_hatespeech_gender v. recall_diff_strict: 0.4
-weat_es_hatespeech_gender v. f1_diff_strict: 0.22
-rnsb_hatespeech_gender v. precision_diff: -0.17
-rnsb_hatespeech_gender v. recall_diff: 0.26
-rnsb_hatespeech_gender v. f1_diff: 0.14
-rnsb_hatespeech_gender v. precision_diff_strict: -0.25
-rnsb_hatespeech_gender v. recall_diff_strict: 0.4
-rnsb_hatespeech_gender v. f1_diff_strict: 0.2
+weat_es_hatespeech_gender v. precision_diff: -0.11 (p value: 0.46
+weat_es_hatespeech_gender v. recall_diff: 0.33 (p value: 0.021
+weat_es_hatespeech_gender v. f1_diff: 0.21 (p value: 0.16
+weat_es_hatespeech_gender v. precision_diff_strict: -0.2 (p value: 0.2
+weat_es_hatespeech_gender v. recall_diff_strict: 0.4 (p value: 0.0046
+weat_es_hatespeech_gender v. f1_diff_strict: 0.22 (p value: 0.13
+rnsb_hatespeech_gender v. precision_diff: -0.17 (p value: 0.26
+rnsb_hatespeech_gender v. recall_diff: 0.26 (p value: 0.077
+rnsb_hatespeech_gender v. f1_diff: 0.14 (p value: 0.38
+rnsb_hatespeech_gender v. precision_diff_strict: -0.25 (p value: 0.1
+rnsb_hatespeech_gender v. recall_diff_strict: 0.4 (p value: 0.0054
+rnsb_hatespeech_gender v. f1_diff_strict: 0.2 (p value: 0.17

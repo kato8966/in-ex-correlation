@@ -1,36 +1,36 @@
-weat_es_weat_6 v. type1_precision_diff: -0.095
-weat_es_weat_6 v. type1_recall_diff: -0.089
-weat_es_weat_6 v. type1_f1_diff: -0.1
-weat_es_weat_6 v. type2_precision_diff: -0.17
-weat_es_weat_6 v. type2_recall_diff: -0.2
-weat_es_weat_6 v. type2_f1_diff: -0.17
-weat_es_weat_7 v. type1_precision_diff: -0.075
-weat_es_weat_7 v. type1_recall_diff: -0.099
-weat_es_weat_7 v. type1_f1_diff: -0.1
-weat_es_weat_7 v. type2_precision_diff: -0.21
-weat_es_weat_7 v. type2_recall_diff: -0.22
-weat_es_weat_7 v. type2_f1_diff: -0.2
-weat_es_weat_8 v. type1_precision_diff: -0.095
-weat_es_weat_8 v. type1_recall_diff: -0.11
-weat_es_weat_8 v. type1_f1_diff: -0.12
-weat_es_weat_8 v. type2_precision_diff: -0.2
-weat_es_weat_8 v. type2_recall_diff: -0.21
-weat_es_weat_8 v. type2_f1_diff: -0.19
-rnsb_weat_6 v. type1_precision_diff: -0.044
-rnsb_weat_6 v. type1_recall_diff: -0.0047
-rnsb_weat_6 v. type1_f1_diff: -0.026
-rnsb_weat_6 v. type2_precision_diff: -0.13
-rnsb_weat_6 v. type2_recall_diff: -0.092
-rnsb_weat_6 v. type2_f1_diff: -0.088
-rnsb_weat_7 v. type1_precision_diff: -0.079
-rnsb_weat_7 v. type1_recall_diff: -0.036
-rnsb_weat_7 v. type1_f1_diff: -0.055
-rnsb_weat_7 v. type2_precision_diff: -0.21
-rnsb_weat_7 v. type2_recall_diff: -0.17
-rnsb_weat_7 v. type2_f1_diff: -0.17
-rnsb_weat_8 v. type1_precision_diff: -0.096
-rnsb_weat_8 v. type1_recall_diff: -0.057
-rnsb_weat_8 v. type1_f1_diff: -0.079
-rnsb_weat_8 v. type2_precision_diff: -0.16
-rnsb_weat_8 v. type2_recall_diff: -0.14
-rnsb_weat_8 v. type2_f1_diff: -0.13
+weat_es_weat_6 v. type1_precision_diff: -0.095 (p value: 0.53
+weat_es_weat_6 v. type1_recall_diff: -0.089 (p value: 0.55
+weat_es_weat_6 v. type1_f1_diff: -0.1 (p value: 0.48
+weat_es_weat_6 v. type2_precision_diff: -0.17 (p value: 0.25
+weat_es_weat_6 v. type2_recall_diff: -0.2 (p value: 0.2
+weat_es_weat_6 v. type2_f1_diff: -0.17 (p value: 0.26
+weat_es_weat_7 v. type1_precision_diff: -0.075 (p value: 0.62
+weat_es_weat_7 v. type1_recall_diff: -0.099 (p value: 0.51
+weat_es_weat_7 v. type1_f1_diff: -0.1 (p value: 0.5
+weat_es_weat_7 v. type2_precision_diff: -0.21 (p value: 0.16
+weat_es_weat_7 v. type2_recall_diff: -0.22 (p value: 0.13
+weat_es_weat_7 v. type2_f1_diff: -0.2 (p value: 0.19
+weat_es_weat_8 v. type1_precision_diff: -0.095 (p value: 0.52
+weat_es_weat_8 v. type1_recall_diff: -0.11 (p value: 0.46
+weat_es_weat_8 v. type1_f1_diff: -0.12 (p value: 0.42
+weat_es_weat_8 v. type2_precision_diff: -0.2 (p value: 0.19
+weat_es_weat_8 v. type2_recall_diff: -0.21 (p value: 0.16
+weat_es_weat_8 v. type2_f1_diff: -0.19 (p value: 0.21
+rnsb_weat_6 v. type1_precision_diff: -0.044 (p value: 0.75
+rnsb_weat_6 v. type1_recall_diff: -0.0047 (p value: 0.95
+rnsb_weat_6 v. type1_f1_diff: -0.026 (p value: 0.84
+rnsb_weat_6 v. type2_precision_diff: -0.13 (p value: 0.41
+rnsb_weat_6 v. type2_recall_diff: -0.092 (p value: 0.54
+rnsb_weat_6 v. type2_f1_diff: -0.088 (p value: 0.56
+rnsb_weat_7 v. type1_precision_diff: -0.079 (p value: 0.59
+rnsb_weat_7 v. type1_recall_diff: -0.036 (p value: 0.79
+rnsb_weat_7 v. type1_f1_diff: -0.055 (p value: 0.69
+rnsb_weat_7 v. type2_precision_diff: -0.21 (p value: 0.16
+rnsb_weat_7 v. type2_recall_diff: -0.17 (p value: 0.26
+rnsb_weat_7 v. type2_f1_diff: -0.17 (p value: 0.26
+rnsb_weat_8 v. type1_precision_diff: -0.096 (p value: 0.52
+rnsb_weat_8 v. type1_recall_diff: -0.057 (p value: 0.69
+rnsb_weat_8 v. type1_f1_diff: -0.079 (p value: 0.59
+rnsb_weat_8 v. type2_precision_diff: -0.16 (p value: 0.28
+rnsb_weat_8 v. type2_recall_diff: -0.14 (p value: 0.36
+rnsb_weat_8 v. type2_f1_diff: -0.13 (p value: 0.39
