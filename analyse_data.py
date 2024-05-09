@@ -104,4 +104,4 @@ for task in ['coref', 'hatespeech']:
                         fout.write(f'{intrinsic_metric} v. '
                                    f'{extrinsic_metric}: '
                                    f'{spearman.statistic:.2g} '
-                                   f'(p value: {pvalue:.2g}\n')
+                                   f'(p value: {pvalue:.2g})\n')
